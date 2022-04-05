@@ -1,0 +1,39 @@
+/*@font-face {*/
+/*    font-family: 'Roboto Mono';*/
+/*    src: local('Roboto Mono'),*/
+/*    local('RobotoMono-Regular'),*/
+/*    url('../fonts/Robotomono.woff2') format('woff2'),*/
+/*    url('../fonts/Robotomono.woff') format('woff'),*/
+/*    url('../fonts/Robotomono.ttf') format('truetype');*/
+/*    font-weight: 400;*/
+/*    font-style: normal;*/
+/*}*/
+.text__wrapper{
+    max-width: 800px;
+    position: relative;
+}
+.text{
+    color: #d4d4d4;
+    font-size: 24px;
+    font-family:"Roboto Mono" ,sans-serif;
+}
+.cursor{
+    animation: blink 0.8s infinite;
+    position: absolute;
+    top: 23px;
+    left: 0;
+    width: 3px;
+    height: 30px;
+    background-color: #828282;
+}
+@keyframes blink {
+    0%{
+        opacity: 0;
+    }
+    50%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
