@@ -11,6 +11,7 @@
 .text__wrapper{
     max-width: 800px;
     position: relative;
+    max-height: 400px;
 }
 .text{
     color: #d4d4d4;
@@ -24,7 +25,9 @@
     left: 0;
     width: 3px;
     height: 30px;
-    background-color: #828282;
+    background-color: #d5ac00;
+    transition: left 0.1s;
+    border-radius: 3px;
 }
 @keyframes blink {
     0%{
