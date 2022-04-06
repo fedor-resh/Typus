@@ -17,11 +17,12 @@
     color: #d4d4d4;
     font-size: 24px;
     font-family:"Roboto Mono" ,sans-serif;
+    line-height: 38px;
+    letter-spacing: 0.5px;
 }
 .cursor{
-    animation: blink 0.8s infinite;
     position: absolute;
-    top: 23px;
+    top: 28px;
     left: 0;
     width: 3px;
     height: 30px;
@@ -29,14 +30,6 @@
     transition: left 0.1s;
     border-radius: 3px;
 }
-@keyframes blink {
-    0%{
-        opacity: 0;
-    }
-    50%{
-        opacity: 1;
-    }
-    100%{
-        opacity: 0;
-    }
+.disabled__letter{
+    color: #7b7b7b;
 }
