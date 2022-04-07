@@ -5,10 +5,12 @@ import '../fonts/robotomono.css'
 
 const TextBox = () => {
     const [text, setText] = useState('lorem ipsum dolor sit amet consectetur adipisicing elit accusamus consequuntur cum cumque cupiditate deserunt distinctio illum laboriosam nesciunt nulla obcaecati optio quidem reprehenderit saepe sed sunt veritatis voluptas voluptate voluptatibus')
-    const [currentColumn, setCurrentColumn] = useState(0)
     const [indexOfCurrentCharacter, setIndexOfCurrentCharacter] = useState(0)
-    const [currentLine, setCurrentLine] = useState(0)
-    const [lengthOfLines, setLengthOfLines] = useState(0)
+    const [lengthOfLines, setLengthOfLines] = useState([])
+    const [mistakes, setMistakes] = useState([])
+    // const [currentLine, setCurrentLine] = useState(0)
+    // const [currentColumn, setCurrentColumn] = useState(0)
+
 
     useEffect(() => {
         const textBoxWidth = textRef.current.scrollWidth
@@ -40,31 +42,58 @@ const TextBox = () => {
     function keyboardHandler(e) {
 
         const keyboardCharacter = (String.fromCharCode(e.keyCode).toLowerCase())
-        // console.log('current character: '+keyboardCharacter)
-        // console.log('current in text: '+text[currentColumn], currentColumn)
-        let curPosition = currentColumn
-        let curLine = currentLine
-        if (keyboardCharacter === text[indexOfCurrentCharacter]) {
+        let index = indexOfCurrentCharacter
+
+        let curLine = 0
+        let curPosition = 0
+        let copyIndex = index
+        for (let i in lengthOfLines){
+            console.log(copyIndex,lengthOfLines[i])
+            if(copyIndex>=lengthOfLines[i]){
+                copyIndex-=lengthOfLines[i]
+                curLine+=1
+                console.log(copyIndex,lengthOfLines[i])
+            }else {
+                curPosition = copyIndex
+                break
+            }
+
+        }
+
+        if (e.keyCode===8 && index!==0){
+            index--
+            curPosition--
+            setMistakes(mistakes.filter(el=>el!==index))
+
+
+        }else{
+            if (keyboardCharacter !== text[index]) {
+                setMistakes([index, ...mistakes])
+            }
             curPosition++
-            if(curPosition === lengthOfLines[currentLine]){
+            if (curPosition === lengthOfLines[curLine]) {
                 curPosition = 0
                 curLine++
             }
-            cursorRef.current.style.top = `${(curLine) * 38 + 28}px`
-            cursorRef.current.style.left = `${(curPosition) * 14.9 - 1}px`
-            setCurrentColumn(curPosition)
-            setCurrentLine(curLine)
-            setIndexOfCurrentCharacter(indexOfCurrentCharacter+1)
-            // console.log(curPosition)
+            index++
         }
+        cursorRef.current.style.top = `${(curLine) * 38 + 28}px`
+        cursorRef.current.style.left = `${(curPosition) * 14.9 - 1}px`
+        // setCurrentColumn(curPosition)
+        // setCurrentLine(curLine)
+        setIndexOfCurrentCharacter(index)
     }
 
     return (
         <div className={s.text__wrapper}>
             <div ref={cursorRef} className={s.cursor}/>
             <p ref={textRef} className={s.text}>
-                {Array.from(text).map((character,id)=>
-                    <letter className={id>=indexOfCurrentCharacter?s.disabled__letter:''} key={id}>{character}</letter>
+                {Array.from(text).map((character, id) =>
+                    <span
+                        className={`${id >= indexOfCurrentCharacter ? s.disabled__letter : ''} ${mistakes.includes(id) ? s.mistake__letter : ''}`}
+                        key={id}>{character}
+                    </span>
+
                 )}
             </p>
         </div>
