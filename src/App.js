@@ -1,4 +1,4 @@
-import TextBox from './TextBox/TextBox';
+import TextBox from './Pages/Home/TextBox/TextBox';
 import s from './App.module.css'
 
 function App() {

@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import s from './TextBox.module.css'
-import '../fonts/robotomono.css'
+import '../../../fonts/robotomono.css'
 
 
 const TextBox = () => {
@@ -8,8 +8,8 @@ const TextBox = () => {
     const [indexOfCurrentCharacter, setIndexOfCurrentCharacter] = useState(0)
     const [lengthOfLines, setLengthOfLines] = useState([])
     const [mistakes, setMistakes] = useState([])
-    // const [currentLine, setCurrentLine] = useState(0)
-    // const [currentColumn, setCurrentColumn] = useState(0)
+    const [timer, setTimer] = useState( 0 )
+    const [flag , setFlag] = useState(true)
 
 
     useEffect(() => {
@@ -25,6 +25,7 @@ const TextBox = () => {
             }
             sum += length + 1
         })
+        LinesLength.push(sum)
         console.log(LinesLength)
         setLengthOfLines(LinesLength)
     }, [])
@@ -35,38 +36,42 @@ const TextBox = () => {
             window.removeEventListener('keydown', keyboardHandler)
         }
     }, [keyboardHandler])
-    const cursorRef = useRef()
-    const textRef = useRef()
+    const cursorRef = useRef(null)
+    const textRef = useRef(null)
 
 
     function keyboardHandler(e) {
-
+        if (flag){
+            setFlag(false)
+            setTimer(new Date())
+            console.log(timer.toLocaleString())
+        }
         const keyboardCharacter = (String.fromCharCode(e.keyCode).toLowerCase())
         let index = indexOfCurrentCharacter
 
         let curLine = 0
         let curPosition = 0
         let copyIndex = index
-        for (let i in lengthOfLines){
-            console.log(copyIndex,lengthOfLines[i])
-            if(copyIndex>=lengthOfLines[i]){
-                copyIndex-=lengthOfLines[i]
-                curLine+=1
-                console.log(copyIndex,lengthOfLines[i])
-            }else {
+        for (let i in lengthOfLines) {
+            if (copyIndex >= lengthOfLines[i]) {
+                copyIndex -= lengthOfLines[i]
+                curLine += 1
+            } else {
                 curPosition = copyIndex
                 break
             }
-
         }
-
-        if (e.keyCode===8 && index!==0){
+        if (e.key === 'Backspace' ) {
+            if(index === 0){return}
             index--
             curPosition--
-            setMistakes(mistakes.filter(el=>el!==index))
+            setMistakes(mistakes.filter(el => el < index))
+            if (curPosition === -1) {
+                curPosition = lengthOfLines[curLine]
+                curLine--
+            }
 
-
-        }else{
+        } else {
             if (keyboardCharacter !== text[index]) {
                 setMistakes([index, ...mistakes])
             }
@@ -77,10 +82,12 @@ const TextBox = () => {
             }
             index++
         }
-        cursorRef.current.style.top = `${(curLine) * 38 + 28}px`
-        cursorRef.current.style.left = `${(curPosition) * 14.9 - 1}px`
-        // setCurrentColumn(curPosition)
-        // setCurrentLine(curLine)
+        if (text.length + 1 === index) {
+            return
+        }
+
+        cursorRef.current.style.top = `${(curLine) * 38 + 28 + 20}px`
+        cursorRef.current.style.left = `${(curPosition) * 14.9 - 1 + 20}px`
         setIndexOfCurrentCharacter(index)
     }
 
@@ -93,7 +100,6 @@ const TextBox = () => {
                         className={`${id >= indexOfCurrentCharacter ? s.disabled__letter : ''} ${mistakes.includes(id) ? s.mistake__letter : ''}`}
                         key={id}>{character}
                     </span>
-
                 )}
             </p>
         </div>
