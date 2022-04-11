@@ -1,0 +1,14 @@
+.header{
+    font-family: "Cubano Normal",sans-serif;
+    font-size: 20px;
+    display: flex;
+    padding: 50px 0;
+    margin: auto;
+    max-width:800px ;
+}
+.left__bar{
+    display: flex;
+}
+.right__bar button{
+    font-family: "Cubano Normal",sans-serif;
+}

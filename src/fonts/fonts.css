@@ -5,3 +5,9 @@
     font-weight: 400;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Cubano Normal';
+    src:  url('./webfonts/cubano-regular-webfont.ttf') format('truetype'), url('./webfonts/cubano-regular-webfont.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}

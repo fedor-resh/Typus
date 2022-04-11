@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import s from './TextBox.module.css'
-import '../../../fonts/robotomono.css'
+import '../../fonts/fonts.css'
 
 
 const TextBox = () => {
@@ -86,7 +86,7 @@ const TextBox = () => {
             return
         }
 
-        cursorRef.current.style.top = `${(curLine) * 38 + 28 + 20}px`
+        cursorRef.current.style.top = `${(curLine) * 38 + 4 + 20}px`
         cursorRef.current.style.left = `${(curPosition) * 14.9 - 1 + 20}px`
         setIndexOfCurrentCharacter(index)
     }

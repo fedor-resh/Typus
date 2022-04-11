@@ -7,7 +7,7 @@
     max-height: 400px;
 }
 .text{
-    color: #d4d4d4;
+    color: var(--color-text-correct);
     font-size: 24px;
     font-family:"Roboto Mono" ,sans-serif;
     line-height: 38px;
@@ -15,17 +15,17 @@
 }
 .cursor{
     position: absolute;
-    top: 48px;
+    top: 24px;
     left: 20px;
     width: 3px;
     height: 30px;
-    background-color: #d5ac00;
+    background-color: var(--color-brighter);
     transition: left 0.1s;
     border-radius: 3px;
 }
 .disabled__letter{
-    color: #7b7b7b;
+    color: var(--color-text-nottyped);
 }
 .mistake__letter{
-    color: #ec5050;
+    color: var(--color-text-error);
 }
