@@ -1,8 +1,7 @@
 
 .text__wrapper{
-    margin: 15vh auto 0 ;
-    padding: 20px;
-    max-width: 800px;
+    /*padding: 20px;*/
+    /*max-width: 800px;*/
     position: relative;
     max-height: 400px;
 }
@@ -15,8 +14,8 @@
 }
 .cursor{
     position: absolute;
-    top: 24px;
-    left: 20px;
+    top: 4px;
+    left:0;
     width: 3px;
     height: 30px;
     background-color: var(--color-brighter);

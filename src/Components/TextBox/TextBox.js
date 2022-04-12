@@ -1,8 +1,12 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import s from './TextBox.module.css'
 import '../../fonts/fonts.css'
 import {useDispatch} from 'react-redux';
 import {toEnd} from '../../Redux/isTypingEndSlider';
+import Timer from '../Timer/Timer';
+import {useInterval} from '@mantine/hooks';
+import results from '../Results/Results';
+import {setResult} from '../../Redux/resultSlider';
 
 
 const TextBox = () => {
@@ -10,10 +14,14 @@ const TextBox = () => {
     const [indexOfCurrentCharacter, setIndexOfCurrentCharacter] = useState(0)
     const [lengthOfLines, setLengthOfLines] = useState([])
     const [mistakes, setMistakes] = useState([])
-    const [timer, setTimer] = useState( 0 )
-    const [flag , setFlag] = useState(true)
+
+    const [isStarted , setIsStarted] = useState(true)
+    const [seconds, setSeconds] = useState(5)
+
+
 
     const dispatch = useDispatch()
+    const interval = useInterval(() => setSeconds(s => s - 1), 1000);
 
     function calculateLengthOfLines(textRef) {
         const textBoxWidth = textRef.current.scrollWidth
@@ -32,8 +40,17 @@ const TextBox = () => {
         return LinesLength
     }
 
+    useEffect(()=>{
+        if(!seconds){
+            console.log(indexOfCurrentCharacter)
+            dispatch(setResult(indexOfCurrentCharacter))
+            dispatch(toEnd())
+        }
+    },[seconds])
+
     useEffect(() => {
         setLengthOfLines(calculateLengthOfLines(textRef))
+        return interval.stop
     }, [])
 
     useEffect(() => {
@@ -45,9 +62,9 @@ const TextBox = () => {
 
     const cursorRef = useRef(null)
     const textRef = useRef(null)
-
-
     function keyboardHandler(e) {
+        interval.start()
+
         function isAllowedKeyboardKey(key) {
             return (key.length === 1 && key.match(/[a-z]/i))
                 ||key==='Backspace'
@@ -79,8 +96,8 @@ const TextBox = () => {
             }
         }
         function setStyles(curLine,curPosition) {
-            cursorRef.current.style.top = `${(curLine) * 38 + 4 + 20}px`
-            cursorRef.current.style.left = `${(curPosition) * 14.9 - 1 + 20}px`
+            cursorRef.current.style.top = `${(curLine) * 38 + 4}px`
+            cursorRef.current.style.left = `${(curPosition) * 14.9 - 1}px`
         }
 
         if(!isAllowedKeyboardKey(e.key)) return
@@ -90,7 +107,6 @@ const TextBox = () => {
         let index = indexOfCurrentCharacter
         let [curPosition, curLine] = calculateCurrentColumnAndRow(index,lengthOfLines)
 
-        // console.log(e.key)
 
 
         if (keyboardCharacter === 'Backspace' ) {
@@ -110,11 +126,16 @@ const TextBox = () => {
             dispatch(toEnd())
             return
         }
+        console.log(`${e.key},index ${index},column ${curPosition}, row ${curLine}`)
 
         setStyles(curLine,curPosition)
         setIndexOfCurrentCharacter(index)
     }
     return (
+        <>
+            <Timer
+                seconds={seconds}
+            />
             <div className={s.text__wrapper}>
                 <div ref={cursorRef} className={s.cursor}/>
                 <p ref={textRef} className={s.text}>
@@ -126,6 +147,8 @@ const TextBox = () => {
                     )}
                 </p>
             </div>
+        </>
+
 
     );
 };

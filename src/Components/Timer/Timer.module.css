@@ -1,0 +1,7 @@
+.text{
+    color: var(--color-text-correct);
+    font-size: 24px;
+    font-family:"Roboto Mono" ,sans-serif;
+    line-height: 38px;
+    letter-spacing: 0.5px;
+}

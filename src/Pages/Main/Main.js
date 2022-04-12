@@ -1,15 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import TextBox from '../../Components/TextBox/TextBox';
 import Results from '../../Components/Results/Results';
 import { useSelector} from 'react-redux';
+import s from './Main.module.css'
+import {useInterval} from '@mantine/hooks';
 
 const Main = () => {
     const typingEnd = useSelector((state)=>state.isTypingEnd.value)
     return (
-        <div style={{minHeight:'1vh'}}>
+        <div className={s.wrapper}>
             {typingEnd
-                ?<Results/>
-                :<TextBox/>}
+                ?<Results
+
+                    />
+                :<TextBox
+                    // seconds={seconds}
+                    // interval={interval}
+                />}
         </div>
     );
 };

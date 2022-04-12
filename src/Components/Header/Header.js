@@ -21,7 +21,7 @@ const Header = () => {
     return (
         <header className={s.header}>
             <div className={s.left__bar}>
-                <h1>rushtype</h1>
+                <h1>typus</h1>
                 <div className={s.flex}>
                     <Keyboard/>
                     <Settings/>
