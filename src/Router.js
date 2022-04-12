@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import TextBox from './Components/TextBox/TextBox';
-import Home from './Pages/Home/Home';
+import Wrapper from './Pages/Wrapper/Wrapper';
+import Main from './Pages/Main/Main';
 
 
 const Router = () => {
@@ -9,8 +9,8 @@ const Router = () => {
         <div>
             <BrowserRouter>
                 <Routes>
-                    <Route path='*' element={<Home/>}>
-                        <Route exact path='*' element={<TextBox/>}/>
+                    <Route path='*' element={<Wrapper/>}>
+                        <Route exact path='' element={<Main/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

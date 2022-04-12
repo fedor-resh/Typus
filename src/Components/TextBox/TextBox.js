@@ -1,6 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import s from './TextBox.module.css'
 import '../../fonts/fonts.css'
+import {useDispatch} from 'react-redux';
+import {toEnd} from '../../Redux/isTypingEndSlider';
 
 
 const TextBox = () => {
@@ -10,6 +12,8 @@ const TextBox = () => {
     const [mistakes, setMistakes] = useState([])
     const [timer, setTimer] = useState( 0 )
     const [flag , setFlag] = useState(true)
+
+    const dispatch = useDispatch()
 
     function calculateLengthOfLines(textRef) {
         const textBoxWidth = textRef.current.scrollWidth
@@ -44,9 +48,11 @@ const TextBox = () => {
 
 
     function keyboardHandler(e) {
-        const keyboardCharacter = (String.fromCharCode(e.keyCode).toLowerCase())
-        let index = indexOfCurrentCharacter
-
+        function isAllowedKeyboardKey(key) {
+            return (key.length === 1 && key.match(/[a-z]/i))
+                ||key==='Backspace'
+                ||key===' '
+        }
         function calculateCurrentColumnAndRow(index,lengthOfLines) {
             let curLine = 0
             let curPosition = 0
@@ -62,8 +68,7 @@ const TextBox = () => {
             }
             return [curPosition,curLine]
         }
-        let [curPosition,curLine] = calculateCurrentColumnAndRow(index,lengthOfLines)
-        if (e.key === 'Backspace' ) {
+        function BackspaceHandler() {
             if(index === 0){return}
             index--
             curPosition--
@@ -72,39 +77,56 @@ const TextBox = () => {
                 curPosition = lengthOfLines[curLine]
                 curLine--
             }
+        }
+        function setStyles(curLine,curPosition) {
+            cursorRef.current.style.top = `${(curLine) * 38 + 4 + 20}px`
+            cursorRef.current.style.left = `${(curPosition) * 14.9 - 1 + 20}px`
+        }
 
+        if(!isAllowedKeyboardKey(e.key)) return
+
+
+        const keyboardCharacter = e.key
+        let index = indexOfCurrentCharacter
+        let [curPosition, curLine] = calculateCurrentColumnAndRow(index,lengthOfLines)
+
+        // console.log(e.key)
+
+
+        if (keyboardCharacter === 'Backspace' ) {
+            BackspaceHandler()
         } else {
             if (keyboardCharacter !== text[index]) {
                 setMistakes([index, ...mistakes])
             }
             curPosition++
+            index++
             if (curPosition === lengthOfLines[curLine]) {
                 curPosition = 0
                 curLine++
             }
-            index++
         }
         if (text.length + 1 === index) {
+            dispatch(toEnd())
             return
         }
 
-        cursorRef.current.style.top = `${(curLine) * 38 + 4 + 20}px`
-        cursorRef.current.style.left = `${(curPosition) * 14.9 - 1 + 20}px`
+        setStyles(curLine,curPosition)
         setIndexOfCurrentCharacter(index)
     }
-
     return (
-        <div className={s.text__wrapper}>
-            <div ref={cursorRef} className={s.cursor}/>
-            <p ref={textRef} className={s.text}>
-                {Array.from(text).map((character, id) =>
-                    <span
-                        className={`${id >= indexOfCurrentCharacter ? s.disabled__letter : ''} ${mistakes.includes(id) ? s.mistake__letter : ''}`}
-                        key={id}>{character}
+            <div className={s.text__wrapper}>
+                <div ref={cursorRef} className={s.cursor}/>
+                <p ref={textRef} className={s.text}>
+                    {Array.from(text).map((character, id) =>
+                            <span
+                                className={`${id >= indexOfCurrentCharacter ? s.disabled__letter : ''} ${mistakes.includes(id) ? s.mistake__letter : ''}`}
+                                key={id}>{character}
                     </span>
-                )}
-            </p>
-        </div>
+                    )}
+                </p>
+            </div>
+
     );
 };
 

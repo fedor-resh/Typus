@@ -3,7 +3,7 @@ import Header from '../../Components/Header/Header';
 import {Outlet} from 'react-router-dom'
 import Footer from '../../Components/Footer/Footer';
 
-const Home = () => {
+const Wrapper = () => {
     return (
         <>
             <Header/>
@@ -14,4 +14,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Wrapper;

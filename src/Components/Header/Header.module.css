@@ -57,6 +57,7 @@
     background-color:var(--color-hover)
 }
 .right__bar p{
+    user-select: none;
     font-size: 20px;
     margin-right: 20px;
     color:var(--color-faded);

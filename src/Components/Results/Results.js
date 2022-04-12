@@ -2,7 +2,7 @@ import React from 'react';
 import s from './Results.module.css'
 
 
-const Results = ({start, end, text, mistakes}) => {
+const Results = () => {
     return (
         <div>
 
