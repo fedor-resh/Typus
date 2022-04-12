@@ -1,10 +1,12 @@
 :root{
+  --color-footer: #356578;
   --color-faded:#43819A;
+  --color-hover: #62a8c2;
   --color-bright:#65BAD4;
   --color-text-correct:#FF6A00;
   --color-text-error: #900400;
   --color-text-nottyped:var(--color-faded);
-  --color-background:#0F2027;
+  --color-background: #193e4e;
   --color-brighter: #d5ac00;
   /*--color-background:linear-gradient(65.59deg, #0F2027 10.87%, #274957 102.25%);*/
 }

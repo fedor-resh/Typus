@@ -1,14 +1,76 @@
 .header{
     font-family: "Cubano Normal",sans-serif;
-    font-size: 20px;
     display: flex;
-    padding: 50px 0;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 20px;
     margin: auto;
     max-width:800px ;
+    flex-wrap: wrap;
+
 }
+.header svg{
+    fill:var(--color-faded);
+    height: 30px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: 0.2s;
+}
+.header svg:hover{
+    fill:var(--color-hover)
+}
+
+
 .left__bar{
     display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 20px 0 ;
+}
+.left__bar h1{
+    font-size: 40px;
+    margin-right: 20px;
+    color:var(--color-faded);
+    user-select: none;
+}
+
+
+.right__bar{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
 }
 .right__bar button{
     font-family: "Cubano Normal",sans-serif;
+    background-color: var(--color-faded);
+    color:var(--color-background);
+    padding: 10px 30px;
+    font-size: 20px;
+    border:none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 40px;
+    transition: .2s;
+}
+.right__bar button:hover{
+    background-color:var(--color-hover)
+}
+.right__bar p{
+    font-size: 20px;
+    margin-right: 20px;
+    color:var(--color-faded);
+    cursor: pointer;
+    transition: .2s color;
+}
+.right__bar:hover svg,
+.right__bar:hover p{
+    fill:var(--color-hover);
+    color:var(--color-hover)
+}
+
+.flex{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 }

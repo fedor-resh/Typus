@@ -1,0 +1,39 @@
+.footer{
+    margin-top: 35vh;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+.footer a{
+    text-decoration: none;
+}
+.footer div{
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+    cursor: pointer;
+}
+.footer div>p{
+    color: var(--color-footer);
+    font-family: "Roboto Mono",sans-serif;
+    margin-left: 10px;
+}
+.mail__wrapper svg,
+.code__wrapper svg{
+    fill: var(--color-footer);
+}
+.mail__wrapper svg,
+.materials__wrapper svg{
+    stroke: var(--color-footer);
+}
+.footer div:hover p,
+
+.mail__wrapper:hover svg,
+.code__wrapper:hover svg{
+    color: var(--color-hover);
+    fill: var(--color-hover);
+}
+.mail__wrapper:hover svg,
+.materials__wrapper:hover svg{
+    stroke:var(--color-hover);
+}

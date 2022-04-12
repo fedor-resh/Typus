@@ -11,8 +11,7 @@ const TextBox = () => {
     const [timer, setTimer] = useState( 0 )
     const [flag , setFlag] = useState(true)
 
-
-    useEffect(() => {
+    function calculateLengthOfLines(textRef) {
         const textBoxWidth = textRef.current.scrollWidth
         const words = textRef.current.textContent.split(/\s/)
         const lengthOfWords = words.map((word) => word.length)
@@ -26,8 +25,11 @@ const TextBox = () => {
             sum += length + 1
         })
         LinesLength.push(sum)
-        console.log(LinesLength)
-        setLengthOfLines(LinesLength)
+        return LinesLength
+    }
+
+    useEffect(() => {
+        setLengthOfLines(calculateLengthOfLines(textRef))
     }, [])
 
     useEffect(() => {
@@ -36,31 +38,31 @@ const TextBox = () => {
             window.removeEventListener('keydown', keyboardHandler)
         }
     }, [keyboardHandler])
+
     const cursorRef = useRef(null)
     const textRef = useRef(null)
 
 
     function keyboardHandler(e) {
-        if (flag){
-            setFlag(false)
-            setTimer(new Date())
-            console.log(timer.toLocaleString())
-        }
         const keyboardCharacter = (String.fromCharCode(e.keyCode).toLowerCase())
         let index = indexOfCurrentCharacter
 
-        let curLine = 0
-        let curPosition = 0
-        let copyIndex = index
-        for (let i in lengthOfLines) {
-            if (copyIndex >= lengthOfLines[i]) {
-                copyIndex -= lengthOfLines[i]
-                curLine += 1
-            } else {
-                curPosition = copyIndex
-                break
+        function calculateCurrentColumnAndRow(index,lengthOfLines) {
+            let curLine = 0
+            let curPosition = 0
+
+            for (let i in lengthOfLines) {
+                if (index >= lengthOfLines[i]) {
+                    index -= lengthOfLines[i]
+                    curLine += 1
+                } else {
+                    curPosition = index
+                    break
+                }
             }
+            return [curPosition,curLine]
         }
+        let [curPosition,curLine] = calculateCurrentColumnAndRow(index,lengthOfLines)
         if (e.key === 'Backspace' ) {
             if(index === 0){return}
             index--
