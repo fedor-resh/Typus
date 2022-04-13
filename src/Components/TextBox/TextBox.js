@@ -43,7 +43,11 @@ const TextBox = () => {
     useEffect(()=>{
         if(!seconds){
             console.log(indexOfCurrentCharacter)
-            dispatch(setResult(indexOfCurrentCharacter))
+            dispatch(setResult({
+                amountOfCharacters:indexOfCurrentCharacter,
+                seconds:5,
+                amountOfMistakes:mistakes.length
+            }))
             dispatch(toEnd())
         }
     },[seconds])

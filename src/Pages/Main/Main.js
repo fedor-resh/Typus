@@ -10,13 +10,8 @@ const Main = () => {
     return (
         <div className={s.wrapper}>
             {typingEnd
-                ?<Results
-
-                    />
-                :<TextBox
-                    // seconds={seconds}
-                    // interval={interval}
-                />}
+                ?<Results/>
+                :<TextBox/>}
         </div>
     );
 };

@@ -1,7 +1,27 @@
-.wrapper{
-    margin: 25vh auto 0 ;
-    padding: 20px;
-    max-width: 800px;
-    position: relative;
-    max-height: 400px;
+/*.wrapper{*/
+/*    margin: 25vh auto 0 ;*/
+/*    padding: 20px;*/
+/*    max-width: 800px;*/
+/*    position: relative;*/
+/*    max-height: 400px;*/
+/*}*/
+.number{
+    font-size: 50px !important;
+    margin-top: 40px;
+}
+.executiveSystem{
+    color: var(--color-faded) !important;
+}
+.name{
+    margin-top: 50px;
+}
+.grid{
+    display: grid;
+    grid-template-columns:repeat(4,1fr) ;
+}
+.grid p{
+    /*height: 100px;*/
+    font-family: "Cubano Normal",sans-serif;
+    font-size:40px;
+    color: var(--color-bright);
 }
