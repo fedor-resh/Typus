@@ -1,0 +1,20 @@
+.grid{
+    display: grid;
+    place-items: center;
+    min-height: 30vh;
+}
+.grid button{
+    font-family: "Cubano Normal",sans-serif;
+    background-color: var(--color-faded);
+    color:var(--color-background);
+    padding: 10px 30px;
+    font-size: 20px;
+    border:none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 40px;
+    transition: .2s;
+}
+.grid button:hover{
+    background-color:var(--color-hover)
+}

@@ -1,17 +1,26 @@
-import React, {useState} from 'react';
+
 import TextBox from '../../Components/TextBox/TextBox';
 import Results from '../../Components/Results/Results';
+
 import { useSelector} from 'react-redux';
 import s from './Main.module.css'
-import {useInterval} from '@mantine/hooks';
+import {useAuthState} from 'react-firebase-hooks/auth';
+import SignIn from '../../Components/SignIn/SignIn';
+import {auth} from '../../Firebase/firebaseInit';
+
 
 const Main = () => {
     const typingEnd = useSelector((state)=>state.isTypingEnd.value)
+    const [user] = useAuthState(auth)
+
     return (
         <div className={s.wrapper}>
-            {typingEnd
+
+            {user
+                ?(typingEnd
                 ?<Results/>
-                :<TextBox/>}
+                :<TextBox/>)
+                :<SignIn/>}
         </div>
     );
 };

@@ -10,7 +10,7 @@ const Router = () => {
             <BrowserRouter>
                 <Routes>
                     <Route path='*' element={<Wrapper/>}>
-                        <Route exact path='' element={<Main/>}/>
+                        <Route path='*' element={<Main/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

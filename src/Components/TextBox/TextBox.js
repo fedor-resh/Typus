@@ -1,12 +1,12 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import s from './TextBox.module.css'
 import '../../fonts/fonts.css'
 import {useDispatch} from 'react-redux';
 import {toEnd} from '../../Redux/isTypingEndSlider';
 import Timer from '../Timer/Timer';
 import {useInterval} from '@mantine/hooks';
-import results from '../Results/Results';
 import {setResult} from '../../Redux/resultSlider';
+import {clearResultsInDatabase} from '../../Firebase/firebaseInit';
 
 
 const TextBox = () => {
@@ -15,9 +15,7 @@ const TextBox = () => {
     const [lengthOfLines, setLengthOfLines] = useState([])
     const [mistakes, setMistakes] = useState([])
 
-    const [isStarted , setIsStarted] = useState(true)
-    const [seconds, setSeconds] = useState(5)
-
+    const [seconds, setSeconds] = useState(3)
 
 
     const dispatch = useDispatch()
@@ -40,19 +38,23 @@ const TextBox = () => {
         return LinesLength
     }
 
-    useEffect(()=>{
-        if(!seconds){
-            console.log(indexOfCurrentCharacter)
-            dispatch(setResult({
-                amountOfCharacters:indexOfCurrentCharacter,
-                seconds:5,
-                amountOfMistakes:mistakes.length
-            }))
-            dispatch(toEnd())
-        }
-    },[seconds])
+    function endHandler() {
+        dispatch(setResult({
+            amountOfCharacters: indexOfCurrentCharacter,
+            seconds: 30,
+            amountOfMistakes: mistakes.length
+        }))
+        dispatch(toEnd())
+    }
 
     useEffect(() => {
+        if (!seconds) {
+            endHandler()
+        }
+    }, [seconds])
+
+    useEffect(() => {
+        clearResultsInDatabase('testRoom')
         setLengthOfLines(calculateLengthOfLines(textRef))
         return interval.stop
     }, [])
@@ -66,15 +68,17 @@ const TextBox = () => {
 
     const cursorRef = useRef(null)
     const textRef = useRef(null)
+
     function keyboardHandler(e) {
         interval.start()
 
         function isAllowedKeyboardKey(key) {
             return (key.length === 1 && key.match(/[a-z]/i))
-                ||key==='Backspace'
-                ||key===' '
+                || key === 'Backspace'
+                || key === ' '
         }
-        function calculateCurrentColumnAndRow(index,lengthOfLines) {
+
+        function calculateCurrentColumnAndRow(index, lengthOfLines) {
             let curLine = 0
             let curPosition = 0
 
@@ -87,10 +91,13 @@ const TextBox = () => {
                     break
                 }
             }
-            return [curPosition,curLine]
+            return [curPosition, curLine]
         }
+
         function BackspaceHandler() {
-            if(index === 0){return}
+            if (index === 0) {
+                return
+            }
             index--
             curPosition--
             setMistakes(mistakes.filter(el => el < index))
@@ -99,21 +106,21 @@ const TextBox = () => {
                 curLine--
             }
         }
-        function setStyles(curLine,curPosition) {
+
+        function setStyles(curLine, curPosition) {
             cursorRef.current.style.top = `${(curLine) * 38 + 4}px`
             cursorRef.current.style.left = `${(curPosition) * 14.9 - 1}px`
         }
 
-        if(!isAllowedKeyboardKey(e.key)) return
+        if (!isAllowedKeyboardKey(e.key)) return
 
 
         const keyboardCharacter = e.key
         let index = indexOfCurrentCharacter
-        let [curPosition, curLine] = calculateCurrentColumnAndRow(index,lengthOfLines)
+        let [curPosition, curLine] = calculateCurrentColumnAndRow(index, lengthOfLines)
 
 
-
-        if (keyboardCharacter === 'Backspace' ) {
+        if (keyboardCharacter === 'Backspace') {
             BackspaceHandler()
         } else {
             if (keyboardCharacter !== text[index]) {
@@ -126,15 +133,16 @@ const TextBox = () => {
                 curLine++
             }
         }
-        if (text.length + 1 === index) {
-            dispatch(toEnd())
-            return
-        }
-        console.log(`${e.key},index ${index},column ${curPosition}, row ${curLine}`)
+        // if (text.length + 1 === index) {
+        //     dispatch(toEnd())
+        //     return
+        // }
+        // console.log(`${e.key},index ${index},column ${curPosition}, row ${curLine}`)
 
-        setStyles(curLine,curPosition)
+        setStyles(curLine, curPosition)
         setIndexOfCurrentCharacter(index)
     }
+
     return (
         <>
             <Timer
@@ -144,10 +152,10 @@ const TextBox = () => {
                 <div ref={cursorRef} className={s.cursor}/>
                 <p ref={textRef} className={s.text}>
                     {Array.from(text).map((character, id) =>
-                            <span
-                                className={`${id >= indexOfCurrentCharacter ? s.disabled__letter : ''} ${mistakes.includes(id) ? s.mistake__letter : ''}`}
-                                key={id}>{character}
-                    </span>
+                        <span
+                            className={`${id >= indexOfCurrentCharacter ? s.disabled__letter : ''} ${mistakes.includes(id) ? s.mistake__letter : ''}`}
+                            key={id}>{character}
+                        </span>
                     )}
                 </p>
             </div>

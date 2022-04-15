@@ -1,16 +1,20 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {auth, setResultsInDatabase} from '../Firebase/firebaseInit';
+
 
 const resultSlider = createSlice({
     name:'result',
     initialState:{
-        amountOfCharacters:0,
-        seconds:0,
-        amountOfMistakes:0
+        charPerMinute:0,
+        PercentageOfRight:0,
+        ball:0
     },reducers:{
         setResult:(state,action)=>{
-            state.amountOfCharacters = action.payload.amountOfCharacters
-            state.seconds = action.payload.seconds
-            state.amountOfMistakes = action.payload.amountOfMistakes
+            const {amountOfCharacters,seconds,amountOfMistakes} = action.payload
+            state.charPerMinute = amountOfCharacters/seconds*60
+            state.PercentageOfRight = Math.round((1 - amountOfMistakes/amountOfCharacters) * 100)
+            state.ball = Math.round((amountOfCharacters/seconds*60)*(1 - amountOfMistakes/amountOfCharacters))
+            setResultsInDatabase('testRoom',auth.currentUser.displayName.split(' ')[0],auth.currentUser.uid,state.charPerMinute,state.PercentageOfRight,state.ball)
         }
     }
 })

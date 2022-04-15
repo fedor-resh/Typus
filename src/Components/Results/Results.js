@@ -1,31 +1,13 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment} from 'react';
 import s from './Results.module.css'
-import {useSelector} from 'react-redux';
+
+import { useResultsFromDatabase} from '../../Firebase/firebaseInit';
 
 
 const Results = () => {
-    const {amountOfCharacters,seconds,amountOfMistakes} = useSelector(state => state.result)
-    console.log({amountOfCharacters,seconds,amountOfMistakes})
-    const data = [
-        {
-            name:'fedor',
-            charPerMinute:amountOfCharacters/seconds*60,
-            PercentageOfRight:Math.round((1 - amountOfMistakes/amountOfCharacters) * 100),
-            ball:(amountOfCharacters/seconds*60)*(1 - amountOfMistakes/amountOfCharacters),
-        },
-        {
-            name:'petr',
-            charPerMinute:43,
-            PercentageOfRight:80,
-            ball:33,
-        },
-        {
-            name:'denis',
-            charPerMinute:43,
-            PercentageOfRight:80,
-            ball:33,
-        }
-    ]
+
+    const results = useResultsFromDatabase()
+
     return (
         <div>
             <div className={s.grid}>
@@ -33,8 +15,8 @@ const Results = () => {
                 <p className={s.executiveSystem}>cpm</p>
                 <p className={s.executiveSystem}>acc</p>
                 <p className={s.executiveSystem}>ball</p>
-                {data.map(({name,charPerMinute,PercentageOfRight,ball})=>
-                    <Fragment key={name}>
+                {results&&results.map(({name,charPerMinute,PercentageOfRight,ball},id)=>
+                    <Fragment key={id}>
                         <p className={s.name}>{name}</p>
                         <p className={s.number}>{charPerMinute}</p>
                         <p className={s.number}>{PercentageOfRight + '%'}</p>
