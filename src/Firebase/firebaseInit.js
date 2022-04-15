@@ -36,7 +36,7 @@ export function useResultsFromDatabase(roomId) {
     useEffect(()=>{
         const res = []
         const ref = database.ref(roomId + '/results');
-        ref.once('value', (snapshot) => {
+        ref.on('value', (snapshot) => {
             const obj = snapshot.val()
             for(let id in obj){
                 res.push(obj[id])
