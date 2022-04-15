@@ -1,0 +1,25 @@
+.wrapper{
+    width: 100%;
+}
+.wrapper button{
+    display: block;
+    margin: 50px auto;
+    font-family: "Cubano Normal",sans-serif;
+    background-color: var(--color-faded);
+    color:var(--color-background);
+    padding: 15px 30px 10px;
+    font-size: 20px;
+    border:none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .2s;
+    opacity: .5;
+}
+.wrapper button:hover,
+.wrapper button:focus{
+    opacity: 1;
+    background-color:var(--color-hover)
+}
+.wrapper svg{
+
+}

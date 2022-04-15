@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {database} from '../Firebase/firebaseInit';
+import {generateRandomText} from '../utils';
 
 
 const resultSlider = createSlice({
@@ -30,6 +31,19 @@ const resultSlider = createSlice({
             state.mainState = mainState
             // console.log({roomId,text,secondsForGame,mainState})
         },
+        toRestartGame:(state,action)=>{
+            // const {text,secondsForGame} = action.payload
+            const amountOfWords = prompt('amountOfWords: ', '40')
+            const secondsForGame = prompt('secondsForGame: ', '30')
+            state.text = generateRandomText(amountOfWords ?? 20)
+            state.secondsForGame = secondsForGame ?? 30
+            state.mainState = 'ROOM'
+            database.ref(state.roomId+'/roomSettings').update({
+                text:state.text,
+                secondsForGame:state.secondsForGame,
+                mainState:'ROOM'
+            })
+        },
         toResults:state => {
             state.mainState = 'RESULTS'
             database.ref(state.roomId+'/roomSettings').update({
@@ -51,6 +65,6 @@ const resultSlider = createSlice({
     }
 })
 
-export const {setRoomData,setNewRoomData,toResults,toStart,toRoom} = resultSlider.actions
+export const {setRoomData,setNewRoomData,toResults,toStart,toRoom,toRestartGame} = resultSlider.actions
 
 export const roomDataReducer = resultSlider.reducer

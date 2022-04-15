@@ -23,6 +23,10 @@ const TextBox = () => {
 
     const dispatch = useDispatch()
     const interval = useInterval(() => setSeconds(s => s - 1), 1000);
+    function setStyles(curLine, curPosition) {
+        cursorRef.current.style.top = `${(curLine) * 38 + 4}px`
+        cursorRef.current.style.left = `${(curPosition) * 14.9 - 1}px`
+    }
 
     function calculateLengthOfLines(textRef) {
         const textBoxWidth = textRef.current.scrollWidth
@@ -64,6 +68,9 @@ const TextBox = () => {
         setLengthOfLines(calculateLengthOfLines(textRef))
         setIndexOfCurrentCharacter(0)
         interval.stop()
+        setStyles(0, 0)
+        setIsStarted(false)
+        console.log('///')
     },[text])
     useEffect(() => {
         if (!seconds) {
@@ -96,9 +103,6 @@ const TextBox = () => {
         }
         if(!(isStarted&&isAllowedKeyboardKey(e.key)))
             return
-
-
-
 
         function isAllowedKeyboardKey(key) {
             return (key.length === 1 && key.match(/[a-z]/i))
@@ -135,10 +139,6 @@ const TextBox = () => {
             }
         }
 
-        function setStyles(curLine, curPosition) {
-            cursorRef.current.style.top = `${(curLine) * 38 + 4}px`
-            cursorRef.current.style.left = `${(curPosition) * 14.9 - 1}px`
-        }
 
 
 

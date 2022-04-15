@@ -8,31 +8,36 @@ import SignIn from '../../Components/SignIn/SignIn';
 import {auth, database} from '../../Firebase/firebaseInit';
 import {useEffect} from 'react';
 import {FetchRoomData, setRoomData} from '../../Redux/roomData';
+import RestartButton from '../../Components/RestartButton/RestartButton';
 
 
 const Main = () => {
     const isResults = useSelector((state) => state.roomData.mainState) === 'RESULTS'
     const [user] = useAuthState(auth)
     const dispatch = useDispatch()
-    useEffect(()=>{
+    useEffect(() => {
         const hash = window.location.hash.substring(1)
-        if(hash){
-            database.ref(hash+'/roomSettings').on('value', (snapshot) => {
+        if (hash) {
+            database.ref(hash + '/roomSettings').on('value', (snapshot) => {
                 const data = snapshot.val();
-                dispatch(setRoomData({roomId:hash,...data}))
+                dispatch(setRoomData({roomId: hash, ...data}))
             });
         }
-    },[])
+    }, [])
     return (
         <div className={s.wrapper}>
 
             {user
-                ? ((isResults
-                    ? <Results/>
-                    : <TextBox/>)
-
+                ? (
+                    <>
+                    {(isResults
+                        ? <Results/>
+                        : <TextBox/>)}
+                        <RestartButton/>
+                    </>
                 )
-                : <SignIn/>}
+                : <SignIn/>
+            }
         </div>
     );
 };
