@@ -8,8 +8,7 @@ const resultSlider = createSlice({
         roomId:'testRoom',
         text:'lorem ipsum dolor sit amet consectetur adipisicing elit accusamus consequuntur cum cumque cupiditate deserunt distinctio illum laboriosam nesciunt nulla obcaecati optio quidem reprehenderit saepe sed sunt veritatis voluptas voluptate voluptatibus',
         secondsForGame:30,
-        mainState:'ROOM',
-
+        mainState:'ROOM',//  ROOM||ROOM_TYPE||RESULTS
     },reducers:{
         setNewRoomData:(state,action)=>{
             const {roomId,text,secondsForGame,mainState} = action.payload
@@ -29,16 +28,25 @@ const resultSlider = createSlice({
             state.text = text
             state.secondsForGame = secondsForGame
             state.mainState = mainState
-            console.log({roomId,text,secondsForGame,mainState})
+            // console.log({roomId,text,secondsForGame,mainState})
         },
         toResults:state => {
             state.mainState = 'RESULTS'
+            database.ref(state.roomId+'/roomSettings').update({
+                mainState:'RESULTS'
+            })
         },
         toRoom:state => {
             state.mainState = 'ROOM'
+            database.ref(state.roomId+'/roomSettings').update({
+                mainState:'ROOM'
+            })
         },
         toStart:state => {
             state.mainState = 'ROOM_TYPE'
+            database.ref(state.roomId+'/roomSettings').update({
+                mainState:'ROOM_TYPE'
+            })
         }
     }
 })

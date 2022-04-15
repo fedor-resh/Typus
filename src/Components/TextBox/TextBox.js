@@ -6,21 +6,20 @@ import {toEnd, toResults, toStart} from '../../Redux/roomData';
 import Timer from '../Timer/Timer';
 import {useInterval} from '@mantine/hooks';
 import {setResult} from '../../Redux/resultSlider';
-import {clearResultsInDatabase} from '../../Firebase/firebaseInit';
+import {auth, clearResultsInDatabase} from '../../Firebase/firebaseInit';
 
 
 const TextBox = () => {
     const text = useSelector(state => state.roomData.text)
     const secondsForGame = useSelector(state => state.roomData.secondsForGame)
+    const mainState = useSelector(state => state.roomData.mainState)
+    const roomId = useSelector(state => state.roomData.roomId)
 
     const [indexOfCurrentCharacter, setIndexOfCurrentCharacter] = useState(0)
     const [lengthOfLines, setLengthOfLines] = useState([])
     const [mistakes, setMistakes] = useState([])
-
     const [seconds, setSeconds] = useState(secondsForGame)
-    useEffect(()=>{
-        setSeconds(secondsForGame)
-    },[secondsForGame])
+    const [isStarted, setIsStarted] = useState(false)
 
     const dispatch = useDispatch()
     const interval = useInterval(() => setSeconds(s => s - 1), 1000);
@@ -44,23 +43,39 @@ const TextBox = () => {
 
     function endHandler() {
         dispatch(setResult({
+            roomId,
             amountOfCharacters: indexOfCurrentCharacter,
-            seconds: 30,
+            seconds: secondsForGame,
             amountOfMistakes: mistakes.length
         }))
         dispatch(toResults())
     }
     useEffect(()=>{
+        if(mainState==='ROOM_TYPE'){
+            setTimeout(()=>{
+                setIsStarted(true)
+                interval.start()
+
+            },3000)
+        }
+    },[mainState])
+
+    useEffect(()=>{
         setLengthOfLines(calculateLengthOfLines(textRef))
+        setIndexOfCurrentCharacter(0)
+        interval.stop()
     },[text])
     useEffect(() => {
         if (!seconds) {
             endHandler()
         }
     }, [seconds])
+    useEffect(()=>{
+        setSeconds(secondsForGame)
+    },[secondsForGame])
 
     useEffect(() => {
-        clearResultsInDatabase('testRoom')
+        clearResultsInDatabase(roomId)
         setLengthOfLines(calculateLengthOfLines(textRef))
         return interval.stop
     }, [])
@@ -76,8 +91,14 @@ const TextBox = () => {
     const textRef = useRef(null)
 
     function keyboardHandler(e) {
-        dispatch(toStart())
-        interval.start()
+        if((roomId==='testRoom'||auth.currentUser.uid===roomId)&&!isStarted) {
+            dispatch(toStart())
+        }
+        if(!(isStarted&&isAllowedKeyboardKey(e.key)))
+            return
+
+
+
 
         function isAllowedKeyboardKey(key) {
             return (key.length === 1 && key.match(/[a-z]/i))
@@ -119,7 +140,6 @@ const TextBox = () => {
             cursorRef.current.style.left = `${(curPosition) * 14.9 - 1}px`
         }
 
-        if (!isAllowedKeyboardKey(e.key)) return
 
 
         const keyboardCharacter = e.key
@@ -153,6 +173,7 @@ const TextBox = () => {
     return (
         <>
             <Timer
+                playStartAnimation={mainState==='ROOM_TYPE'}
                 seconds={seconds}
             />
             <div className={s.text__wrapper}>

@@ -1,13 +1,16 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import s from './Results.module.css'
 
 import { useResultsFromDatabase} from '../../Firebase/firebaseInit';
+import {useSelector} from 'react-redux';
 
 
 const Results = () => {
-
-    const results = useResultsFromDatabase()
-
+    const roomId = useSelector(state => state.roomData.roomId)
+    const results = useResultsFromDatabase(roomId)
+    useEffect(()=>{
+        console.log(results)
+    })
     return (
         <div>
             <div className={s.grid}>

@@ -30,12 +30,12 @@ export function setResultsInDatabase(room, name, userId, charPerMinute, Percenta
         ball,
     });
 }
-export function useResultsFromDatabase() {
+export function useResultsFromDatabase(roomId) {
     const [results,setResults] = useState([])
 
     useEffect(()=>{
         const res = []
-        const ref = database.ref('testRoom' + '/results');
+        const ref = database.ref(roomId + '/results');
         ref.once('value', (snapshot) => {
             const obj = snapshot.val()
             for(let id in obj){

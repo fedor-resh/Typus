@@ -5,3 +5,33 @@
     line-height: 38px;
     letter-spacing: 0.5px;
 }
+.animation:after{
+    animation: text 5s forwards linear;
+    content: ' on the start';
+}
+@keyframes text {
+    0%{
+        content: ' on the start';
+        color: #900400FF;
+    }
+    30%{
+        color: #900400;
+        content: ' on the start';
+    }
+    35%{
+        content: ' attention';
+        color: #D5AC00FF;
+    }
+    65%{
+        content: ' attention';
+        color: #D5AC00FF;
+    }
+    70%{
+        content: ' march';
+        color: #50cbcb;
+    }
+    100%{
+        content: '';
+        color: #50cbcb;
+    }
+}

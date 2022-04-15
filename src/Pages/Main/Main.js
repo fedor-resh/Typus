@@ -27,9 +27,11 @@ const Main = () => {
         <div className={s.wrapper}>
 
             {user
-                ? (isResults
+                ? ((isResults
                     ? <Results/>
                     : <TextBox/>)
+
+                )
                 : <SignIn/>}
         </div>
     );
