@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import s from './TextBox.module.css'
 import '../../fonts/fonts.css'
-import {useDispatch} from 'react-redux';
-import {toEnd} from '../../Redux/isTypingEndSlider';
+import {useDispatch, useSelector} from 'react-redux';
+import {toEnd, toResults, toStart} from '../../Redux/roomData';
 import Timer from '../Timer/Timer';
 import {useInterval} from '@mantine/hooks';
 import {setResult} from '../../Redux/resultSlider';
@@ -10,13 +10,17 @@ import {clearResultsInDatabase} from '../../Firebase/firebaseInit';
 
 
 const TextBox = () => {
-    const [text, setText] = useState('lorem ipsum dolor sit amet consectetur adipisicing elit accusamus consequuntur cum cumque cupiditate deserunt distinctio illum laboriosam nesciunt nulla obcaecati optio quidem reprehenderit saepe sed sunt veritatis voluptas voluptate voluptatibus')
+    const text = useSelector(state => state.roomData.text)
+    const secondsForGame = useSelector(state => state.roomData.secondsForGame)
+
     const [indexOfCurrentCharacter, setIndexOfCurrentCharacter] = useState(0)
     const [lengthOfLines, setLengthOfLines] = useState([])
     const [mistakes, setMistakes] = useState([])
 
-    const [seconds, setSeconds] = useState(3)
-
+    const [seconds, setSeconds] = useState(secondsForGame)
+    useEffect(()=>{
+        setSeconds(secondsForGame)
+    },[secondsForGame])
 
     const dispatch = useDispatch()
     const interval = useInterval(() => setSeconds(s => s - 1), 1000);
@@ -44,9 +48,11 @@ const TextBox = () => {
             seconds: 30,
             amountOfMistakes: mistakes.length
         }))
-        dispatch(toEnd())
+        dispatch(toResults())
     }
-
+    useEffect(()=>{
+        setLengthOfLines(calculateLengthOfLines(textRef))
+    },[text])
     useEffect(() => {
         if (!seconds) {
             endHandler()
@@ -70,6 +76,7 @@ const TextBox = () => {
     const textRef = useRef(null)
 
     function keyboardHandler(e) {
+        dispatch(toStart())
         interval.start()
 
         function isAllowedKeyboardKey(key) {

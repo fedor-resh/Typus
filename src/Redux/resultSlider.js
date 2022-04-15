@@ -14,7 +14,14 @@ const resultSlider = createSlice({
             state.charPerMinute = amountOfCharacters/seconds*60
             state.PercentageOfRight = Math.round((1 - amountOfMistakes/amountOfCharacters) * 100)
             state.ball = Math.round((amountOfCharacters/seconds*60)*(1 - amountOfMistakes/amountOfCharacters))
-            setResultsInDatabase('testRoom',auth.currentUser.displayName.split(' ')[0],auth.currentUser.uid,state.charPerMinute,state.PercentageOfRight,state.ball)
+            setResultsInDatabase(
+                'testRoom'
+                ,auth.currentUser.displayName.split(' ')[0]
+                ,auth.currentUser.uid
+                ,state.charPerMinute
+                ,state.PercentageOfRight
+                ,state.ball
+            )
         }
     }
 })

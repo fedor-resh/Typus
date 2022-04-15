@@ -6,18 +6,38 @@ import {ReactComponent as Profile} from '../../svg/profil.svg'
 import {ReactComponent as Information} from '../../svg/information.svg'
 import {ReactComponent as Settings} from '../../svg/settings.svg'
 import {ReactComponent as Copy} from '../../svg/copy-link 1.svg'
+import {useDispatch, useSelector} from 'react-redux';
+import {setNewRoomData} from '../../Redux/roomData';
+import {useAuthState} from 'react-firebase-hooks/auth';
+import {auth} from '../../Firebase/firebaseInit';
+import {generateRandomText} from '../../utils';
 
 const Header = () => {
-    const [isInRoom, setIsInRoom] = useState(false)
+
+
+    const roomId = useSelector(state=> state.roomData.roomId)
 
     const linkRef = useRef(null)
 
-    const link = 'https://react-keyboard-runner.vercel.app/'
+    const link = `https://react-keyboard-runner.vercel.app#${roomId}`
 
     async function copyHandler() {
         await navigator.clipboard.writeText(link);
     }
+    const dispatch = useDispatch()
+    function setNewRoom() {
+        const amountOfWords = prompt('amountOfWords: ', '40')
+        const secondsForGame = prompt('secondsForGame: ', '30')
+        const roomId = auth.currentUser.uid
+        const text = generateRandomText(parseInt(amountOfWords))
+        dispatch(setNewRoomData({
+            roomId,
+            text,
+            secondsForGame:parseInt(secondsForGame),
+            mainState:'ROOM'
+        }))
 
+    }
     return (
         <header className={s.header}>
             <div className={s.left__bar}>
@@ -30,11 +50,9 @@ const Header = () => {
                 </div>
             </div>
             <div className={s.right__bar}>
-                {isInRoom
+                {roomId!=='testRoom'
                     ? <><p ref={linkRef} onClick={copyHandler}>copy invite link</p><Copy/></>
-                    : <button onClick={() => {
-                        setIsInRoom(true)
-                    }}>new room</button>}
+                    : <button onClick={setNewRoom}>new room</button>}
             </div>
         </header>
 
