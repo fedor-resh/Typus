@@ -69,7 +69,9 @@ const TextBox = () => {
             name
         }))
         setUserInRoom(roomId,name)
-        dispatch(toResults())
+        setTimeout(()=>{
+            dispatch(toResults())
+        },200)
     }
     function resetTextBoxState() {
 

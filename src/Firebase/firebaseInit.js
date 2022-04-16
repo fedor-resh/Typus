@@ -100,7 +100,7 @@ export function useResultsFromDatabase(roomId) {
                 }
                 setResults(res)
             });
-        },1000)
+        },500)
 
     }, [])
     return results
