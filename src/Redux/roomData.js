@@ -33,9 +33,9 @@ const resultSlider = createSlice({
         },
         toRestartGame:(state)=>{
             // const {text,secondsForGame} = action.payload
-            const amountOfWords = prompt('amountOfWords: ', '40')
+            // const amountOfWords = prompt('amountOfWords: ', '40')
             const secondsForGame = prompt('secondsForGame: ', '30')
-            state.text = generateRandomText(amountOfWords)
+            state.text = generateRandomText(20)
             state.secondsForGame = secondsForGame
             state.mainState = 'ROOM'
             database.ref(state.roomId+'/roomSettings').update({

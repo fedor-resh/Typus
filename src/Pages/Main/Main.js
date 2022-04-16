@@ -39,7 +39,7 @@ const Main = () => {
                 dispatch(setRoomData({roomId: hash, ...data}))
             });
         }
-        if(name!=='user'){
+        if(name!=='user'&&user){
             setUserInRoom(hash,name)
         }
     }, [user])

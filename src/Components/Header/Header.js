@@ -28,10 +28,10 @@ const Header = () => {
     }
     const dispatch = useDispatch()
     function setNewRoom() {
-        const amountOfWords = prompt('amountOfWords: ', '40')
+        // const amountOfWords = prompt('amountOfWords: ', '40')
         const secondsForGame = prompt('secondsForGame: ', '30')
         const roomId = auth.currentUser.uid
-        const text = generateRandomText(parseInt(amountOfWords))
+        const text = generateRandomText(20)
         dispatch(setNewRoomData({
             roomId,
             text,

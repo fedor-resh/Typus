@@ -15,6 +15,12 @@
     transition: .2s;
     opacity: .5;
 }
+.wrapper button:disabled,
+.wrapper button:disabled:hover{
+    cursor: revert;
+    opacity: .3;
+    background-color:var(--color-faded)
+}
 .wrapper button:hover,
 .wrapper button:focus{
     opacity: 1;

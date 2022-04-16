@@ -61,7 +61,6 @@ const TextBox = () => {
     }
 
     function endHandler() {
-        setIsStarted(false)
         dispatch(setResult({
             roomId,
             amountOfCharacters: indexOfCurrentCharacter,
@@ -98,6 +97,7 @@ const TextBox = () => {
         return [curPosition, curLine]
     }
     useEffect(() => {
+        setPositionOfCursorInDatabase(roomId, 0, 0)
         clearResultsInDatabase(roomId)
         setLengthOfLines(calculateLengthOfLines(textRef))
         return interval.stop
@@ -195,7 +195,7 @@ const TextBox = () => {
             />
             <div className={s.text__wrapper}>
                 <div ref={usersCursors}>
-                    {isStarted&&users&&users.map(user=> {
+                    {users&&users.map(user=> {
                             if (user.name !== name){
                                 return <Fragment key={user.name}>
                                     <div style={{

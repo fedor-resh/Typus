@@ -1,5 +1,5 @@
 .footer{
-    position: absolute;
+    position: fixed;
     inset: auto auto 20px;
     display: flex;
     width: 100%;
