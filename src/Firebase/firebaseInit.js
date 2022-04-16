@@ -24,12 +24,14 @@ export const firestore = firebase.firestore();
 export const database = firebase.database();
 
 export function setPositionOfCursorInDatabase(room, curLine,curPosition) {
+    if(!room) return
     database.ref(room + '/users/' + auth.currentUser.uid).update({
         curLine,
         curPosition
     })
 }
 export function setUserInRoom(room, name) {
+    if(!room) return
     database.ref(room + '/users/' + auth.currentUser.uid).set({
         name:name,
         curLine:0,
