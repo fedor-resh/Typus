@@ -118,10 +118,10 @@ const TextBox = () => {
         resetTextBoxState()
     },[text])
     useEffect(() => {
-        if (!seconds) {
+        if (mainState==='RESULTS'||!seconds) {
             endHandler()
         }
-    }, [seconds])
+    }, [mainState,seconds])
     useEffect(()=>{
         setSeconds(secondsForGame)
     },[secondsForGame])
