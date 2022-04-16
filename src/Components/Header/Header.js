@@ -9,13 +9,15 @@ import {ReactComponent as Copy} from '../../svg/copy-link 1.svg'
 import {useDispatch, useSelector} from 'react-redux';
 import {setNewRoomData} from '../../Redux/roomData';
 import {useAuthState} from 'react-firebase-hooks/auth';
-import {auth} from '../../Firebase/firebaseInit';
+import {auth, setUserInRoom} from '../../Firebase/firebaseInit';
+import {signOut} from 'firebase/auth'
 import {generateRandomText} from '../../utils';
 
 const Header = () => {
 
 
     const roomId = useSelector(state=> state.roomData.roomId)
+    const user = useSelector(state=> state.user.name)
 
     const linkRef = useRef(null)
 
@@ -36,6 +38,8 @@ const Header = () => {
             secondsForGame:parseInt(secondsForGame),
             mainState:'ROOM'
         }))
+        setUserInRoom(roomId,user)
+
 
     }
     return (
@@ -46,7 +50,7 @@ const Header = () => {
                     <Keyboard/>
                     <Settings/>
                     <Information/>
-                    <Profile/>
+                    <Profile onClick={()=>signOut(auth)}/>
                 </div>
             </div>
             <div className={s.right__bar}>

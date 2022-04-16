@@ -1,5 +1,6 @@
 .footer{
-    margin-top: 35vh;
+    position: absolute;
+    inset: auto auto 20px;
     display: flex;
     width: 100%;
     justify-content: center;

@@ -22,6 +22,27 @@
     transition: left 0.1s;
     border-radius: 3px;
 }
+.user__cursor{
+    position: absolute;
+    top: 4px;
+    left:0;
+    width: 3px;
+    height: 30px;
+    background-color: var(--color-bright);
+    transition: 0.5s;
+    border-radius: 3px;
+}
+.user__cursor+p{
+    font-size: 16px;
+    font-family:"Roboto Mono" ,sans-serif;
+    position: absolute;
+    color: var(--color-bright);
+    bottom: 25px;
+    left: 5px;
+    width:auto;
+    transition: 1s;
+
+}
 .disabled__letter{
     color: var(--color-text-nottyped);
 }
