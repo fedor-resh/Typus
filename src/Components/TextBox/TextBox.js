@@ -21,7 +21,7 @@ const TextBox = () => {
     const mainState = useSelector(state => state.roomData.mainState)
     const roomId = useSelector(state => state.roomData.roomId)
     const name = useSelector(state => state.user.name)
-    const users = useUsersFromDatabase(roomId)
+    const users = useUsersFromDatabase(roomId,name)
 
     const [indexOfCurrentCharacter, setIndexOfCurrentCharacter] = useState(0)
     const [lengthOfLines, setLengthOfLines] = useState([])

@@ -12,6 +12,7 @@ import {useAuthState} from 'react-firebase-hooks/auth';
 import {auth, setUserInRoom} from '../../Firebase/firebaseInit';
 import {signOut} from 'firebase/auth'
 import {generateRandomText} from '../../utils';
+import {setUser} from '../../Redux/user';
 
 const Header = () => {
 
@@ -50,7 +51,10 @@ const Header = () => {
                     <Keyboard/>
                     <Settings/>
                     <Information/>
-                    <Profile onClick={()=>signOut(auth)}/>
+                    <Profile onClick={()=>{
+                        // dispatch(setUser())
+                        signOut(auth)
+                    }}/>
                 </div>
             </div>
             <div className={s.right__bar}>

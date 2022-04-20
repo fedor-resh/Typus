@@ -24,7 +24,7 @@ export const firestore = firebase.firestore();
 export const database = firebase.database();
 
 export function setPositionOfCursorInDatabase(room, curLine, curPosition) {
-    if (room === 'testRoom') return
+    if (room === 'testRoom'||!room) return
     database.ref(room + '/users/' + auth.currentUser.uid).update({
         curLine,
         curPosition
@@ -32,7 +32,7 @@ export function setPositionOfCursorInDatabase(room, curLine, curPosition) {
 }
 
 export function setUserInRoom(room, name) {
-    if (room === 'testRoom') return
+    if (room === 'testRoom'||!room) return
     database.ref(room + '/users/' + auth.currentUser.uid).set({
         name: name,
         curLine: 0,
@@ -40,7 +40,7 @@ export function setUserInRoom(room, name) {
     })
 }
 
-export function useUsersFromDatabase(roomId) {
+export function useUsersFromDatabase(roomId,myName) {
     const [users, setUsers] = useState([])
     useEffect(() => {
         setTimeout(() => {
@@ -63,6 +63,7 @@ export function useUsersFromDatabase(roomId) {
                 console.log(arr)
 
                 const obj = snapshot.val()
+                if(obj.name === myName)return
                 const oldObj = arr.find(el => el.name === obj.name)
                 console.log(oldObj)
 

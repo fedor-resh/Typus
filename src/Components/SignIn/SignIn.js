@@ -10,7 +10,7 @@ import 'firebase/compat/database';
 
 const SignIn = () => {
 
-    async function signIn() {
+    async function signInWithGoogle() {
         const provider = new firebase.auth.GoogleAuthProvider();
         auth.signInWithPopup(provider)
             .then( async (result) => {
@@ -26,12 +26,54 @@ const SignIn = () => {
                 }
             })
     }
+    function singInWithEmail() {
+        const email = prompt('enter email')
+        const password = prompt('enter password')
+        auth.signInWithEmailAndPassword(email,password)
+            .then( async (result) => {
+                let data
+                await database.ref('users/' + result.user.uid + '/name').once('value',snapshot=>{
+                    data = snapshot.val()
+                })
+                if (!data) {
+                    const name = prompt('name on english(max length 5): ')
+                    dispatch(setUserInDatabase(name))
+                }else {
+                    setUser({name:data,id:result.user.uid})
+                }
+            })
+            .catch(()=>alert('error'))
+    }
+    function logInWithEmail() {
+        const email = prompt('enter email')
+        const password = prompt('enter password')
+        auth.createUserWithEmailAndPassword(email,password)
+            .then( async (result) => {
+                let data
+                await database.ref('users/' + result.user.uid + '/name').once('value',snapshot=>{
+                    data = snapshot.val()
+                })
+                if (!data) {
+                    const name = prompt('name on english(max length 5): ')
+                    dispatch(setUserInDatabase(name))
+                }else {
+                    setUser({name:data,id:result.user.uid})
+                }
+            })
+            .catch(()=>alert('error'))
+    }
 
     const dispatch = useDispatch()
     return (
         <div className={s.grid}>
-            <button onClick={signIn}>
-                SignIn
+            <button onClick={signInWithGoogle}>
+                Sign In With Google
+            </button>
+            <button onClick={singInWithEmail}>
+                Sign In With Email
+            </button>
+            <button onClick={logInWithEmail}>
+                log In With Email
             </button>
         </div>
     );
