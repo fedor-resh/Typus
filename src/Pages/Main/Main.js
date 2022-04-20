@@ -19,15 +19,13 @@ const Main = () => {
     const dispatch = useDispatch()
     useEffect(() => {
         if(user){
-            const setUse = async () => {
-                let data
+            const setUserInRedux = async () => {
                 await database.ref('users/' + user.uid + '/name').once('value',snapshot=>{
-                    data = snapshot.val()
+                    console.log(snapshot.val())
+                    dispatch(setUser({name:snapshot.val(),id:user.uid}))
                 })
-                console.log('data: '+data)
-                dispatch(setUser({name:data,id:user.uid}))
             }
-            setUse()
+            setUserInRedux()
         }
 
         const hash = window.location.hash.substring(1)
@@ -36,6 +34,7 @@ const Main = () => {
 
             database.ref(hash + '/roomSettings').on('value', (snapshot) => {
                 const data = snapshot.val();
+                console.log(data)
                 dispatch(setRoomData({roomId: hash, ...data}))
             });
         }

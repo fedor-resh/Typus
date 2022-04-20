@@ -8,10 +8,11 @@ import {useInterval} from '@mantine/hooks';
 import {setResult} from '../../Redux/resultSlider';
 import {
     auth,
-    clearResultsInDatabase,
+    clearResultsInDatabase, clearUsersInRoom,
     setPositionOfCursorInDatabase, setUserInRoom,
     useUsersFromDatabase
 } from '../../Firebase/firebaseInit';
+
 
 
 const TextBox = () => {
@@ -68,11 +69,14 @@ const TextBox = () => {
             amountOfMistakes: mistakes.length,
             name
         }))
-        setUserInRoom(roomId,name)
-        dispatch(toResults())
+
+        setTimeout(()=>{
+            dispatch(toResults())
+            clearUsersInRoom(roomId)
+        },300)
     }
     function resetTextBoxState() {
-
+        setUserInRoom(roomId,name)
         setLengthOfLines(calculateLengthOfLines(textRef))
         setIndexOfCurrentCharacter(0)
         setMistakes([])
@@ -97,14 +101,12 @@ const TextBox = () => {
         return [curPosition, curLine]
     }
     useEffect(() => {
-        setPositionOfCursorInDatabase(roomId, 0, 0)
         clearResultsInDatabase(roomId)
+        setUserInRoom(roomId,name)
         setLengthOfLines(calculateLengthOfLines(textRef))
+        console.log({users})
         return interval.stop
     }, [])
-    useEffect(()=>{
-        console.log('users: '+users)
-    },[users])
     useEffect(()=>{
         if(mainState==='ROOM_TYPE'){
             setTimeout(()=>{
@@ -118,10 +120,10 @@ const TextBox = () => {
         resetTextBoxState()
     },[text])
     useEffect(() => {
-        if (!seconds) {
+        if (mainState==='RESULTS'||!seconds) {
             endHandler()
         }
-    }, [seconds])
+    }, [mainState,seconds])
     useEffect(()=>{
         setSeconds(secondsForGame)
     },[secondsForGame])

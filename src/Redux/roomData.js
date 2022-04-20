@@ -29,11 +29,8 @@ const resultSlider = createSlice({
             state.text = text
             state.secondsForGame = secondsForGame
             state.mainState = mainState
-            // console.log({roomId,text,secondsForGame,mainState})
         },
         toRestartGame:(state)=>{
-            // const {text,secondsForGame} = action.payload
-            // const amountOfWords = prompt('amountOfWords: ', '40')
             const secondsForGame = prompt('secondsForGame: ', '30')
             state.text = generateRandomText(20)
             state.secondsForGame = secondsForGame

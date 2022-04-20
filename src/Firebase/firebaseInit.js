@@ -23,55 +23,64 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 export const database = firebase.database();
 
-export function setPositionOfCursorInDatabase(room, curLine,curPosition) {
+export function setPositionOfCursorInDatabase(room, curLine, curPosition) {
+    if (room === 'testRoom') return
     database.ref(room + '/users/' + auth.currentUser.uid).update({
         curLine,
         curPosition
     })
 }
+
 export function setUserInRoom(room, name) {
+    if (room === 'testRoom') return
     database.ref(room + '/users/' + auth.currentUser.uid).set({
-        name:name,
-        curLine:0,
-        curPosition:0
+        name: name,
+        curLine: 0,
+        curPosition: 0
     })
 }
+
 export function useUsersFromDatabase(roomId) {
     const [users, setUsers] = useState([])
     useEffect(() => {
-        const arr = users
-        const ref = database.ref(roomId + '/users');
-        ref.once('value', (snapshot) => {
-            const obj = snapshot.val()
-            for (let id in obj) {
-                arr.push(obj[id])
-            }
-            console.log(arr)
-            setUsers(arr)
-        });
+        setTimeout(() => {
 
-        ref.on('child_changed', (snapshot) => {
+
             const arr = users
-            console.group()
-            console.log(arr)
+            const ref = database.ref(roomId + '/users');
+            ref.once('value', (snapshot) => {
+                const obj = snapshot.val()
+                for (let id in obj) {
+                    arr.push(obj[id])
+                }
+                console.log(arr)
+                setUsers(arr)
+            });
 
-            const obj = snapshot.val()
-            const oldObj = arr.find(el=>el.name === obj.name)
-            console.log(oldObj)
+            ref.on('child_changed', (snapshot) => {
+                const arr = users
+                console.group()
+                console.log(arr)
 
-            // if(oldObj){
-            arr[arr.indexOf(oldObj)] = obj
-            // }else {
-            //     arr.push(obj)
-            // }
-            console.log(arr)
-            console.groupEnd()
+                const obj = snapshot.val()
+                const oldObj = arr.find(el => el.name === obj.name)
+                console.log(oldObj)
 
-            setUsers(arr)
-        });
+                if (oldObj) {
+                    arr[arr.indexOf(oldObj)] = obj
+                } else {
+                    arr.push(obj)
+                }
+                console.log(arr)
+                console.groupEnd()
+
+                setUsers(arr)
+            });
+        }, 200)
+
     }, [roomId])
-
     return users
+
 }
 
 export function setResultsInDatabase(room, name, userId, charPerMinute, PercentageOfRight, ball) {
@@ -88,17 +97,15 @@ export function useResultsFromDatabase(roomId) {
 
     useEffect(() => {
         const ref = database.ref(roomId + '/results');
-        setTimeout(()=>{
-            ref.once('value', (snapshot) => {
-                const res = [...results]
+        ref.once('value', (snapshot) => {
+            const res = [...results]
 
-                const obj = snapshot.val()
-                for (let id in obj) {
-                    res.push(obj[id])
-                }
-                setResults(res)
-            });
-        },1000)
+            const obj = snapshot.val()
+            for (let id in obj) {
+                res.push(obj[id])
+            }
+            setResults(res)
+        });
 
     }, [])
     return results
@@ -106,7 +113,11 @@ export function useResultsFromDatabase(roomId) {
 
 
 export function clearResultsInDatabase(room) {
-    database.ref(room + '/results').set({});
+    database.ref(room + '/results').remove();
+}
+
+export function clearUsersInRoom(roomId) {
+    database.ref(roomId + '/users').remove();
 }
 
 // export function useResultsFromDatabase(room) {
