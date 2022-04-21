@@ -1,7 +1,6 @@
 
 .text__wrapper{
-    /*padding: 20px;*/
-    /*max-width: 800px;*/
+    margin-top: 50px;
     position: relative;
     max-height: 400px;
 }

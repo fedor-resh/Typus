@@ -1,13 +1,16 @@
 .header{
     font-family: "Cubano Normal",sans-serif;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 50px 20px;
     margin: auto;
     max-width:800px ;
-    flex-wrap: wrap;
 
+
+}
+.top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
 }
 .header svg{
     fill:var(--color-faded);
@@ -25,7 +28,6 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    margin: 20px 0 ;
 }
 .left__bar h1{
     font-size: 40px;
@@ -70,8 +72,34 @@
     color:var(--color-hover)
 }
 
+.settings{
+    color:var(--color-faded);
+}
+.settings span{
+    font-size: 16px;
+    padding-right: 5px;
+    cursor: default;
+    transition: color .2s;
+}
+.isAuth span{
+    cursor: pointer;
+}
+.selected,
+.isAuth span:hover,
+.settings span:focus-visible{
+    color: var(--color-bright);
+    cursor: pointer;
+}
+
 .flex{
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+    .left__bar{
+        margin: 10px 0 ;
+    }
+
 }

@@ -1,4 +1,6 @@
 .text{
+    position: absolute;
+    top: -35px;
     color: var(--color-text-correct);
     font-size: 24px;
     font-family:"Roboto Mono" ,sans-serif;

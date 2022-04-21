@@ -59,12 +59,13 @@ export function useUsersFromDatabase(roomId,myName) {
 
             ref.on('child_changed', (snapshot) => {
                 const arr = users
-                console.group()
-                console.log(arr)
+
 
                 const obj = snapshot.val()
                 if(obj.name === myName)return
                 const oldObj = arr.find(el => el.name === obj.name)
+                console.group()
+                console.log(arr)
                 console.log(oldObj)
 
                 if (oldObj) {

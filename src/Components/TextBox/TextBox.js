@@ -20,8 +20,12 @@ const TextBox = () => {
     const secondsForGame = useSelector(state => state.roomData.secondsForGame)
     const mainState = useSelector(state => state.roomData.mainState)
     const roomId = useSelector(state => state.roomData.roomId)
+    const language = useSelector(state => state.roomData.language)
     const name = useSelector(state => state.user.name)
     const users = useUsersFromDatabase(roomId,name)
+    const isEndTimeDependsOnTime = useSelector(state=> state.roomData.isEndTimeDependsOnTime)
+
+
 
     const [indexOfCurrentCharacter, setIndexOfCurrentCharacter] = useState(0)
     const [lengthOfLines, setLengthOfLines] = useState([])
@@ -40,8 +44,6 @@ const TextBox = () => {
             cursorRef.style.top = `${(curLine) * 38 + 4}px`
             cursorRef.style.left = `${(curPosition) * 14.9 - 1}px`
         }
-        // console.log({curLine, curPosition, cursorRef})
-
     }
 
     function calculateLengthOfLines(textRef) {
@@ -118,7 +120,7 @@ const TextBox = () => {
     },[mainState])
     useEffect(()=>{
         resetTextBoxState()
-    },[text])
+    },[text,language])
     useEffect(() => {
         if (mainState==='RESULTS'||!seconds) {
             endHandler()
@@ -144,7 +146,9 @@ const TextBox = () => {
             return
 
         function isAllowedKeyboardKey(key) {
-            return (key.length === 1 && key.match(/[a-z]/i))
+            return (key.length === 1
+                    // && (key.match(/[a-z]/i) || key.match(/[а-я]/i))
+                )
                 || key === 'Backspace'
                 || key === ' '
         }
@@ -184,18 +188,19 @@ const TextBox = () => {
                 curLine++
             }
         }
-        setPositionOfCursorInDatabase(roomId, curLine, curPosition)
+        setPositionOfCursorInDatabase(roomId, curLine, curPosition,)
         setStyles(curLine, curPosition,cursorRef.current)
         setIndexOfCurrentCharacter(index)
     }
 
     return (
         <>
-            <Timer
-                playStartAnimation={mainState==='ROOM_TYPE'}
-                seconds={seconds}
-            />
+
             <div className={s.text__wrapper}>
+                {isEndTimeDependsOnTime&&<Timer
+                    playStartAnimation={mainState==='ROOM_TYPE'}
+                    seconds={seconds}
+                />}
                 <div ref={usersCursors}>
                     {users&&users.map(user=> {
                             if (user.name !== name){
