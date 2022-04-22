@@ -45,13 +45,13 @@ const SignIn = () => {
     return (
         <div className={s.grid}>
             <button onClick={signInWithGoogle}>
-                Sign In With Google
+                sign in with google
             </button>
             <button onClick={singInWithEmail}>
-                Sign In With Email
+                already have an account
             </button>
             <button onClick={logInWithEmail}>
-                log In With Email
+                Create account
             </button>
         </div>
     );

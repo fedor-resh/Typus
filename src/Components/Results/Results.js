@@ -11,22 +11,10 @@ const Results = () => {
     useEffect(()=>{
         console.log(results)
     },[results])
-
-    // const [results, setResults] = useState([])
-    //
-    // useEffect(() => {
-    //     const res = []
-    //
-    //     const ref = database.ref(roomId + '/results');
-    //     ref.on('value', (snapshot) => {
-    //         const obj = snapshot.val()
-    //         res.push(obj)
-    //         setResults(res)
-    //     });
-    //     console.log(results)
-    //
-    //     // ref.set({})
-    // },[])
+    // console.log(results.reduce((max,el)=>el.ball>max.ball?el:max),0)
+    // const winner = results.indexOf(results.reduce((max,el)=>el.ball>max.ball?el:max),0)
+    // console.log(winner)
+    const styles = (id) => id===0?{color:'gold'}:(id===1?{color:'silver'}:(id===2?{color:'#a87030'}:{}))
 
     return (
         <div>
@@ -35,12 +23,14 @@ const Results = () => {
                 <p className={s.executiveSystem}>cpm</p>
                 <p className={s.executiveSystem}>acc</p>
                 <p className={s.executiveSystem}>ball</p>
-                {results&&results.map(({name,charPerMinute,PercentageOfRight,ball})=>
-                    <Fragment key={name}>
-                        <p className={s.name}>{name}</p>
-                        <p className={s.number}>{charPerMinute}</p>
-                        <p className={s.number}>{PercentageOfRight + '%'}</p>
-                        <p className={s.number}>{ball}</p>
+                {results&&results
+                    .sort((f,s)=>s.ball - f.ball)
+                    .map(({name,charPerMinute,PercentageOfRight,ball},id)=>
+                    <Fragment key={id}>
+                        <p className={s.name} style={id===0?{color:'#b8a439'}:(id===1?{color:'#a1a1a1'}:(id===2?{color:'#8b694b'}:{}))}>{name}</p>
+                        <p className={s.number} style={id===0?{color:'#b8a439'}:(id===1?{color:'#a1a1a1'}:(id===2?{color:'#8b694b'}:{}))}>{charPerMinute}</p>
+                        <p className={s.number} style={id===0?{color:'#b8a439'}:(id===1?{color:'#a1a1a1'}:(id===2?{color:'#8b694b'}:{}))}>{PercentageOfRight + '%'}</p>
+                        <p className={s.number} style={id===0?{color:'#b8a439'}:(id===1?{color:'#a1a1a1'}:(id===2?{color:'#8b694b'}:{}))}>{ball}</p>
                     </Fragment>
 
                 )}

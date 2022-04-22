@@ -15,6 +15,7 @@
 .name{
     margin-top: 50px;
 }
+
 .grid{
     display: grid;
     grid-template-columns:repeat(4,1fr) ;

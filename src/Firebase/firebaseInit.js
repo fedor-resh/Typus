@@ -122,38 +122,4 @@ export function clearUsersInRoom(roomId) {
     database.ref(roomId + '/users').remove();
 }
 
-// export function useResultsFromDatabase(room) {
-//     const [results,setResults] = useState([])
-//
-//     useEffect(()=>{
-//         const res = []
-//         const ref = database.ref(room + '/results');
-//         ref.once('value', (snapshot) => {
-//             const obj = snapshot.val()
-//             for(let id in obj){
-//                 res.push(obj[id])
-//             }
-//             setResults(res)
-//         });
-//     },[])
-//
-//
-//     return results
-//
-// }
 
-// export function useData(collection){
-//     const [state, setState] = useState([])
-//     useEffect(() => onSnapshot(firestore.collection(collection), (snapshot) => {
-//         setState(snapshot.docs.map((doc)=>({...doc.data(),id:doc.id})))
-//     }), [])
-//     return state
-// }
-// export function createNewRoomCollection(roomId) {
-//     firestore.collection(roomId).doc('roomSettings').set({
-//         roomId
-//     })
-// }
-export const signInWithGoogle = async () => {
-
-}
