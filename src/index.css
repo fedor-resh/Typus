@@ -19,6 +19,7 @@ body {
   background: linear-gradient(65.59deg, #0F2027 10.87%, #274957 102.25%) no-repeat;
   background-size: cover;
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 *{

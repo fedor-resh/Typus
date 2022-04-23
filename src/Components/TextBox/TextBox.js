@@ -3,7 +3,7 @@ import s from './TextBox.module.css'
 import '../../fonts/fonts.css'
 import {useDispatch, useSelector} from 'react-redux';
 import {toEnd, toResults, toStart} from '../../Redux/roomData';
-import Timer from '../Timer/Timer';
+import Timer from '../../UI/Timer/Timer';
 import {useInterval} from '@mantine/hooks';
 import {setResult} from '../../Redux/resultSlider';
 import {

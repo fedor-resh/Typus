@@ -1,0 +1,53 @@
+.full {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: 0;
+}
+
+.container {
+  position: fixed;
+  z-index: 9999;
+  composes: full;
+}
+
+.backdrop {
+  position: fixed;
+  background: rgba(45, 46, 56, 0.5);;
+  composes: full;
+  backdrop-filter: blur(10px);
+}
+
+.modal {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  composes: full;
+}
+
+.window {
+  position: relative;
+  overflow: auto;
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  border-radius: 20px;
+  background: linear-gradient(65.59deg, #162f39 10.87%, #274957 102.25%);
+  box-shadow: 0 10px 50px rgba(9, 9, 9, 0.48);
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 18px;
+  height: 18px;
+  padding: 6px;
+  cursor: pointer;
+  background: url("close.png") 50% 50% no-repeat;
+}

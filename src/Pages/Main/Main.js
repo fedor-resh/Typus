@@ -8,7 +8,7 @@ import SignIn from '../../Components/SignIn/SignIn';
 import {auth, database,  setUserInRoom} from '../../Firebase/firebaseInit';
 import {useEffect} from 'react';
 import { setRoomData} from '../../Redux/roomData';
-import RestartButton from '../../Components/RestartButton/RestartButton';
+import RestartButton from '../../UI/RestartButton/RestartButton';
 import {setUser} from '../../Redux/user';
 
 
