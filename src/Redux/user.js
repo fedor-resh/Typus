@@ -16,8 +16,8 @@ const user = createSlice({
             })
         },
         setUser:(state,action)=>{
-            state.id = action.payload.id
-            state.name = action.payload.name
+            state.id = action.payload.id ?? state.id
+            state.name = action.payload.name ?? state.name
         }
 
     }

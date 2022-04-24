@@ -4,6 +4,11 @@
     display: flex;
     width: 100%;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.footer *{
+    transition: color 0.2s;
 }
 .footer a{
     text-decoration: none;

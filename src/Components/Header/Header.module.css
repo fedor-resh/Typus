@@ -97,6 +97,10 @@
     flex-wrap: wrap;
 }
 
+.user__name{
+    color: var(--color-faded);
+}
+
 @media (max-width: 600px) {
     .left__bar{
         margin: 10px 0 ;

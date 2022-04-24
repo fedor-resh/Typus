@@ -3,36 +3,52 @@ import {auth, database} from '../Firebase/firebaseInit';
 import {generateRandomText} from '../utils';
 
 
-
 const resultSlider = createSlice({
-    name:'roomData',
-    initialState:{
-        roomId:'testRoom',
-        text:'lorem ipsum dolor sit amet consectetur adipisicing elit accusamus consequuntur cum cumque cupiditate deserunt distinctio illum laboriosam nesciunt nulla obcaecati optio quidem reprehenderit saepe sed sunt veritatis voluptas voluptate voluptatibus',
-        secondsForGame:30,
-        mainState:'ROOM',//  ROOM||ROOM_TYPE||RESULTS
-        language:'en', //en||ru
-        amountOfWords:20,
-        isEndTimeDependsOnTime:true
-    },reducers:{
-        setNewRoomData:(state,action)=>{
-            const {roomId,text,secondsForGame,mainState} = action.payload
-            state.roomId = roomId
-            state.text = text
-            state.secondsForGame = secondsForGame
-            state.mainState = mainState
+    name: 'roomData',
+    initialState: {
+        roomId: 'testRoom',
+        text: 'lorem ipsum dolor sit amet consectetur adipisicing elit accusamus consequuntur cum cumque cupiditate deserunt distinctio illum laboriosam nesciunt nulla obcaecati optio quidem reprehenderit saepe sed sunt veritatis voluptas voluptate voluptatibus',
+        secondsForGame: 30,
+        mainState: 'ROOM',//  ROOM||ROOM_TYPE||RESULTS
+        language: 'en', //en||ru
+        amountOfWords: 20,
+        isEndTimeDependsOnTime: true
+    }, reducers: {
+        setDefaultRoomData: (state) => {
+            state.roomId = 'testRoom'
+            state.text = 'lorem ipsum dolor sit amet consectetur adipisicing elit accusamus consequuntur cum cumque cupiditate deserunt distinctio illum laboriosam nesciunt nulla obcaecati optio quidem reprehenderit saepe sed sunt veritatis voluptas voluptate voluptatibus'
+            state.secondsForGame = 30
+            state.mainState = 'ROOM'//  ROOM||ROOM_TYPE||RESULTS
+            state.language = 'en' //en||ru
+            state.amountOfWords = 20
+            state.isEndTimeDependsOnTime = true
 
-            database.ref(roomId+'/roomSettings').set({
+        },
+        setNewRoomData: (state) => {
+            state.roomId = auth.currentUser.uid
+            state.text = generateRandomText(20, 'en')
+            state.secondsForGame = 30
+            state.mainState = 'ROOM'
+
+            database.ref(state.roomId + '/roomSettings').set({
+                text: state.text,
+                secondsForGame: state.secondsForGame,
+                mainState: state.mainState,
+                amountOfWords: 20,
+                language: 'en',
+                isEndTimeDependsOnTime: true,
+            })
+        },
+        setRoomData: (state, action) => {
+            const {
+                roomId,
                 text,
                 secondsForGame,
                 mainState,
-                amountOfWords:20,
-                language:'en',
-                isEndTimeDependsOnTime:true,
-            })
-        },
-        setRoomData:(state,action)=>{
-            const {roomId,text,secondsForGame,mainState,amountOfWords,language,isEndTimeDependsOnTime} = action.payload
+                amountOfWords,
+                language,
+                isEndTimeDependsOnTime
+            } = action.payload
             state.roomId = roomId
             state.text = text
             state.secondsForGame = secondsForGame
@@ -41,52 +57,61 @@ const resultSlider = createSlice({
             state.language = language
             state.isEndTimeDependsOnTime = isEndTimeDependsOnTime
         },
-        toRestartGame:(state)=>{
-            state.text = generateRandomText(state.amountOfWords,state.language)
+        toRestartGame: (state) => {
+            state.text = generateRandomText(state.amountOfWords, state.language)
             state.mainState = 'ROOM'
-            database.ref(state.roomId+'/roomSettings').update({
-                text:state.text,
-                mainState:'ROOM'
+            database.ref(state.roomId + '/roomSettings').update({
+                text: state.text,
+                mainState: 'ROOM'
             })
         },
-        updateRoomData:(state,action)=>{
-            if(state.mainState==='ROOM_TYPE'||auth.currentUser.uid!==state.roomId)return
+        updateRoomData: (state, action) => {
+            if (state.mainState === 'ROOM_TYPE' || auth.currentUser.uid !== state.roomId) return
             const updated = action.payload
-            const {secondsForGame,amountOfWords,language,isEndTimeDependsOnTime} = updated
+            const {secondsForGame, amountOfWords, language, isEndTimeDependsOnTime} = updated
 
-            if(secondsForGame)state.secondsForGame = secondsForGame
-            if(amountOfWords)state.amountOfWords = amountOfWords
-            if(isEndTimeDependsOnTime !== undefined)state.isEndTimeDependsOnTime = isEndTimeDependsOnTime
-            if(language)state.language = language
+            if (secondsForGame) state.secondsForGame = secondsForGame
+            if (amountOfWords) state.amountOfWords = amountOfWords
+            if (isEndTimeDependsOnTime !== undefined) state.isEndTimeDependsOnTime = isEndTimeDependsOnTime
+            if (language) state.language = language
 
-            if(language||amountOfWords)state.text = generateRandomText(state.amountOfWords,state.language)
+            if (language || amountOfWords) state.text = generateRandomText(state.amountOfWords, state.language)
 
-            database.ref(state.roomId+'/roomSettings').update({
+            database.ref(state.roomId + '/roomSettings').update({
                 ...updated,
-                text:state.text
+                text: state.text
             })
         },
-        toResults:state => {
+        toResults: state => {
             state.mainState = 'RESULTS'
-            database.ref(state.roomId+'/roomSettings').update({
-                mainState:'RESULTS'
+            database.ref(state.roomId + '/roomSettings').update({
+                mainState: 'RESULTS'
             })
         },
-        toRoom:state => {
+        toRoom: state => {
             state.mainState = 'ROOM'
-            database.ref(state.roomId+'/roomSettings').update({
-                mainState:'ROOM'
+            database.ref(state.roomId + '/roomSettings').update({
+                mainState: 'ROOM'
             })
         },
-        toStart:state => {
+        toStart: state => {
             state.mainState = 'ROOM_TYPE'
-            database.ref(state.roomId+'/roomSettings').update({
-                mainState:'ROOM_TYPE'
+            database.ref(state.roomId + '/roomSettings').update({
+                mainState: 'ROOM_TYPE'
             })
         }
     }
 })
 
-export const {setRoomData,updateRoomData,setNewRoomData,toResults,toStart,toRoom,toRestartGame} = resultSlider.actions
+export const {
+    setRoomData,
+    updateRoomData,
+    setNewRoomData,
+    toResults,
+    toStart,
+    toRoom,
+    toRestartGame,
+    setDefaultRoomData
+} = resultSlider.actions
 
 export const roomDataReducer = resultSlider.reducer

@@ -11,7 +11,7 @@
 
 .container {
   position: fixed;
-  z-index: 9999;
+  /*z-index: 9999;*/
   composes: full;
 }
 
@@ -19,7 +19,7 @@
   position: fixed;
   background: rgba(45, 46, 56, 0.5);;
   composes: full;
-  backdrop-filter: blur(10px);
+  /*backdrop-filter: blur(10px);*/
 }
 
 .modal {

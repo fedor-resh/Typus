@@ -53,7 +53,6 @@ export function useUsersFromDatabase(roomId,myName) {
                 for (let id in obj) {
                     arr.push(obj[id])
                 }
-                console.log(arr)
                 setUsers(arr)
             });
 
@@ -64,17 +63,12 @@ export function useUsersFromDatabase(roomId,myName) {
                 const obj = snapshot.val()
                 if(obj.name === myName)return
                 const oldObj = arr.find(el => el.name === obj.name)
-                console.group()
-                console.log(arr)
-                console.log(oldObj)
 
                 if (oldObj) {
                     arr[arr.indexOf(oldObj)] = obj
                 } else {
                     arr.push(obj)
                 }
-                console.log(arr)
-                console.groupEnd()
 
                 setUsers(arr)
             });

@@ -10,7 +10,6 @@ import 'firebase/compat/database';
 import Modal from '../../UI/Modal/Modal';
 
 const SignIn = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false)
     const [isAlreadyHaveAccount, setIsAlreadyHaveAccount] = useState(true)
     const email = useRef(null)
     const password = useRef(null)
@@ -18,16 +17,18 @@ const SignIn = () => {
     const dispatch = useDispatch()
 
     async function handleRegistration(result) {
-        let data
-        await database.ref('users/' + result.user.uid + '/name').once('value', snapshot => {
-            data = snapshot.val()
+        let name
+        await database.ref('users/' + result.user.uid + '/name').once('value', async snapshot => {
+            name = await snapshot.val()
         })
-        if (!data) {
+        if (!name) {
             const name = prompt('name on english(max length 5): ')
-            dispatch(setUserInDatabase(name))
+            await dispatch(setUserInDatabase(name))
         } else {
-            setUser({name: data, id: result.user.uid})
+            setUser({name, id: result.user.uid})
         }
+        console.log(name)
+
     }
 
     function signInWithGoogle() {
@@ -37,48 +38,40 @@ const SignIn = () => {
             .catch(err => alert(err))
     }
 
-    function singInWithEmail() {
-        setIsAlreadyHaveAccount(true)
-        setIsModalOpen(true)
-    }
-
-    function logInWithEmail() {
-        setIsAlreadyHaveAccount(false)
-        setIsModalOpen(true)
-    }
-
     function handleSubmit() {
         if (isAlreadyHaveAccount) {
             auth.signInWithEmailAndPassword(email.current.value, password.current.value)
                 .then(handleRegistration)
-                .catch(err => alert(err))
+                .catch(() => alert('Account was not found'))
         } else {
             auth.createUserWithEmailAndPassword(email.current.value, password.current.value)
                 .then(handleRegistration)
-                .catch(err => alert(err))
+                .catch(() => alert('Account with this email already exist'))
         }
     }
 
     return (
         <div >
-            {isModalOpen && <Modal onClose={() => setIsModalOpen(false)}>
                 <div className={s.modal}>
                     <center><h1>{isAlreadyHaveAccount?'enter':'create new account'}</h1></center>
                     <center><input placeholder={'email'} ref={email} type="email"/></center>
                     <center><input placeholder={'password'} ref={password} type='password'/></center>
                     <center><button onClick={handleSubmit}>submit</button></center>
+                    <center>
+                        <button onClick={isAlreadyHaveAccount
+                            ?()=>setIsAlreadyHaveAccount(false)
+                            :()=>setIsAlreadyHaveAccount(true)}>
+                            {isAlreadyHaveAccount?'already have account':'create new account'}
+                        </button>
+                    </center>
+                    <center>
+                        <button onClick={signInWithGoogle}>
+                            sign in with google
+                        </button>
+                    </center>
                 </div>
-            </Modal>}
             <div className={s.grid}>
-                <button onClick={signInWithGoogle}>
-                    sign in with google
-                </button>
-                <button onClick={singInWithEmail}>
-                    already have an account
-                </button>
-                <button onClick={logInWithEmail}>
-                    Create account
-                </button>
+
             </div>
         </div>
 

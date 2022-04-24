@@ -10,6 +10,8 @@
     font-family:"Roboto Mono" ,sans-serif;
     line-height: 38px;
     letter-spacing: 0.5px;
+    /*background-image: var(--text-gradient-background);*/
+    /*-webkit-background-clip: text;*/
 }
 .cursor{
     position: absolute;
@@ -20,6 +22,7 @@
     background-color: var(--color-brighter);
     transition: left 0.1s;
     border-radius: 3px;
+
 }
 .user__cursor{
     position: absolute;
@@ -43,8 +46,13 @@
 
 }
 .disabled__letter{
+    -webkit-text-fill-color: initial;
     color: var(--color-text-nottyped);
 }
+/*.right__letter{*/
+    /*-webkit-text-fill-color: transparent;*/
+/*}*/
 .mistake__letter{
+    -webkit-text-fill-color: initial;
     color: var(--color-text-error);
 }

@@ -21,7 +21,6 @@ const Main = () => {
         if(user){
             const setUserInRedux = async () => {
                 await database.ref('users/' + user.uid + '/name').once('value',snapshot=>{
-                    console.log(snapshot.val())
                     dispatch(setUser({name:snapshot.val(),id:user.uid}))
                 })
             }
@@ -34,7 +33,6 @@ const Main = () => {
 
             database.ref(hash + '/roomSettings').on('value', (snapshot) => {
                 const data = snapshot.val();
-                console.log(data)
                 dispatch(setRoomData({roomId: hash, ...data}))
             });
         }

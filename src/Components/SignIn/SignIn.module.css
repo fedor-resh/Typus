@@ -30,7 +30,7 @@
     border: none;
     border-radius: 5px;
     margin: 0 0 10px 0;
-    width: 50%;
+    width: min(400px, 100%);
 
 }
 
@@ -46,7 +46,7 @@ input::placeholder{
     color: var(--color-bright);
     background-color: var(--color-background);
     box-shadow: 0 3px 20px rgba(0, 0, 0, 0.56) inset;
-    width: calc(50% - 40px);
+    width: min(360px, calc(100% - 40px));
 
 }
 

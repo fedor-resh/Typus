@@ -7,8 +7,8 @@ const Modal = ({children, onClose}) => {
   const handleClose = () => onClose();
 
   return ReactDOM.createPortal(
-    <div className={styles.container} onClick={handleClose}>
-      <div className={styles.backdrop}/>
+    <div className={styles.container} >
+      <div className={styles.backdrop} onClick={handleClose}/>
       <div className={styles.modal}>
         <div className={styles.window}>
           {/*<div className={styles.close} onClick={handleClose}/>*/}

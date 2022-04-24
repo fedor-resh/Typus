@@ -106,7 +106,6 @@ const TextBox = () => {
         clearResultsInDatabase(roomId)
         setUserInRoom(roomId,name)
         setLengthOfLines(calculateLengthOfLines(textRef))
-        console.log({users})
         return interval.stop
     }, [])
     useEffect(()=>{
@@ -191,6 +190,7 @@ const TextBox = () => {
         setPositionOfCursorInDatabase(roomId, curLine, curPosition,)
         setStyles(curLine, curPosition,cursorRef.current)
         setIndexOfCurrentCharacter(index)
+
     }
 
     return (
@@ -226,7 +226,7 @@ const TextBox = () => {
                 <p ref={textRef} className={s.text}>
                     {Array.from(text).map((character, id) =>
                         <span
-                            className={`${id >= indexOfCurrentCharacter ? s.disabled__letter : ''} ${mistakes.includes(id) ? s.mistake__letter : ''}`}
+                            className={`${id >= indexOfCurrentCharacter ? s.disabled__letter : s.right__letter} ${mistakes.includes(id) ? s.mistake__letter : ''}`}
                             key={id}>{character}
                         </span>
                     )}

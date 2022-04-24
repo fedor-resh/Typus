@@ -7,7 +7,7 @@ import {ReactComponent as Information} from '../../svg/information.svg'
 import {ReactComponent as Settings} from '../../svg/settings.svg'
 import {ReactComponent as Copy} from '../../svg/copy-link 1.svg'
 import {useDispatch, useSelector} from 'react-redux';
-import {setNewRoomData, updateRoomData} from '../../Redux/roomData';
+import {setDefaultRoomData, setNewRoomData, updateRoomData} from '../../Redux/roomData';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {auth, setUserInRoom} from '../../Firebase/firebaseInit';
 import {signOut} from 'firebase/auth'
@@ -23,25 +23,17 @@ const Header = () => {
     const isEndTimeDependsOnTime = useSelector(state=> state.roomData.isEndTimeDependsOnTime)
     const name = useSelector(state=> state.user.name)
 
+
     const linkRef = useRef(null)
 
-    const link = `https://react-keyboard-runner.vercel.app#${roomId}`
+    const link = `https://www.typus.ga#${roomId}`
 
     async function copyHandler() {
         await navigator.clipboard.writeText(link);
     }
     const dispatch = useDispatch()
     function setNewRoom() {
-        // const amountOfWords = prompt('amountOfWords: ', '40')
-        const secondsForGame = prompt('secondsForGame: ', '30')
-        const roomId = auth.currentUser.uid
-        const text = generateRandomText(20)
-        dispatch(setNewRoomData({
-            roomId,
-            text,
-            secondsForGame:parseInt(secondsForGame),
-            mainState:'ROOM'
-        }))
+        dispatch(setNewRoomData())
         setUserInRoom(roomId,name)
     }
     return (
@@ -57,10 +49,11 @@ const Header = () => {
                 <Settings/>
                 <Information/>
                 <Profile onClick={()=>{
-                    // dispatch(setUser())
-                    signOut(auth)
+                    signOut(auth).catch(err=>alert(err))
+                    // dispatch(setUser({name:'user'}))
+                    dispatch(setDefaultRoomData())
                 }}/>
-
+                <p className={s.user__name}>{name}</p>
             </div>
             </div>
             <div className={s.right__bar}>

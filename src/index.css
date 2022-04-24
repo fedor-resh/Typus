@@ -8,6 +8,7 @@
   --color-text-nottyped:var(--color-faded);
   --color-background: #193e4e;
   --color-brighter: #d5ac00;
+  --text-gradient-background:linear-gradient(267deg, #30b2bf 7.12%, #3788bf 99.74%)
   /*--color-background:linear-gradient(65.59deg, #0F2027 10.87%, #274957 102.25%);*/
 }
 
