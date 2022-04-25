@@ -1,0 +1,36 @@
+.Ocean{
+    --color-footer: #356578;
+    --color-faded:#43819A;
+    --color-hover: #62a8c2;
+    --color-bright:#65BAD4;
+    --color-text-correct:#FF6A00;
+    --color-text-error: #900400;
+    --color-text-nottyped:var(--color-faded);
+    --color-background: #193e4e;
+    --color-brighter: #d5ac00;
+    --background-gradient:linear-gradient(65.59deg, #0F2027 10.87%, #274957 102.25%) no-repeat;
+}
+.Matrix{
+    --color-footer: var(--color-faded);
+    --color-faded: #40ad43;
+    --color-hover: #00ff39;
+    --color-bright: #02ff19;
+    --color-text-correct:var(--color-bright);
+    --color-text-error: #900400;
+    --color-text-nottyped:var(--color-faded);
+    --color-background: #091418;
+    --color-brighter: #d5ac00;
+    --background-gradient:linear-gradient(65.59deg, #0F2027 10.87%, #102123 102.25%) no-repeat;
+}
+.Pink{
+    --color-footer: var(--color-faded);
+    --color-faded: #FFC4D0;
+    --color-hover: #F7DDDE;
+    --color-bright: #FCF5EE;
+    --color-text-correct:var(--color-bright);
+    --color-text-error: #cd0c07;
+    --color-text-nottyped:var(--color-faded);
+    --color-background: #c797a1;
+    --color-brighter: #749fff;
+    --background-gradient:linear-gradient(65.59deg, #6c4560 10.87%, #6c4161 102.25%) no-repeat;
+}

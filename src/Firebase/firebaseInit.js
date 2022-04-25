@@ -4,7 +4,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/database';
 import {useEffect, useState} from 'react';
 import results from '../Components/Results/Results';
-import {setUser, setUserInDatabase} from '../Redux/user';
+import {setUser, setNewUser} from '../Redux/user';
 
 const firebaseConfig = {
     apiKey: "AIzaSyA9qTflWVdIkz_tYLf_H0Zj1b7UqHWlCQc",

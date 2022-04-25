@@ -10,6 +10,7 @@ import {useEffect} from 'react';
 import { setRoomData} from '../../Redux/roomData';
 import RestartButton from '../../UI/RestartButton/RestartButton';
 import {setUser} from '../../Redux/user';
+import {setThemeClass} from '../../utils';
 
 
 const Main = () => {
@@ -17,11 +18,22 @@ const Main = () => {
     const name = useSelector((state) => state.user.name)
     const [user] = useAuthState(auth)
     const dispatch = useDispatch()
+
+    useEffect(()=>{
+        if(window.innerWidth < 850){
+            alert('this app dont work right on this width of screen')
+        }
+        setThemeClass('Ocean')
+    },[])
     useEffect(() => {
         if(user){
             const setUserInRedux = async () => {
-                await database.ref('users/' + user.uid + '/name').once('value',snapshot=>{
-                    dispatch(setUser({name:snapshot.val(),id:user.uid}))
+                await database.ref('users/' + user.uid).once('value',snapshot=>{
+                    const user = snapshot.val()
+                    dispatch(setUser({
+                        name:user.name,
+                        id:user.uid,
+                        theme:user.theme}))
                 })
             }
             setUserInRedux()

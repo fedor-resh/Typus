@@ -1,27 +1,16 @@
-:root{
-  --color-footer: #356578;
-  --color-faded:#43819A;
-  --color-hover: #62a8c2;
-  --color-bright:#65BAD4;
-  --color-text-correct:#FF6A00;
-  --color-text-error: #900400;
-  --color-text-nottyped:var(--color-faded);
-  --color-background: #193e4e;
-  --color-brighter: #d5ac00;
-  --text-gradient-background:linear-gradient(267deg, #30b2bf 7.12%, #3788bf 99.74%)
-  /*--color-background:linear-gradient(65.59deg, #0F2027 10.87%, #274957 102.25%);*/
-}
+
 
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
-  background: linear-gradient(65.59deg, #0F2027 10.87%, #274957 102.25%) no-repeat;
+  background:var(--background-gradient) ;
   background-size: cover;
   min-height: 100vh;
   box-sizing: border-box;
 }
+
 
 *{
   margin: 0;

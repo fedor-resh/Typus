@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from './Footer.module.css'
 import {ReactComponent as Mail} from '../../svg/mail.svg';
 import {ReactComponent as Code} from '../../svg/code.svg';
 import {ReactComponent as Materials} from '../../svg/materials.svg';
 import {ReactComponent as Discord} from '../../svg/discord-svgrepo-com.svg';
+import ThemesList from '../ThemesList/ThemesList';
 
 
 const Footer = () => {
+    const [isThemeListOpen,setIsThemeListOpen] = useState(false)
     return (
         <footer className={s.footer}>
             <a target='_blank' href="https://discord.gg/DpyW2d4h">
@@ -28,10 +30,13 @@ const Footer = () => {
                 </div>
             </a>
 
-            <div className={s.materials__wrapper}>
+            <div onClick={()=>setIsThemeListOpen(true)} className={s.materials__wrapper}>
                 <Materials className={s.materials}/>
                 <p>materials</p>
             </div>
+            {isThemeListOpen&&<ThemesList onClose={()=>setIsThemeListOpen(false)}>
+
+            </ThemesList>}
         </footer>
     );
 };

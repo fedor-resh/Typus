@@ -6,7 +6,7 @@ import Main from './Pages/Main/Main';
 
 const Router = () => {
     return (
-        <div>
+        <div className='background'>
             <BrowserRouter>
                 <Routes>
                     <Route path='*' element={<Wrapper/>}>

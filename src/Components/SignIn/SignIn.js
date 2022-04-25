@@ -2,12 +2,13 @@ import React, {useRef, useState} from 'react';
 import s from './SignIn.module.css'
 import {auth, database, signInWithGoogle} from '../../Firebase/firebaseInit';
 import {useDispatch, useSelector} from 'react-redux';
-import {setUser, setUserInDatabase} from '../../Redux/user';
+import {setUser, setNewUser} from '../../Redux/user';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
 import Modal from '../../UI/Modal/Modal';
+import {setThemeClass} from '../../utils';
 
 const SignIn = () => {
     const [isAlreadyHaveAccount, setIsAlreadyHaveAccount] = useState(true)
@@ -17,17 +18,21 @@ const SignIn = () => {
     const dispatch = useDispatch()
 
     async function handleRegistration(result) {
-        let name
-        await database.ref('users/' + result.user.uid + '/name').once('value', async snapshot => {
-            name = await snapshot.val()
+        let user
+        await database.ref('users/' + result.user.uid ).once('value', async snapshot => {
+            user = await snapshot.val()
         })
-        if (!name) {
+        if (!user.name) {
             const name = prompt('name on english(max length 5): ')
-            await dispatch(setUserInDatabase(name))
+            await dispatch(setNewUser(name))
         } else {
-            setUser({name, id: result.user.uid})
+            setUser({
+                user:user.name,
+                id: result.user.uid,
+                theme:user.theme
+            })
         }
-        console.log(name)
+        console.log(user)
 
     }
 
@@ -61,7 +66,9 @@ const SignIn = () => {
                         <button onClick={isAlreadyHaveAccount
                             ?()=>setIsAlreadyHaveAccount(false)
                             :()=>setIsAlreadyHaveAccount(true)}>
-                            {isAlreadyHaveAccount?'already have account':'create new account'}
+                            {isAlreadyHaveAccount
+                                ?'create new account'
+                                :'already have account'}
                         </button>
                     </center>
                     <center>
