@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import styles from './Modal.module.css';
 
@@ -20,9 +19,5 @@ const Modal = ({children, onClose}) => {
   );
 };
 
-Modal.propTypes = {
-  onClose: PropTypes.func,
-  children: PropTypes.node,
-};
 
 export default Modal;

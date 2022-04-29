@@ -20,7 +20,6 @@ const ThemesList = ({onClose}) => {
                         </div>
                     )}
                 </div>
-
             </Modal>
 
     );
