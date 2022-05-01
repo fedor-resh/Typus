@@ -4,8 +4,7 @@
     place-items: center;
     min-height: 30vh;
 }
-.modal button,
-.grid button{
+.modal button{
     font-family: "Cubano Normal",sans-serif;
     background-color: var(--color-faded);
     color:var(--color-background);
@@ -17,8 +16,7 @@
     margin-right: 40px;
     transition: .2s;
 }
-.modal button:hover,
-.grid button:hover{
+.modal button:hover{
     background-color:var(--color-hover)
 }
 

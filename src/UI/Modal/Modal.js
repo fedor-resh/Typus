@@ -3,19 +3,18 @@ import ReactDOM from 'react-dom';
 import styles from './Modal.module.css';
 
 const Modal = ({children, onClose}) => {
-  const handleClose = () => onClose();
 
   return ReactDOM.createPortal(
-    <div className={styles.container} >
-      <div className={styles.backdrop} onClick={handleClose} />
+      <>
+      <div className={styles.backdrop} onClick={onClose}/>
       <div className={styles.modal}>
         <div className={styles.window}>
-          <div className={styles.close} onClick={handleClose}/>
+          <div className={styles.close} onClick={onClose}/>
           {children}
         </div>
       </div>
-    </div>,
-    window.document.body,
+    </>,
+    document.body,
   );
 };
 

@@ -11,5 +11,6 @@ body {
 
 
 *{
+  transition: color 0.2s;
   margin: 0;
 }

@@ -17,6 +17,7 @@
 
 
 .backdrop {
+  z-index:500 ;
   position: fixed;
   background: rgba(45, 46, 56, 0.5);
   composes: full;
@@ -24,15 +25,21 @@
 }
 
 .modal {
+  z-index: 501;
+
   position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
   composes: full;
+  pointer-events: none;
 }
 
 .window {
+  pointer-events: auto;
   position: relative;
+  /*top:40%;*/
+  /*left: 40%;*/
   overflow: auto;
   width: 100%;
   max-width: 500px;
