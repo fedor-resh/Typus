@@ -20,19 +20,24 @@ const user = createSlice({
         },
         setUser:(state,action)=>{
             state.id = action.payload.id ?? state.id
-            state.name = action.payload.name ?? state.name
+            state.name = action.payload.name ?? 'err'
+            setThemeClass(action.payload.theme)
         },
         setTheme:(state,action)=>{
             state.theme = action.payload
-            state.id = auth.currentUser.uid
             setThemeClass(state.theme)
             database.ref('users/' + state.id).update({
                 theme:state.theme,
             })
+            // database.ref('users/' + state.id).onDisconnect()
+        },
+        clearUserSettings:(state)=>{
+            state.name = ''
+            state.id = 'testId'
         }
     }
 })
 
-export const {setUser,setNewUser,setTheme} = user.actions
+export const {setUser,setNewUser,setTheme,clearUserSettings} = user.actions
 
 export const userReducer = user.reducer

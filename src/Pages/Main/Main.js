@@ -15,7 +15,7 @@ import {setThemeClass} from '../../utils';
 
 const Main = () => {
     const isResults = useSelector((state) => state.roomData.mainState) === 'RESULTS'
-    const name = useSelector((state) => state.user.name)
+    const {name,id} = useSelector((state) => state.user)
     const [user] = useAuthState(auth)
     const dispatch = useDispatch()
 
@@ -25,37 +25,11 @@ const Main = () => {
         }
         setThemeClass('Ocean')
     },[])
-    useEffect(() => {
-        if(user){
-            const setUserInRedux = async () => {
-                await database.ref('users/' + user.uid).once('value',snapshot=>{
-                    const user = snapshot.val()
-                    dispatch(setUser({
-                        name:user.name,
-                        id:user.uid,
-                        theme:user.theme}))
-                })
-            }
-            setUserInRedux()
-        }
 
-        const hash = window.location.hash.substring(1)
-        if (hash&&user) {
-
-
-            database.ref(hash + '/roomSettings').on('value', (snapshot) => {
-                const data = snapshot.val();
-                dispatch(setRoomData({roomId: hash, ...data}))
-            });
-        }
-        if(name!=='user'&&user){
-            setUserInRoom(hash,name)
-        }
-    }, [user])
     return (
         <div className={s.wrapper}>
 
-            {user
+            {id!=='testId'
                 ? (
                     <>
                     {(isResults

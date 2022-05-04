@@ -25,7 +25,7 @@ export const database = firebase.database();
 
 export function setPositionOfCursorInDatabase(room, curLine, curPosition) {
     if (room === 'testRoom'||!room) return
-    database.ref(room + '/users/' + auth.currentUser.uid).update({
+    database.ref('rooms/' + room + '/users/' + auth.currentUser.uid).update({
         curLine,
         curPosition
     })
@@ -33,54 +33,76 @@ export function setPositionOfCursorInDatabase(room, curLine, curPosition) {
 
 export function setUserInRoom(room, name) {
     if (room === 'testRoom'||!room) return
-    database.ref(room + '/users/' + auth.currentUser.uid).set({
+    const ref = database.ref('rooms/' + room + '/users/' + auth.currentUser.uid)
+    ref.set({
         name: name,
         curLine: 0,
         curPosition: 0
     })
+    ref.onDisconnect()
+        .remove()
 }
+// export function useUsersFromDatabase(roomId,myName) {
+//     const [users, setUsers] = useState([])
+//     useEffect(() => {
+//         setTimeout(() => {
+//
+//
+//             const arr = users
+//             const ref = database.ref('rooms/' + roomId + '/users');
+//             ref.once('value', (snapshot) => {
+//                 const obj = snapshot.val()
+//                 for (let id in obj) {
+//                     arr.push(obj[id])
+//                 }
+//                 setUsers(arr)
+//             });
+//
+//             ref.on('child_changed', (snapshot) => {
+//                 const arr = users
+//
+//
+//                 const obj = snapshot.val()
+//                 if(obj.name === myName)return
+//                 const oldObj = arr.find(el => el.name === obj.name)
+//
+//                 if (oldObj) {
+//                     arr[arr.indexOf(oldObj)] = obj
+//                 } else {
+//                     arr.push(obj)
+//                 }
+//
+//                 setUsers(arr)
+//             });
+//         }, 200)
+//
+//     }, [roomId])
+//     return users
+// }
 
 export function useUsersFromDatabase(roomId,myName) {
     const [users, setUsers] = useState([])
     useEffect(() => {
-        setTimeout(() => {
+
+            const ref = database.ref('rooms/' + roomId + '/users');
 
 
-            const arr = users
-            const ref = database.ref(roomId + '/users');
-            ref.once('value', (snapshot) => {
+            ref.on('value', (snapshot) => {
+                const arr = []
                 const obj = snapshot.val()
-                for (let id in obj) {
-                    arr.push(obj[id])
+                for (let [key, value] of Object.entries(obj)) {
+                    if(obj.name === myName)continue
+                    arr.push(value)
                 }
                 setUsers(arr)
             });
-
-            ref.on('child_changed', (snapshot) => {
-                const arr = users
-
-
-                const obj = snapshot.val()
-                if(obj.name === myName)return
-                const oldObj = arr.find(el => el.name === obj.name)
-
-                if (oldObj) {
-                    arr[arr.indexOf(oldObj)] = obj
-                } else {
-                    arr.push(obj)
-                }
-
-                setUsers(arr)
-            });
-        }, 200)
 
     }, [roomId])
     return users
-
 }
 
 export function setResultsInDatabase(room, name, userId, charPerMinute, PercentageOfRight, ball) {
-    database.ref(room + '/results').push().set({
+    database.ref('rooms/' + room + '/results').push().set({
         name,
         charPerMinute,
         PercentageOfRight,
@@ -92,7 +114,7 @@ export function useResultsFromDatabase(roomId) {
     const [results, setResults] = useState([])
 
     useEffect(() => {
-        const ref = database.ref(roomId + '/results');
+        const ref = database.ref('rooms/' + roomId + '/results');
         ref.once('value', (snapshot) => {
             const res = [...results]
 
@@ -107,13 +129,35 @@ export function useResultsFromDatabase(roomId) {
     return results
 }
 
+export function useRoomsFromDatabase() {
+    const [rooms, setRooms] = useState([])
 
-export function clearResultsInDatabase(room) {
-    database.ref(room + '/results').remove();
+    useEffect(() => {
+        const ref = database.ref('rooms/');
+        ref.on('value', (snapshot) => {
+            let arr = []
+            const obj = snapshot.val()
+            for (let [key, value] of Object.entries(obj)) {
+
+                if(key==='testRoom')continue
+                arr.push(value)
+            }
+            setRooms(arr)
+        });
+    }, [])
+    return rooms
+}
+
+
+export function clearResultsInDatabase(roomId) {
+    database.ref('rooms/' + roomId + '/results').remove();
 }
 
 export function clearUsersInRoom(roomId) {
-    database.ref(roomId + '/users').remove();
+    database.ref('rooms/' + roomId + '/users').remove();
 }
+
+
+
 
 

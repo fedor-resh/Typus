@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import Wrapper from './Pages/Wrapper/Wrapper';
 import Main from './Pages/Main/Main';
 import Error from './Components/Error/Error';
+import ListOfRooms from './Pages/ListOfRooms/ListOfRooms';
 
 
 const Router = () => {
@@ -10,6 +11,7 @@ const Router = () => {
         <div className='background'>
             <BrowserRouter>
                 <Routes>
+                    <Route path='rooms' element={<ListOfRooms/>} />
                     <Route path='*' element={<Wrapper/>}>
                         <Route path='' element={<Main/>}/>
                         <Route path='*' element={<Error error='404'/>}/>

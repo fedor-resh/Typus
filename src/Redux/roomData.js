@@ -12,7 +12,8 @@ const resultSlider = createSlice({
         mainState: 'ROOM',//  ROOM||ROOM_TYPE||RESULTS
         language: 'en', //en||ru
         amountOfWords: 20,
-        isEndTimeDependsOnTime: true
+        isEndTimeDependsOnTime: true,
+        title:'defaultTitle',
     }, reducers: {
         setDefaultRoomData: (state) => {
             state.roomId = 'testRoom'
@@ -22,15 +23,17 @@ const resultSlider = createSlice({
             state.language = 'en' //en||ru
             state.amountOfWords = 20
             state.isEndTimeDependsOnTime = true
-
+            state.title = 'defaultTitle'
         },
         setNewRoomData: (state) => {
             state.roomId = auth.currentUser.uid
             state.text = generateRandomText(20, 'en')
             state.secondsForGame = 30
             state.mainState = 'ROOM'
-
-            database.ref(state.roomId + '/roomSettings').set({
+            state.title = state.roomId
+            database.ref('rooms/' + state.roomId + '/roomSettings').set({
+                // roomId:auth.currentUser.uid,
+                title:state.roomId,
                 text: state.text,
                 secondsForGame: state.secondsForGame,
                 mainState: state.mainState,
@@ -38,6 +41,10 @@ const resultSlider = createSlice({
                 language: 'en',
                 isEndTimeDependsOnTime: true,
             })
+            database.ref('rooms/' + state.roomId)
+                .onDisconnect()
+                .remove()
+                .catch(alert)
         },
         setRoomData: (state, action) => {
             const {
@@ -60,7 +67,7 @@ const resultSlider = createSlice({
         toRestartGame: (state) => {
             state.text = generateRandomText(state.amountOfWords, state.language)
             state.mainState = 'ROOM'
-            database.ref(state.roomId + '/roomSettings').update({
+            database.ref('rooms/' + state.roomId + '/roomSettings').update({
                 text: state.text,
                 mainState: 'ROOM'
             })
@@ -77,26 +84,26 @@ const resultSlider = createSlice({
 
             if (language || amountOfWords) state.text = generateRandomText(state.amountOfWords, state.language)
 
-            database.ref(state.roomId + '/roomSettings').update({
+            database.ref('rooms/' + state.roomId + '/roomSettings').update({
                 ...updated,
                 text: state.text
             })
         },
         toResults: state => {
             state.mainState = 'RESULTS'
-            database.ref(state.roomId + '/roomSettings').update({
+            database.ref('rooms/' + state.roomId + '/roomSettings').update({
                 mainState: 'RESULTS'
             })
         },
         toRoom: state => {
             state.mainState = 'ROOM'
-            database.ref(state.roomId + '/roomSettings').update({
+            database.ref('rooms/' + state.roomId + '/roomSettings').update({
                 mainState: 'ROOM'
             })
         },
         toStart: state => {
             state.mainState = 'ROOM_TYPE'
-            database.ref(state.roomId + '/roomSettings').update({
+            database.ref('rooms/' + state.roomId + '/roomSettings').update({
                 mainState: 'ROOM_TYPE'
             })
         }

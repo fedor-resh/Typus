@@ -74,7 +74,6 @@ const TextBox = () => {
 
         setTimeout(()=>{
             dispatch(toResults())
-            clearUsersInRoom(roomId)
         },300)
     }
     function resetTextBoxState() {

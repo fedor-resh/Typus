@@ -6,82 +6,91 @@ import {ReactComponent as Profile} from '../../svg/profil.svg'
 import {ReactComponent as Information} from '../../svg/information.svg'
 import {ReactComponent as Settings} from '../../svg/settings.svg'
 import {ReactComponent as Copy} from '../../svg/copy-link 1.svg'
+import {ReactComponent as Web} from '../../svg/web.svg'
 import {useDispatch, useSelector} from 'react-redux';
 import {setDefaultRoomData, setNewRoomData, updateRoomData} from '../../Redux/roomData';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {auth, setUserInRoom} from '../../Firebase/firebaseInit';
 import {signOut} from 'firebase/auth'
 import {generateRandomText} from '../../utils';
-import {setUser} from '../../Redux/user';
+import {clearUserSettings, setUser} from '../../Redux/user';
+import {useNavigate} from 'react-router-dom';
 
 const Header = () => {
 
-    const roomId = useSelector(state=> state.roomData.roomId)
-    const secondsForGame = useSelector(state=> state.roomData.secondsForGame)
-    const language = useSelector(state=> state.roomData.language)
-    const amountOfWords = useSelector(state=> state.roomData.amountOfWords)
-    const isEndTimeDependsOnTime = useSelector(state=> state.roomData.isEndTimeDependsOnTime)
-    const name = useSelector(state=> state.user.name)
-
-
+    const {roomId, secondsForGame, language, isEndTimeDependsOnTime} = useSelector(state => state.roomData)
+    const name = useSelector(state => state.user.name)
     const linkRef = useRef(null)
-
     const link = `https://www.typus.ga#${roomId}`
+    const navigate = useNavigate();
 
     async function copyHandler() {
         await navigator.clipboard.writeText(link);
     }
+
     const dispatch = useDispatch()
+
     function setNewRoom() {
         dispatch(setNewRoomData())
-        setUserInRoom(roomId,name)
+        setUserInRoom(roomId, name)
     }
-    return (
-        <header className={s.header}>
 
-         <div className={s.top}>
+    function signOutHandler() {
+        signOut(auth).catch(err => alert(err))
+        // dispatch(setUser({name:'user'}))
+        dispatch(setDefaultRoomData())
+        dispatch(clearUserSettings())
+    }
+
+    return (<header className={s.header}>
+
+        <div className={s.top}>
             <div className={s.flex}>
 
-            <div className={s.left__bar}>
-                <h1>typus</h1>
-
-                <Keyboard/>
-                <Settings/>
-                <Information/>
-                <Profile onClick={()=>{
-                    signOut(auth).catch(err=>alert(err))
-                    // dispatch(setUser({name:'user'}))
-                    dispatch(setDefaultRoomData())
-                }}/>
-                <p className={s.user__name}>{name}</p>
-            </div>
+                <div className={s.left__bar}>
+                    <h1>typus</h1>
+                    <Keyboard onClick={() => navigate('/')}/>
+                    <Web onClick={() => navigate('/rooms')}/>
+                    <Settings className={s.settings}/>
+                    <Information/>
+                    <Profile onClick={signOutHandler}/>
+                    <p className={s.user__name}>{name}</p>
+                </div>
             </div>
             <div className={s.right__bar}>
-                {roomId!=='testRoom'
-                    ? <><p ref={linkRef} onClick={copyHandler}>copy invite link</p><Copy/></>
-                    : <button onClick={setNewRoom}>new room</button>}
+                {roomId !== 'testRoom' ? <><p ref={linkRef} onClick={copyHandler}>copy invite link</p><Copy/></> :
+                    <button onClick={setNewRoom}>new room</button>}
             </div>
 
         </div>
 
-            <div className={`${s.settings} ${auth.currentUser?.uid===roomId?s.isAuth:''}`}>
-                <div>
-                    <span className={language==='en'?s.selected:''} onClick={()=>dispatch(updateRoomData({language:'en'}))}>english</span>
-                    <span className={language==='ru'?s.selected:''} onClick={()=>dispatch(updateRoomData({language:'ru'}))}>russian</span>
-                </div>
-                <div>
-                    <span className={isEndTimeDependsOnTime===false?s.selected:''} onClick={()=>dispatch(updateRoomData({isEndTimeDependsOnTime:false}))}>words</span>
-                    <span className={isEndTimeDependsOnTime===true?s.selected:''} onClick={()=>dispatch(updateRoomData({isEndTimeDependsOnTime:true}))}>timer</span>
-                </div>
-                <div>
-                    <span className={secondsForGame===15?s.selected:''} onClick={()=>dispatch(updateRoomData({secondsForGame:15}))}>15</span>
-                    <span className={secondsForGame===30?s.selected:''} onClick={()=>dispatch(updateRoomData({secondsForGame:30}))}>30</span>
-                    <span className={secondsForGame===60?s.selected:''} onClick={()=>dispatch(updateRoomData({secondsForGame:60}))}>60</span>
-                    <span className={secondsForGame===120?s.selected:''} onClick={()=>dispatch(updateRoomData({secondsForGame:120}))}>120</span>
-                </div>
+        <div className={`${s.settings} ${auth.currentUser?.uid === roomId ? s.isAuth : ''}`}>
+            <div>
+                <span className={language === 'en' ? s.selected : ''}
+                      onClick={() => dispatch(updateRoomData({language: 'en'}))}>english</span>
+                <span className={language === 'ru' ? s.selected : ''}
+                      onClick={() => dispatch(updateRoomData({language: 'ru'}))}>russian</span>
             </div>
-        </header>
-    );
+            <div>
+                {['words', 'timer'].map(mode => (
+                    <span
+                        key={mode}
+                        className={isEndTimeDependsOnTime === (mode !== 'words') ? s.selected : ''}
+                        onClick={() => dispatch(updateRoomData({isEndTimeDependsOnTime: (mode !== 'words')}))}>{mode}</span>
+                ))}
+            </div>
+            <div>
+                {[15, 30, 60, 120].map(sec => (
+                    <span
+                        key={sec}
+                        className={secondsForGame === sec ? s.selected : ''}
+                        onClick={() => dispatch(updateRoomData({secondsForGame: sec}))}
+                    >{sec}</span>
+                ))}
+
+            </div>
+        </div>
+    </header>);
 };
 
 export default Header;

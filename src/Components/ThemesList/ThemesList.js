@@ -15,7 +15,7 @@ const ThemesList = ({onClose}) => {
             <Modal onClose={onClose}>
                 <div className={s.themes}>
                     {themes.map(el=>
-                        <div className={s.point}>
+                        <div key={el} className={s.point}>
                             <p onClick={()=>{dispatch(setTheme(el))}}>{el}</p>
                         </div>
                     )}

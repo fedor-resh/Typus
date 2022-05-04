@@ -18,7 +18,7 @@ const RestartButton = () => {
 
     return (
         <div className={s.wrapper}>
-            <button disabled={user.uid !== roomId} tabIndex={0} onClick={restartGame}>
+            <button disabled={user?.uid !== roomId} tabIndex={0} onClick={restartGame}>
                 <Restart/>
             </button>
         </div>
