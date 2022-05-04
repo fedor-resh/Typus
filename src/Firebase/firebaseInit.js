@@ -85,13 +85,11 @@ export function useUsersFromDatabase(roomId,myName) {
     useEffect(() => {
 
             const ref = database.ref('rooms/' + roomId + '/users');
-
-
             ref.on('value', (snapshot) => {
                 const arr = []
                 const obj = snapshot.val()
                 for (let [key, value] of Object.entries(obj)) {
-                    if(obj.name === myName)continue
+                    if(value.name === myName)continue
                     arr.push(value)
                 }
                 setUsers(arr)
