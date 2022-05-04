@@ -92,7 +92,7 @@ export function useUsersFromDatabase(roomId,myName) {
                 console.log(obj)
                 for (let [key, value] of Object.entries(obj)) {
                     console.log(key,value)
-                    if(value.name === myName)continue
+                    if(value?.name === myName)continue
                     arr.push(value)
                 }
                 setUsers(arr)
