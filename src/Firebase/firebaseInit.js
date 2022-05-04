@@ -88,7 +88,10 @@ export function useUsersFromDatabase(roomId,myName) {
             ref.on('value', (snapshot) => {
                 const arr = []
                 const obj = snapshot.val()
+                if(!obj)return
+                console.log(obj)
                 for (let [key, value] of Object.entries(obj)) {
+                    console.log(key,value)
                     if(value.name === myName)continue
                     arr.push(value)
                 }
