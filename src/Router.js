@@ -11,10 +11,10 @@ const Router = () => {
         <div className='background'>
             <BrowserRouter>
                 <Routes>
-                    <Route path='rooms' element={<ListOfRooms/>} />
                     <Route path='*' element={<Wrapper/>}>
                         <Route path='' element={<Main/>}/>
-                        <Route path='*' element={<Error error='404'/>}/>
+                        <Route path='rooms' element={<ListOfRooms/>} />
+                        <Route path='*' element={<Error massage='Error 404'/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

@@ -1,20 +1,36 @@
 import React, {useEffect} from 'react';
 import {useRooms, useRoomsFromDatabase} from '../../Firebase/firebaseInit';
-import s from './ListOfRooms.css';
+import s from './ListOfRooms.module.css';
+import {roomConnect} from '../../utils/utils';
+import {useDispatch} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
 
 const ListOfRooms = () => {
     const rooms = useRoomsFromDatabase()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    function connectRoomHandler(title) {
+        roomConnect(title, dispatch)
+        navigate('/', {replace: true})
+    }
     useEffect(()=>{
         console.log(rooms)
     })
     return (
-            <div className={s.rooms}>
-                {rooms&&rooms.map(el=>
-                    <div key={el.roomSettings.title} className={s.point}>
-                        <p onClick={()=>{}}>{el.roomSettings.title} room</p>
+        <div className={s.rooms}>
+            {!rooms.length
+                ?<center><h1 className={s.empty}>empty</h1></center>
+                :rooms.map(el => {
+                const title = el.roomSettings.title
+                    return (
+                        <div key={title} className={s.point}>
+                        <p onClick={() => connectRoomHandler(title)}
+                        >{title}</p>
                     </div>
-                )}
-            </div>
+                    )
+                }
+            )}
+        </div>
     );
 };
 

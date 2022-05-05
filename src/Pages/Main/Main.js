@@ -10,7 +10,7 @@ import {useEffect} from 'react';
 import { setRoomData} from '../../Redux/roomData';
 import RestartButton from '../../UI/RestartButton/RestartButton';
 import {setUser} from '../../Redux/user';
-import {setThemeClass} from '../../utils';
+import {setThemeClass} from '../../utils/utils';
 
 
 const Main = () => {

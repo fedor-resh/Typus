@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {auth, database} from '../Firebase/firebaseInit';
-import {generateRandomText} from '../utils';
+import {generateRandomText} from '../utils/utils';
 
 
 const resultSlider = createSlice({

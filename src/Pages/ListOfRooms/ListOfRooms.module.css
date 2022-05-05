@@ -1,6 +1,11 @@
+.rooms{
+    max-width: 1000px;
+    margin: 0 auto 0;
+    padding: 0 10vw;
+}
+
 .rooms p{
     font-family: "Cubano Normal",sans-serif;
-    user-select: none;
     font-size: 40px;
     margin-right: 20px;
     color:var(--color-faded);
@@ -19,4 +24,13 @@
 }
 .point:hover{
     background-color: rgba(255, 255, 255, 0.05);
+}
+.empty{
+    font-family: "Cubano Normal",sans-serif;
+    font-size: 40px;
+    margin-right: 20px;
+    color:var(--color-faded);
+    transition: .2s color;
+    padding: 0 0 0 10px;
+    opacity: 0.5;
 }

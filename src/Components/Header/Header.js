@@ -12,7 +12,7 @@ import {setDefaultRoomData, setNewRoomData, updateRoomData} from '../../Redux/ro
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {auth, setUserInRoom} from '../../Firebase/firebaseInit';
 import {signOut} from 'firebase/auth'
-import {generateRandomText} from '../../utils';
+import {generateRandomText} from '../../utils/utils';
 import {clearUserSettings, setUser} from '../../Redux/user';
 import {useNavigate} from 'react-router-dom';
 

@@ -2,7 +2,7 @@ import React, {Fragment, useEffect, useState} from 'react';
 import s from './Results.module.css'
 
 import {database, useResultsFromDatabase} from '../../Firebase/firebaseInit';
-import {useSelector} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 
 
 const Results = () => {
