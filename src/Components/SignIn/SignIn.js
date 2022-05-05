@@ -34,7 +34,7 @@ const SignIn = message => {
                 id: result.user.uid,
                 theme: user.theme
             }))
-            roomConnect(window.location.hash.substring(1), name.current.value, dispatch)
+            roomConnect(window.location.hash.substring(1), name.current?.value, dispatch)
         } catch (err) {
             console.log(err)
             const name = prompt('enter name:')
@@ -60,7 +60,7 @@ const SignIn = message => {
             auth.createUserWithEmailAndPassword(email.current.value, password.current.value)
                 .then(() => {
                     dispatch(setNewUser(name))
-                    roomConnect(window.location.hash.substring(1), name.current.value, dispatch)
+                    roomConnect(window.location.hash.substring(1), name.current?.value, dispatch)
                 })
                 .catch(err => console.error(err))
         }
