@@ -2,15 +2,16 @@ import React, {useEffect} from 'react';
 import {useRooms, useRoomsFromDatabase} from '../../Firebase/firebaseInit';
 import s from './ListOfRooms.module.css';
 import {roomConnect} from '../../utils/utils';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 
 const ListOfRooms = () => {
     const rooms = useRoomsFromDatabase()
+    const name = useSelector(state => state.user.name)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     function connectRoomHandler(title) {
-        roomConnect(title, dispatch)
+        roomConnect(title, name , dispatch)
         navigate('/', {replace: true})
     }
     useEffect(()=>{

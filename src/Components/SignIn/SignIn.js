@@ -20,7 +20,6 @@ const SignIn = message => {
     const dispatch = useDispatch()
 
 
-
     async function registrationHandler(result) {
         try {
             let user
@@ -35,8 +34,9 @@ const SignIn = message => {
                 id: result.user.uid,
                 theme: user.theme
             }))
-            roomConnect(window.location.hash.substring(1), dispatch)
+            roomConnect(window.location.hash.substring(1), name.current.value, dispatch)
         } catch (err) {
+            console.log(err)
             const name = prompt('enter name:')
             dispatch(setNewUser(name))
         }
@@ -60,7 +60,7 @@ const SignIn = message => {
             auth.createUserWithEmailAndPassword(email.current.value, password.current.value)
                 .then(() => {
                     dispatch(setNewUser(name))
-                    roomConnect(window.location.hash.substring(1),dispatch)
+                    roomConnect(window.location.hash.substring(1), name.current.value, dispatch)
                 })
                 .catch(err => console.error(err))
         }
