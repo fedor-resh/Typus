@@ -3,7 +3,7 @@ import {ReactComponent as Restart} from '../../svg/restart.svg';
 import s from './RestartButton.module.css'
 import {useDispatch, useSelector} from 'react-redux';
 import {toRestartGame, toRoom} from '../../Redux/roomData';
-import {generateRandomText} from '../../utils';
+import {generateRandomText} from '../../utils/utils';
 import {auth} from '../../Firebase/firebaseInit';
 import {useAuthState} from 'react-firebase-hooks/auth';
 const RestartButton = () => {

@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {auth, database, setResultsInDatabase} from '../Firebase/firebaseInit';
-import {setThemeClass} from '../utils';
+import {setThemeClass} from '../utils/utils';
 
 
 const user = createSlice({

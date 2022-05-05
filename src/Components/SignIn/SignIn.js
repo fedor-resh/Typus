@@ -8,7 +8,7 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
 import Modal from '../../UI/Modal/Modal';
-import {setThemeClass} from '../../utils';
+import {roomConnect, setThemeClass} from '../../utils/utils';
 import {current} from '@reduxjs/toolkit';
 import {setRoomData} from '../../Redux/roomData';
 
@@ -19,16 +19,7 @@ const SignIn = message => {
     const name = useRef(null)
     const dispatch = useDispatch()
 
-    function roomConnect() {
-        const hash = window.location.hash.substring(1)
-        if (hash) {
-            database.ref('rooms/' + hash + '/roomSettings').on('value', (snapshot) => {
-                const data = snapshot.val();
-                dispatch(setRoomData({roomId: hash, ...data}))
-            })
-        }
-        setUserInRoom(hash,name)
-    }
+
 
     async function registrationHandler(result) {
         try {
@@ -44,7 +35,7 @@ const SignIn = message => {
                 id: result.user.uid,
                 theme: user.theme
             }))
-            roomConnect()
+            roomConnect(window.location.hash.substring(1), dispatch)
         } catch (err) {
             const name = prompt('enter name:')
             dispatch(setNewUser(name))
@@ -69,7 +60,7 @@ const SignIn = message => {
             auth.createUserWithEmailAndPassword(email.current.value, password.current.value)
                 .then(() => {
                     dispatch(setNewUser(name))
-                    roomConnect()
+                    roomConnect(window.location.hash.substring(1),dispatch)
                 })
                 .catch(err => console.error(err))
         }

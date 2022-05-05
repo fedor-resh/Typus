@@ -1,9 +1,10 @@
 import React from 'react';
 
-const Error = ({error}) => {
+const Error = ({massage, subtitle}) => {
     return (
-        <div style={{display:'grid',placeItems:'center',height:`30vh`}}>
-           <h1 style={{color:'#a71010'}}>Error {error}</h1>
+        <div style={{display:'grid',placeItems:'center',marginTop:`30vh`}}>
+           <h1 style={{color:'#a71010'}}>{massage}</h1>
+           <p style={{color:'rgba(167,16,16,0.73)'}}>{subtitle}</p>
         </div>
     );
 };
