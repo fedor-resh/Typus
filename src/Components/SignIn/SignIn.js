@@ -10,6 +10,7 @@ import 'firebase/compat/database';
 
 import {roomConnect, setThemeClass} from '../../utils/utils';
 import {current} from '@reduxjs/toolkit';
+import {useNavigate} from 'react-router-dom';
 
 const SignIn = message => {
     const [isAlreadyHaveAccount, setIsAlreadyHaveAccount] = useState(true)
@@ -17,7 +18,7 @@ const SignIn = message => {
     const password = useRef(null)
     const name = useRef(null)
     const dispatch = useDispatch()
-
+    const navigate = useNavigate()
 
     async function registrationHandler(result) {
         try {
@@ -38,6 +39,8 @@ const SignIn = message => {
             console.log(err)
             const name = prompt('enter name:')
             dispatch(setNewUser(name))
+        }finally {
+            navigate('/')
         }
 
     }

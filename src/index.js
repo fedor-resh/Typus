@@ -7,13 +7,16 @@ import './fonts/fonts.css'
 import {Provider} from 'react-redux';
 import store from './Redux/store';
 import {ErrorBoundary} from './ErrorBaundary';
+import {BrowserRouter} from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
       <Provider store={store}>
-          <ErrorBoundary>
-              <Router/>
-          </ErrorBoundary>
+          {/*<ErrorBoundary>*/}
+              <BrowserRouter>
+                  <Router/>
+              </BrowserRouter>
+          {/*</ErrorBoundary>*/}
       </Provider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -1,8 +1,6 @@
 
-.grid{
-    display: grid;
-    place-items: center;
-    min-height: 30vh;
+.modal{
+    padding-top: 30vh;
 }
 .modal button{
     font-family: "Cubano Normal",sans-serif;
