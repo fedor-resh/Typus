@@ -3,7 +3,6 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
 import {useEffect, useState} from 'react';
-import results from '../Components/Results/Results';
 import {setUser, setNewUser} from '../Redux/user';
 
 const firebaseConfig = {

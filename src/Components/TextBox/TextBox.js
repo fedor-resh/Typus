@@ -16,14 +16,14 @@ import {
 
 
 const TextBox = () => {
-    const text = useSelector(state => state.roomData.text)
-    const secondsForGame = useSelector(state => state.roomData.secondsForGame)
-    const mainState = useSelector(state => state.roomData.mainState)
-    const roomId = useSelector(state => state.roomData.roomId)
-    const language = useSelector(state => state.roomData.language)
+    const text = useSelector(state => state.roomData.value.text)
+    const secondsForGame = useSelector(state => state.roomData.value.secondsForGame)
+    const mainState = useSelector(state => state.roomData.value.mainState)
+    const roomId = useSelector(state => state.roomData.value.roomId)
+    const language = useSelector(state => state.roomData.value.language)
     const name = useSelector(state => state.user.name)
     const users = useUsersFromDatabase(roomId,name)
-    const isEndTimeDependsOnTime = useSelector(state=> state.roomData.isEndTimeDependsOnTime)
+    const isEndTimeDependsOnTime = useSelector(state=> state.roomData.value.isEndTimeDependsOnTime)
 
 
 

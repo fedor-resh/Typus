@@ -14,7 +14,7 @@ import {setThemeClass} from '../../utils/utils';
 
 
 const Main = () => {
-    const isResults = useSelector((state) => state.roomData.mainState) === 'RESULTS'
+    const isResults = useSelector((state) => state.roomData.value.mainState) === 'RESULTS'
     const {name,id} = useSelector((state) => state.user)
     const [user] = useAuthState(auth)
     const dispatch = useDispatch()
@@ -27,8 +27,7 @@ const Main = () => {
     },[])
 
     return (
-        <div className={s.wrapper}>
-
+        <>
             {id!=='testId'
                 ? (
                     <>
@@ -40,7 +39,7 @@ const Main = () => {
                 )
                 : <SignIn/>
             }
-        </div>
+        </>
     );
 };
 

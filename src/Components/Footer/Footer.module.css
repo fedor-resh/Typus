@@ -1,6 +1,6 @@
 .footer{
     position: fixed;
-    inset: auto auto 20px;
+    inset: auto 0 20px;
     display: flex;
     width: 100%;
     justify-content: center;
@@ -20,17 +20,21 @@
     cursor: pointer;
 }
 .footer div>p{
-    color: var(--color-footer);
+    color: var(--color-faded);
     font-family: "Roboto Mono",sans-serif;
     margin-left: 10px;
 }
-.mail__wrapper svg,
-.code__wrapper svg{
-    fill: var(--color-footer);
+.footer{
+    opacity: 0.8;
 }
+/*.mail__wrapper svg,*/
+/*.code__wrapper svg{*/
+/*    fill: var(--color-footer);*/
+/*}*/
 .mail__wrapper svg,
 .materials__wrapper svg{
-    stroke: var(--color-footer);
+    fill:none;
+    stroke: var(--color-faded);
 }
 .footer div:hover p,
 
@@ -41,5 +45,6 @@
 }
 .mail__wrapper:hover svg,
 .materials__wrapper:hover svg{
+    fill:none;
     stroke:var(--color-hover);
 }

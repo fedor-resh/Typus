@@ -18,7 +18,7 @@ import {useNavigate} from 'react-router-dom';
 
 const Header = () => {
 
-    const {roomId, secondsForGame, language, isEndTimeDependsOnTime} = useSelector(state => state.roomData)
+    const {roomId, secondsForGame, language, isEndTimeDependsOnTime} = useSelector(state => state.roomData.value)
     const name = useSelector(state => state.user.name)
     const linkRef = useRef(null)
     const link = `https://www.typus.ga#${roomId}`
@@ -31,7 +31,7 @@ const Header = () => {
     const dispatch = useDispatch()
 
     function setNewRoom() {
-        dispatch(setNewRoomData())
+        dispatch(setNewRoomData(name))
         setUserInRoom(roomId, name)
     }
 

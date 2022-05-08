@@ -8,7 +8,7 @@ import {auth} from '../../Firebase/firebaseInit';
 import {useAuthState} from 'react-firebase-hooks/auth';
 const RestartButton = () => {
     const [user] = useAuthState(auth)
-    const roomId = useSelector(state => state.roomData.roomId)
+    const roomId = useSelector(state => state.roomData.value.roomId)
     const dispatch = useDispatch()
     function restartGame() {
         dispatch(toRestartGame())

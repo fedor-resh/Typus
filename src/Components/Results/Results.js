@@ -1,12 +1,12 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import s from './Results.module.css'
 
-import {database, useResultsFromDatabase} from '../../Firebase/firebaseInit';
+import {database, useResultsFromDatabase} from '../../../../react-keyboard-runnerr/src/Firebase/firebaseInit';
 import {connect, useSelector} from 'react-redux';
 
 
 const Results = () => {
-    const roomId = useSelector(state => state.roomData.roomId)
+    const roomId = useSelector(state => state.roomData.value.roomId)
     const results = useResultsFromDatabase(roomId)
     useEffect(()=>{
         console.log(results)

@@ -11,6 +11,12 @@ body {
 
 
 *{
-  transition: color 0.2s;
+  transition: color 0.2s,fill 0.1s;
   margin: 0;
+}
+svg{
+  fill:var(--color-faded);
+}
+svg:hover{
+  fill:var(--color-bright);
 }

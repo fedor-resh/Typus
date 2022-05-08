@@ -1,16 +1,16 @@
 import React, {useRef, useState} from 'react';
 import s from './SignIn.module.css'
-import {auth, database, setUserInRoom, signInWithGoogle} from '../../Firebase/firebaseInit';
+import {auth, database, setUserInRoom, signInWithGoogle} from '../../../../react-keyboard-runnerr/src/Firebase/firebaseInit';
 import {useDispatch, useSelector} from 'react-redux';
-import {setUser, setNewUser} from '../../Redux/user';
+import {setUser, setNewUser} from '../../../../react-keyboard-runnerr/src/Redux/user';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
-import Modal from '../../UI/Modal/Modal';
-import {roomConnect, setThemeClass} from '../../utils/utils';
+import Modal from '../../../../react-keyboard-runnerr/src/UI/Modal/Modal';
+import {roomConnect, setThemeClass} from '../../../../react-keyboard-runnerr/src/utils/utils';
 import {current} from '@reduxjs/toolkit';
-import {setRoomData} from '../../Redux/roomData';
+import {setRoomData} from '../../../../react-keyboard-runnerr/src/Redux/roomData';
 
 const SignIn = message => {
     const [isAlreadyHaveAccount, setIsAlreadyHaveAccount] = useState(true)

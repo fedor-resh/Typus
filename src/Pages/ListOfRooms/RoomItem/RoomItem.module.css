@@ -1,0 +1,49 @@
+
+.item p{
+    font-family: "Cubano Normal",sans-serif;
+    font-size: 40px;
+    color:var(--color-faded);
+    cursor: pointer;
+    transition: .2s color;
+    margin-right: 10px;
+}
+.title{
+    padding: 0 0 0 10px;
+}
+
+.item p:hover{
+    fill:var(--color-hover);
+    color:var(--color-hover)
+}
+.item{
+    transition: background-color 0.2s;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.item:hover{
+    background-color: rgba(255, 255, 255, 0.05);
+}
+.item:hover svg,
+.item:hover p{
+    color: var(--color-bright);
+    fill: var(--color-bright)
+}
+.right__wrapper{
+    padding: 0 10px 0 0 ;
+    display: flex;
+    align-items: center;
+}
+.right__wrapper *{
+    width: 50px;
+}
+/*——————svg———————*/
+
+.user{
+    width: 30px;
+}
+.lock{
+    margin-right: 10px;
+}

@@ -1,38 +1,57 @@
 import React, {useEffect} from 'react';
-import {useRooms, useRoomsFromDatabase} from '../../Firebase/firebaseInit';
+import {useRoomsFromDatabase} from '../../Firebase/firebaseInit';
 import s from './ListOfRooms.module.css';
 import {roomConnect} from '../../utils/utils';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
+import RoomItem from './RoomItem/RoomItem';
+
+
 
 const ListOfRooms = () => {
     const rooms = useRoomsFromDatabase()
     const name = useSelector(state => state.user.name)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    function connectRoomHandler(title) {
+
+    function connectRoomHandler(title,password) {
+        if(password){
+            const writtenPassword = prompt('enter password: ')
+            if(password!==writtenPassword)return
+        }
         roomConnect(title, name , dispatch)
         navigate('/', {replace: true})
+    }
+    function getProps(room){
+        const {language, title, password, roomId} = room.roomSettings
+        const amountOfUsers = room.users ? Object.keys(room.users).length : 0
+        console.log(amountOfUsers)
+        return  {
+            language,
+            title,
+            amountOfUsers,
+            hasPassword: !!password,
+            connectRoomHandler: () => connectRoomHandler(roomId, password),
+        }
     }
     useEffect(()=>{
         console.log(rooms)
     })
-    return (
-        <div className={s.rooms}>
-            {!rooms.length
-                ?<center><h1 className={s.empty}>empty</h1></center>
-                :rooms.map(el => {
-                const title = el.roomSettings.title
-                    return (
-                        <div key={title} className={s.point}>
-                        <p onClick={() => connectRoomHandler(title)}
-                        >{title}</p>
-                    </div>
-                    )
-                }
-            )}
-        </div>
-    );
+    if(!rooms.length){
+        return (<center><p className={s.empty}>empty</p></center>)
+    }else {
+        return (
+            <>
+                <p className={s.rooms__online}>
+                    online rooms: {Object.keys(rooms).length}
+                </p>
+                {rooms.map(room => {
+                    const props = getProps(room)
+                    return <RoomItem{...props}/>
+                })}
+            </>
+        );
+    }
 };
 
 export default ListOfRooms;

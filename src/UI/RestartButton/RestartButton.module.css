@@ -27,5 +27,5 @@
     background-color:var(--color-hover)
 }
 .wrapper svg{
-
+    fill: var(--color-background) !important;
 }
