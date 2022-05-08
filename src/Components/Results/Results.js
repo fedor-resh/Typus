@@ -1,7 +1,7 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import s from './Results.module.css'
 
-import {database, useResultsFromDatabase} from '../../../../react-keyboard-runnerr/src/Firebase/firebaseInit';
+import {database, useResultsFromDatabase} from '../../Firebase/firebaseInit';
 import {connect, useSelector} from 'react-redux';
 
 
