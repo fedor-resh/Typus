@@ -7,6 +7,7 @@ import {ReactComponent as Information} from '../../svg/information.svg'
 import {ReactComponent as Settings} from '../../svg/settings.svg'
 import {ReactComponent as Copy} from '../../svg/copy-link 1.svg'
 import {ReactComponent as Web} from '../../svg/web.svg'
+import {ReactComponent as Lock} from '../../svg/locked.svg'
 import {useDispatch, useSelector} from 'react-redux';
 import {setDefaultRoomData, setNewRoomData, updateRoomData} from '../../Redux/roomData';
 import {useAuthState} from 'react-firebase-hooks/auth';
@@ -18,7 +19,7 @@ import {useNavigate} from 'react-router-dom';
 
 const Header = () => {
 
-    const {roomId, secondsForGame, language, isEndTimeDependsOnTime} = useSelector(state => state.roomData.value)
+    const {roomId, secondsForGame, language, isEndDependsOnTime} = useSelector(state => state.roomData.value)
     const name = useSelector(state => state.user.name)
     const linkRef = useRef(null)
     const link = `https://www.typus.ga#${roomId}`
@@ -70,13 +71,16 @@ const Header = () => {
                       onClick={() => dispatch(updateRoomData({language: 'en'}))}>english</span>
                 <span className={language === 'ru' ? s.selected : ''}
                       onClick={() => dispatch(updateRoomData({language: 'ru'}))}>russian</span>
+                {/*<Lock className={s.lock}/>*/}
             </div>
             <div>
                 {['words', 'timer'].map(mode => (
                     <span
                         key={mode}
-                        className={isEndTimeDependsOnTime === (mode !== 'words') ? s.selected : ''}
-                        onClick={() => dispatch(updateRoomData({isEndTimeDependsOnTime: (mode !== 'words')}))}>{mode}</span>
+                        className={isEndDependsOnTime === (mode !== 'words') ? s.selected : ''}
+                        onClick={() => dispatch(updateRoomData({
+                            isEndDependsOnTime: (mode !== 'words')
+                        }))}>{mode}</span>
                 ))}
             </div>
             <div>

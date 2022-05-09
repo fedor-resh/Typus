@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 
-const Error = ({massage = '404 page not found', subtitle}) => {
+const Error = ({massage, subtitle}) => {
     useEffect(()=>{
         console.log(massage)
     })

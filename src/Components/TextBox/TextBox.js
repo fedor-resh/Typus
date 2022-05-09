@@ -12,19 +12,14 @@ import {
     setPositionOfCursorInDatabase, setUserInRoom,
     useUsersFromDatabase
 } from '../../Firebase/firebaseInit';
-
+import {calculateCurrentColumnAndRow, calculateLengthOfLines, isAllowedKeyboardKey, setStyles} from './textBoxUtils';
+import Cursor from './Cursor';
 
 
 const TextBox = () => {
-    const text = useSelector(state => state.roomData.value.text)
-    const secondsForGame = useSelector(state => state.roomData.value.secondsForGame)
-    const mainState = useSelector(state => state.roomData.value.mainState)
-    const roomId = useSelector(state => state.roomData.value.roomId)
-    const language = useSelector(state => state.roomData.value.language)
+    const {text,secondsForGame,mainState,roomId,language,isEndDependsOnTime} = useSelector(state => state.roomData.value)
     const name = useSelector(state => state.user.name)
     const users = useUsersFromDatabase(roomId,name)
-    const isEndTimeDependsOnTime = useSelector(state=> state.roomData.value.isEndTimeDependsOnTime)
-
 
 
     const [indexOfCurrentCharacter, setIndexOfCurrentCharacter] = useState(0)
@@ -35,33 +30,9 @@ const TextBox = () => {
 
     const cursorRef = useRef(null)
     const textRef = useRef(null)
-    const usersCursors = useRef(null)
 
     const dispatch = useDispatch()
     const interval = useInterval(() => setSeconds(s => s - 1), 1000);
-    function setStyles(curLine, curPosition, cursorRef) {
-        if(cursorRef){
-            cursorRef.style.top = `${(curLine) * 38 + 4}px`
-            cursorRef.style.left = `${(curPosition) * 14.9 - 1}px`
-        }
-    }
-
-    function calculateLengthOfLines(textRef) {
-        const textBoxWidth = textRef.current.scrollWidth
-        const words = textRef.current.textContent.split(/\s/)
-        const lengthOfWords = words.map((word) => word.length)
-        const LinesLength = []
-        let sum = 0
-        lengthOfWords.forEach((length) => {
-            if ((sum + length) * 14.9 > textBoxWidth) {
-                LinesLength.push(sum)
-                sum = 0
-            }
-            sum += length + 1
-        })
-        LinesLength.push(sum)
-        return LinesLength
-    }
 
     function endHandler() {
         dispatch(setResult({
@@ -86,21 +57,7 @@ const TextBox = () => {
         setIsStarted(false)
         setSeconds(secondsForGame)
     }
-    function calculateCurrentColumnAndRow(index, lengthOfLines) {
-        let curLine = 0
-        let curPosition = 0
 
-        for (let i in lengthOfLines) {
-            if (index >= lengthOfLines[i]) {
-                index -= lengthOfLines[i]
-                curLine += 1
-            } else {
-                curPosition = index
-                break
-            }
-        }
-        return [curPosition, curLine]
-    }
     useEffect(() => {
         clearResultsInDatabase(roomId)
         setUserInRoom(roomId,name)
@@ -143,51 +100,26 @@ const TextBox = () => {
         if(!(isStarted&&isAllowedKeyboardKey(e.key)))
             return
 
-        function isAllowedKeyboardKey(key) {
-            return (key.length === 1
-                    // && (key.match(/[a-z]/i) || key.match(/[а-я]/i))
-                )
-                || key === 'Backspace'
-                || key === ' '
-        }
-
-
         function BackspaceHandler() {
-            if (index === 0) {
-                return
-            }
+            if (index === 0) return
             index--
-            curPosition--
             setMistakes(mistakes.filter(el => el < index))
-            if (curPosition === -1) {
-                curPosition = lengthOfLines[curLine]
-                curLine--
-            }
         }
-
-
 
 
         const keyboardCharacter = e.key
         let index = indexOfCurrentCharacter
-        let [curPosition, curLine] = calculateCurrentColumnAndRow(index, lengthOfLines)
-
-
         if (keyboardCharacter === 'Backspace') {
             BackspaceHandler()
         } else {
             if (keyboardCharacter !== text[index]) {
                 setMistakes([index, ...mistakes])
             }
-            curPosition++
             index++
-            if (curPosition === lengthOfLines[curLine]) {
-                curPosition = 0
-                curLine++
-            }
         }
-        setPositionOfCursorInDatabase(roomId, curLine, curPosition,)
-        setStyles(curLine, curPosition,cursorRef.current)
+        setPositionOfCursorInDatabase(roomId, index)
+        const [x, y] = calculateCurrentColumnAndRow(index,lengthOfLines)
+        setStyles(y, x ,cursorRef.current)
         setIndexOfCurrentCharacter(index)
 
     }
@@ -196,39 +128,27 @@ const TextBox = () => {
         <>
 
             <div className={s.text__wrapper}>
-                {isEndTimeDependsOnTime&&<Timer
+                {isEndDependsOnTime&&<Timer
                     playStartAnimation={mainState==='ROOM_TYPE'}
                     seconds={seconds}
                 />}
-                <div ref={usersCursors}>
-                    {users&&users.map(user=> {
-                            if (user.name !== name){
-                                return <Fragment key={user.name}>
-                                    <div style={{
-                                        left: `${(user.curPosition) * 14.9 - 1}px`,
-                                        top: `${(user.curLine) * 38 + 4}px`
-                                    }} className={s.user__cursor}>
-                                    </div>
-                                    <p
-                                        style={{
-                                            left: `${(user.curPosition) * 14.9 + 5}px`,
-                                            top: `${(user.curLine) * 38 - 10}px`
-                                        }}
-                                    >{user.name}</p>
-                                </Fragment>
-                            }
-
-                        }
+                <div>
+                    {users&&users
+                        .filter(user=>user.name!==name)
+                        .map(user=>
+                            <Cursor lengthOfLines={lengthOfLines} {...user}/>
                         )}
                 </div>
                 <div ref={cursorRef} className={s.cursor}/>
                 <p ref={textRef} className={s.text}>
+
                     {Array.from(text).map((character, id) =>
                         <span
-                            className={`${id >= indexOfCurrentCharacter ? s.disabled__letter : s.right__letter} ${mistakes.includes(id) ? s.mistake__letter : ''}`}
+                            className={`${id >= indexOfCurrentCharacter ? s.disabled__letter : ''} ${mistakes.includes(id) ? s.mistake__letter : ''}`}
                             key={id}>{character}
                         </span>
                     )}
+                    <input type="text" className={s.input__for__phones}/>
                 </p>
             </div>
         </>

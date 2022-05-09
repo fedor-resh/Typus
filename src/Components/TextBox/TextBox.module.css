@@ -5,6 +5,7 @@
     max-height: 400px;
 }
 .text{
+    position: relative;
     color: var(--color-text-correct);
     font-size: 24px;
     font-family:"Roboto Mono" ,sans-serif;
@@ -13,6 +14,16 @@
     /*background-image: var(--text-gradient-background);*/
     /*-webkit-background-clip: text;*/
 }
+.input__for__phones{
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+}
+@media not handheld {
+    .input__for__phones{
+        display: none;
+    }
+}
 .cursor{
     position: absolute;
     top: 4px;
@@ -20,19 +31,15 @@
     width: 3px;
     height: 30px;
     background-color: var(--color-brighter);
-    transition: left 0.1s;
+    transition: left 0.1s, top 0.1s;
     border-radius: 3px;
 
 }
 .user__cursor{
-    position: absolute;
-    top: 4px;
-    left:0;
-    width: 3px;
-    height: 30px;
+    composes: cursor;
     background-color: var(--color-bright);
     transition: 0.5s;
-    border-radius: 3px;
+
 }
 .user__cursor+p{
     font-size: 16px;

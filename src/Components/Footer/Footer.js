@@ -11,7 +11,7 @@ const Footer = () => {
     const [isThemeListOpen,setIsThemeListOpen] = useState(false)
     return (
         <footer className={s.footer}>
-            <a target='_blank' href="https://discord.gg/DpyW2d4h">
+            <a target='_blank' href="https://discord.gg/rpHdf6BHzq">
                 <div className={s.code__wrapper}>
                     <Discord/>
                     <p>discord</p>

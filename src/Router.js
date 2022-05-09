@@ -28,7 +28,7 @@ const Router = () => {
     }, [])
     const routes = [
         {
-            isLogin: true,
+            isItNeedLogin: true,
             path: "/login",
             element: lazy(() => import("./Components/SignIn/SignIn")),
         },
@@ -47,15 +47,15 @@ const Router = () => {
                 {
                     path: "*",
                     element: lazy(() => import("./Components/Error/Error")),
+                    massage:'404 page not found'
                 },
             ],
         },
-
     ];
-    const createRoute = ({element, children, ...route}) => {
-        const Component = !route.isLogin ? withAuth(element) : element;
+    const createRoute = ({element, children, isItNeedLogin, path, ...props}) => {
+        const Component = !isItNeedLogin ? withAuth(element) : element;
         return (
-            <Route key={route.path} {...route} element={<Component/>}>
+            <Route key={path} path={path} element={<Component {...props}/>}>
                 {children && children.map(createRoute)}
             </Route>);
     };

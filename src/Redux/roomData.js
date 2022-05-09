@@ -9,7 +9,7 @@ const initialState = {
     mainState: 'ROOM',//  ROOM||ROOM_TYPE||RESULTS
     language: 'en', //en||ru
     amountOfWords: 20,
-    isEndTimeDependsOnTime: true,
+    isEndDependsOnTime: true,
     title:'defaultTitle',
     password:'',
 }
