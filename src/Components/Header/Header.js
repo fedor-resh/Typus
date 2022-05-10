@@ -41,6 +41,7 @@ const Header = () => {
         // dispatch(setUser({name:'user'}))
         dispatch(setDefaultRoomData())
         dispatch(clearUserSettings())
+        navigate('/login')
     }
 
     return (<header className={s.header}>

@@ -9,6 +9,7 @@ import ThemesList from '../ThemesList/ThemesList';
 
 const Footer = () => {
     const [isThemeListOpen,setIsThemeListOpen] = useState(false)
+    const MemoThemeList = React.memo(ThemesList)
     return (
         <footer className={s.footer}>
             <a target='_blank' href="https://discord.gg/rpHdf6BHzq">
@@ -34,9 +35,9 @@ const Footer = () => {
                 <Materials className={s.materials}/>
                 <p>materials</p>
             </div>
-            {isThemeListOpen&&<ThemesList onClose={()=>setIsThemeListOpen(false)}>
+            {/*<ThemesList onClose={()=>setIsThemeListOpen(false)}/>*/}
+            {isThemeListOpen&&<MemoThemeList onClose={()=>setIsThemeListOpen(false)}/>}
 
-            </ThemesList>}
         </footer>
     );
 };
