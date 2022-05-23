@@ -13,6 +13,7 @@ const user = createSlice({
         setNewUser:(state,action)=>{
             state.name = action.payload
             state.id = auth.currentUser.uid
+            console.log(state.id)
             database.ref('users/' + state.id).set({
                 name:state.name,
                 theme:state.theme,
