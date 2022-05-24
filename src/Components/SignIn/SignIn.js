@@ -62,8 +62,12 @@ const SignIn = message => {
             auth.createUserWithEmailAndPassword(email.current.value, password.current.value)
                 .then(() => {
                     dispatch(setNewUser(name))
+<<<<<<< HEAD
                     roomConnect(window.location.hash.substring(1), name.current?.value, dispatch)
                     navigate('/')
+=======
+                    roomConnect(window.location.hash.substring(1), name.current.value, dispatch)
+>>>>>>> 94a7a8e69f8d0e87851e283e651f9766e62a6e5a
                 })
                 .catch(err => console.error(err))
         }
