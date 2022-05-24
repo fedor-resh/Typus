@@ -34,7 +34,7 @@ const SignIn = message => {
                 id: result.user.uid,
                 theme: user.theme
             }))
-            roomConnect(window.location.hash.substring(1), name.current?.value, dispatch)
+            roomConnect(window.location.hash.substring(1), user.name, dispatch)
         } catch (err) {
             console.log(err)
             const name = prompt('enter name:')

@@ -21,13 +21,7 @@ function setThemeClass(theme) {
     window.document.body.className = theme
 }
 
-/**
- *
- * @param roomId {string}
- * @param name {string}
- * @param dispatch {Dispatch<any>}
- */
-function roomConnect(roomId, name, dispatch) {
+function roomConnect(roomId, name = 'err', dispatch) {
     if (!roomId) return
     database.ref('rooms/' + roomId + '/roomSettings').on('value', (snapshot) => {
         const data = snapshot.val();

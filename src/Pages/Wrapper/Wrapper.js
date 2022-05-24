@@ -10,7 +10,7 @@ const Wrapper = () => {
     const navigate = useNavigate()
     useEffect(()=>{
         if (id === 'testId') {
-            navigate('/login')
+            navigate('/login'+window.location.hash,{replace:true})
         }
     },[])
 

@@ -12,7 +12,13 @@ import {
     setPositionOfCursorInDatabase, setUserInRoom,
     useUsersFromDatabase
 } from '../../Firebase/firebaseInit';
-import {calculateCurrentColumnAndRow, calculateLengthOfLines, isAllowedKeyboardKey, setStyles} from './textBoxUtils';
+import {
+    calculateCurrentColumnAndRow,
+    calculateLengthOfLines,
+    isAllowedKeyboardKey,
+    isUnderline,
+    setStyles
+} from './textBoxUtils';
 import Cursor from './Cursor';
 
 
@@ -94,11 +100,14 @@ const TextBox = () => {
 
 
     function keyboardHandler(e) {
+        if((!isAllowedKeyboardKey(e.key))
+            || (indexOfCurrentCharacter === text.length
+                &&e.key!=='Backspace')) return
+
         if((roomId==='testRoom'||auth.currentUser.uid===roomId)&&!isStarted) {
             dispatch(toStart())
         }
-        if(!(isStarted&&isAllowedKeyboardKey(e.key)))
-            return
+        if(!isStarted) return
 
         function BackspaceHandler() {
             if (index === 0) return
@@ -121,7 +130,6 @@ const TextBox = () => {
         const [x, y] = calculateCurrentColumnAndRow(index,lengthOfLines)
         setStyles(y, x ,cursorRef.current)
         setIndexOfCurrentCharacter(index)
-
     }
 
     return (
@@ -145,7 +153,8 @@ const TextBox = () => {
                     {Array.from(text).map((character, id) =>
                         <span
                             className={`${id >= indexOfCurrentCharacter ? s.disabled__letter : ''} ${mistakes.includes(id) ? s.mistake__letter : ''}`}
-                            key={id}>{character}
+                            key={id}>
+                            {isUnderline(id,character,lengthOfLines,mistakes)?'_':character}
                         </span>
                     )}
                     <input type="text" className={s.input__for__phones}/>

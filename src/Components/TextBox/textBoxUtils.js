@@ -40,3 +40,8 @@ export function isAllowedKeyboardKey(key) {
         || key === 'Backspace'
         || key === ' '
 }
+export function isUnderline(id,character,lengthOfLines,mistakes) {
+    return mistakes.includes(id)
+        &&character===' '
+        &&calculateCurrentColumnAndRow(id+1,lengthOfLines)[0] !== 0
+}
