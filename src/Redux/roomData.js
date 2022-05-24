@@ -53,12 +53,13 @@ const resultSlider = createSlice({
         updateRoomData: (state, action) => {
             if (state.value.mainState === 'ROOM_TYPE' || auth.currentUser.uid !== state.value.roomId) return
 
-            if(action.payload.language) {
-                state.value.text = generateRandomText(state.value.amountOfWords, state.value.language)
-            }
+
             state.value = {
                 ...state.value,
                 ...action.payload
+            }
+            if(action.payload.language) {
+                state.value.text = generateRandomText(state.value.amountOfWords, state.value.language)
             }
 
             database.ref('rooms/' + state.value.roomId + '/roomSettings').update({

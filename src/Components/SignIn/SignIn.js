@@ -63,6 +63,7 @@ const SignIn = message => {
                 .then(() => {
                     dispatch(setNewUser(name))
                     roomConnect(window.location.hash.substring(1), name.current?.value, dispatch)
+                    navigate('/')
                 })
                 .catch(err => console.error(err))
         }
