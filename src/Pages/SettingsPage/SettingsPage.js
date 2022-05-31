@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import s from './SettingsPage.module.css'
 import {Button} from "../../Components/Button/Button";
 import {updateRoomData} from "../../Redux/roomData";
-import {useInput} from "../../utils/hooks";
+import {useDebounceEffect, useInput} from "../../utils/hooks";
 import Slider from "../../UI/Slider/Slider";
 
 const SettingsPage = () => {
@@ -13,8 +13,7 @@ const SettingsPage = () => {
     const passwordInput = useInput(password)
     const customText = useInput(text)
 
-    function saveSettings(password, text) {
-        console.log(text, password)
+    function saveSettings() {
         dispatch(updateRoomData({
             password: passwordInput.value || '',
             text: customText.value || 'text',
@@ -22,7 +21,9 @@ const SettingsPage = () => {
         }))
     }
 
-    // useEffect(()=>saveSettings(text,password),[])
+    useDebounceEffect(()=>{
+        saveSettings()
+    },[password.value,customText.value,seconds],500)
 
     return (
         <>
@@ -50,7 +51,6 @@ const SettingsPage = () => {
                         type="text"
                     />
                 </div>
-                <Button children='save' onClick={saveSettings}/>
             </div>
         </>
     );

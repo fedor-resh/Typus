@@ -19,7 +19,7 @@
 .backdrop {
   z-index:500 ;
   position: fixed;
-  background: rgba(45, 46, 56, 0.5);
+  /*background: rgba(45, 46, 56, 0.5);*/
   composes: full;
   /*backdrop-filter: blur(10px);*/
 }

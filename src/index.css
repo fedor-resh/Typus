@@ -35,7 +35,20 @@ input,textarea{
   width: min(360px, calc(100% - 40px));
 
 }
-
+textarea::-webkit-scrollbar {
+  width: .5em;
+  border-radius: 100px;
+  background-color: var(--color-background);
+}
+textarea::-webkit-scrollbar-thumb{
+  background-color: var(--color-350);
+  border-radius: 100px;
+}
+textarea::-webkit-scrollbar-corner{
+  outline: none;
+  background-color: var(--color-350);
+  border-radius: 100px;
+}
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
   transition: background-color 600000s 0s, color 600000s 0s;

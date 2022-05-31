@@ -14,7 +14,8 @@
     }
 }
 .customTextArea{
-    resize: none;
+    resize: vertical;
+    max-height: 400px;
     height: 100px;
     margin-left: 10px;
     padding: 20px;

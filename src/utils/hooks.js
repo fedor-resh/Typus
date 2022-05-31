@@ -1,4 +1,5 @@
 import {useState} from "react";
+import { useEffect, useCallback } from "react"
 
 export function useInput(initialValue){
     const [value, setValue] = useState(initialValue)
@@ -11,4 +12,13 @@ export function useInput(initialValue){
         value,
         clear
     }
+}
+
+export function useDebounceEffect(effect, deps, delay = 250) {
+    const callback = useCallback(effect, deps)
+
+    useEffect(() => {
+        const timeout = setTimeout(callback, delay)
+        return () => clearTimeout(timeout)
+    }, [callback, delay])
 }

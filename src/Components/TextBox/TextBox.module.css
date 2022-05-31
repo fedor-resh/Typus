@@ -11,6 +11,7 @@
     font-family:"Roboto Mono" ,sans-serif;
     line-height: 38px;
     letter-spacing: 0.5px;
+    word-break: break-word;
     /*background-image: var(--text-gradient-background);*/
     /*-webkit-background-clip: text;*/
 }
