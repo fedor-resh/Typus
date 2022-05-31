@@ -4,19 +4,19 @@
     user-select: none;
     font-size: 40px;
     margin-right: 20px;
-    color:var(--color-faded);
+    color:var(--color-350);
     cursor: pointer;
     transition: .2s color;
     padding: 0 0 0 10px;
 }
 
 .themes p:hover{
-    fill:var(--color-hover);
-    color:var(--color-hover)
+    fill:var(--color-400);
+    color:var(--color-400)
 }
 .point{
     transition: background-color 0.2s;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
 }
 .point:hover{
     background-color: rgba(255, 255, 255, 0.05);

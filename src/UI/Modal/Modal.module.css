@@ -44,7 +44,7 @@
   width: 100%;
   max-width: 500px;
   padding: 20px;
-  border-radius: 20px;
+  border-radius: var(--border-radius);
   background: var(--background-gradient);
   /*background: linear-gradient(65.59deg, #162f39 10.87%, #274957 102.25%);*/
 

@@ -30,14 +30,14 @@
     left:0;
     width: 3px;
     height: 30px;
-    background-color: var(--color-brighter);
+    background-color: var(--color-800);
     transition: left 0.1s, top 0.1s;
-    border-radius: 3px;
+    border-radius: var(--border-radius);
 
 }
 .user__cursor{
     composes: cursor;
-    background-color: var(--color-bright);
+    background-color: var(--color-450);
     transition: 0.5s;
 
 }
@@ -45,7 +45,7 @@
     font-size: 16px;
     font-family:"Roboto Mono" ,sans-serif;
     position: absolute;
-    color: var(--color-bright);
+    color: var(--color-450);
     bottom: 25px;
     left: 5px;
     width:auto;

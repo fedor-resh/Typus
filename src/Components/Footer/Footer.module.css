@@ -20,7 +20,7 @@
     cursor: pointer;
 }
 .footer div>p{
-    color: var(--color-faded);
+    color: var(--color-350);
     font-family: "Roboto Mono",sans-serif;
     margin-left: 10px;
 }
@@ -34,17 +34,17 @@
 .mail__wrapper svg,
 .materials__wrapper svg{
     fill:none;
-    stroke: var(--color-faded);
+    stroke: var(--color-350);
 }
 .footer div:hover p,
 
 .mail__wrapper:hover svg,
 .code__wrapper:hover svg{
-    color: var(--color-hover);
-    fill: var(--color-hover);
+    color: var(--color-400);
+    fill: var(--color-400);
 }
 .mail__wrapper:hover svg,
 .materials__wrapper:hover svg{
     fill:none;
-    stroke:var(--color-hover);
+    stroke:var(--color-400);
 }

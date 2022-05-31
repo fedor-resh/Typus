@@ -13,14 +13,14 @@
     flex-wrap: wrap;
 }
 .header svg{
-    fill:var(--color-faded);
+    fill:var(--color-350);
     height: 25px;
     cursor: pointer;
     margin-right: 10px;
     transition: 0.2s;
 }
 .header svg:hover{
-    fill:var(--color-hover)
+    fill:var(--color-400)
 }
 
 
@@ -32,7 +32,7 @@
 .left__bar h1{
     font-size: 40px;
     margin-right: 20px;
-    color:var(--color-faded);
+    color:var(--color-350);
     user-select: none;
 }
 
@@ -45,35 +45,35 @@
 }
 .right__bar button{
     font-family: "Cubano Normal",sans-serif;
-    background-color: var(--color-faded);
+    background-color: var(--color-350);
     color:var(--color-background);
     padding: 10px 30px;
     font-size: 20px;
     border:none;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     cursor: pointer;
     margin-right: 40px;
     transition: .2s;
 }
 .right__bar button:hover{
-    background-color:var(--color-hover)
+    background-color:var(--color-400)
 }
 .right__bar p{
     user-select: none;
     font-size: 20px;
     margin-right: 20px;
-    color:var(--color-faded);
+    color:var(--color-350);
     cursor: pointer;
     transition: .2s color;
 }
 .right__bar:hover svg,
 .right__bar:hover p{
-    fill:var(--color-hover);
-    color:var(--color-hover)
+    fill:var(--color-400);
+    color:var(--color-400)
 }
 
 .settings{
-    color:var(--color-faded);
+    color:var(--color-350);
 }
 .settings span{
     font-size: 16px;
@@ -87,7 +87,7 @@
 .selected,
 .isAuth span:hover,
 .settings span:focus-visible{
-    color: var(--color-bright);
+    color: var(--color-450);
     cursor: pointer;
 }
 
@@ -98,7 +98,7 @@
 }
 
 .user__name{
-    color: var(--color-faded);
+    color: var(--color-350);
 }
 
 @media (max-width: 600px) {

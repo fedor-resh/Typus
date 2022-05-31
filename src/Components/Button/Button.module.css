@@ -1,0 +1,17 @@
+
+.base {
+  font-family:'Cubano Normal',Harpseal , 'Roboto Mono', serif;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1;
+  font-size: 30px;
+  padding: 0.5em 1em;
+  background-color: var(--color-350);
+  color: var(--color-background);
+  transition: 0.3s all;
+}
+.base:hover{
+  background-color: var(--color-400);
+}

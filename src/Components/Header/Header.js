@@ -53,7 +53,7 @@ const Header = () => {
                     <h1>typus</h1>
                     <Keyboard onClick={() => navigate('/')}/>
                     <Web onClick={() => navigate('/rooms')}/>
-                    <Settings className={s.settings}/>
+                    <Settings className={s.settings} onClick={() => navigate('/settings')}/>
                     <Information/>
                     <Profile onClick={signOutHandler}/>
                     <p className={s.user__name}>{name}</p>

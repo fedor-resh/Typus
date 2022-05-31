@@ -29,4 +29,5 @@ function roomConnect(roomId, name = 'err', dispatch) {
     })
     setUserInRoom(roomId, name)
 }
+
 export {generateRandomText,setThemeClass,roomConnect}

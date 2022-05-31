@@ -43,5 +43,5 @@ export function isAllowedKeyboardKey(key) {
 export function isUnderline(id,character,lengthOfLines,mistakes) {
     return mistakes.includes(id)
         &&character===' '
-        &&calculateCurrentColumnAndRow(id+1,lengthOfLines)[0] !== 0
+        &&Math.abs(calculateCurrentColumnAndRow(id+2,lengthOfLines)[0]) >= 2
 }

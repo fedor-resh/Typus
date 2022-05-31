@@ -2,7 +2,7 @@
 .item p{
     font-family: "Cubano Normal",sans-serif;
     font-size: 40px;
-    color:var(--color-faded);
+    color:var(--color-350);
     cursor: pointer;
     transition: .2s color;
     margin-right: 10px;
@@ -12,12 +12,12 @@
 }
 
 .item p:hover{
-    fill:var(--color-hover);
-    color:var(--color-hover)
+    fill:var(--color-400);
+    color:var(--color-400)
 }
 .item{
     transition: background-color 0.2s;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
@@ -28,8 +28,8 @@
 }
 .item:hover svg,
 .item:hover p{
-    color: var(--color-bright);
-    fill: var(--color-bright)
+    color: var(--color-450);
+    fill: var(--color-450)
 }
 .right__wrapper{
     padding: 0 10px 0 0 ;

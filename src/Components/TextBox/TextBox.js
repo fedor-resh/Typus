@@ -63,42 +63,6 @@ const TextBox = () => {
         setIsStarted(false)
         setSeconds(secondsForGame)
     }
-
-    useEffect(() => {
-        clearResultsInDatabase(roomId)
-        setUserInRoom(roomId,name)
-        setLengthOfLines(calculateLengthOfLines(textRef))
-        return interval.stop
-    }, [])
-    useEffect(()=>{
-        if(mainState==='ROOM_TYPE'){
-            setTimeout(()=>{
-                setIsStarted(true)
-                interval.start()
-
-            },3000)
-        }
-    },[mainState])
-    useEffect(()=>{
-        resetTextBoxState()
-    },[text,language])
-    useEffect(() => {
-        if (mainState==='RESULTS'||!seconds) {
-            endHandler()
-        }
-    }, [mainState,seconds])
-    useEffect(()=>{
-        setSeconds(secondsForGame)
-    },[secondsForGame])
-    useEffect(() => {
-        window.addEventListener('keydown', keyboardHandler);
-        return () => {
-            window.removeEventListener('keydown', keyboardHandler)
-        }
-    }, [keyboardHandler])
-
-
-
     function keyboardHandler(e) {
         if((!isAllowedKeyboardKey(e.key))
             || (indexOfCurrentCharacter === text.length
@@ -132,38 +96,76 @@ const TextBox = () => {
         setIndexOfCurrentCharacter(index)
     }
 
+
+    useEffect(() => {
+        clearResultsInDatabase(roomId)
+        setUserInRoom(roomId,name)
+        setLengthOfLines(calculateLengthOfLines(textRef))
+        return interval.stop
+    }, [])
+    useEffect(()=>{
+        if(mainState==='ROOM_TYPE'){
+            setTimeout(()=>{
+                setIsStarted(true)
+                interval.start()
+            },3300)
+        }
+    },[mainState])
+    useEffect(()=>{
+        resetTextBoxState()
+    },[text,language])
+    useEffect(() => {
+        if (mainState==='RESULTS'
+            ||!seconds&&isEndDependsOnTime
+            ||indexOfCurrentCharacter===text.length - 1
+            &&mistakes.length<text.length/50) {
+            endHandler()
+        }
+    }, [mainState,seconds,indexOfCurrentCharacter])
+    useEffect(()=>{
+        setSeconds(secondsForGame)
+    },[secondsForGame])
+    useEffect(() => {
+        window.addEventListener('keydown', keyboardHandler);
+        return () => {window.removeEventListener('keydown', keyboardHandler)}
+    }, [keyboardHandler])
+
+
+
+
     return (
         <>
-
             <div className={s.text__wrapper}>
                 {isEndDependsOnTime&&<Timer
                     playStartAnimation={mainState==='ROOM_TYPE'}
                     seconds={seconds}
                 />}
-                <div>
-                    {users&&users
-                        .filter(user=>user.name!==name)
-                        .map(user=>
-                            <Cursor lengthOfLines={lengthOfLines} {...user}/>
-                        )}
-                </div>
+                <Cursors users={users} lengthOfLines={lengthOfLines} name={name}/>
                 <div ref={cursorRef} className={s.cursor}/>
                 <p ref={textRef} className={s.text}>
-
                     {Array.from(text).map((character, id) =>
                         <span
-                            className={`${id >= indexOfCurrentCharacter ? s.disabled__letter : ''} ${mistakes.includes(id) ? s.mistake__letter : ''}`}
-                            key={id}>
-                            {isUnderline(id,character,lengthOfLines,mistakes)?'_':character}
+                            className={`${id >= indexOfCurrentCharacter&&s.disabled__letter} ${mistakes.includes(id)&&s.mistake__letter}`}
+                            key={id}
+                        >
+                            {character}
+                                {/*// ?(isUnderline(id,character,lengthOfLines,mistakes)?'_' :' ')*/}
+                                {/*// :character}*/}
                         </span>
                     )}
-                    <input type="text" className={s.input__for__phones}/>
                 </p>
             </div>
         </>
-
-
     );
 };
+const Cursors = ({users,lengthOfLines,name})=>(
+    <div>
+        {users&&users
+            .filter(user=>user.name!==name)
+            .map(user=>
+                <Cursor lengthOfLines={lengthOfLines} {...user}/>
+            )}
+    </div>
+)
 
 export default TextBox;

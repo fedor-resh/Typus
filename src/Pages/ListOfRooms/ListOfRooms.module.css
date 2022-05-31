@@ -5,7 +5,7 @@
     font-family: "Cubano Normal",sans-serif;
     font-size: 40px;
     margin-right: 20px;
-    color:var(--color-faded);
+    color:var(--color-350);
     transition: .2s color;
     padding: 0 0 0 10px;
     opacity: 0.5;
@@ -14,7 +14,7 @@
     font-family: "Cubano Normal",sans-serif;
     font-size: 20px;
     margin-right: 20px;
-    color:var(--color-faded);
+    color:var(--color-350);
     transition: .2s color;
     padding: 0 0 0 10px;
     opacity: 0.5;

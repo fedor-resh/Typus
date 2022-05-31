@@ -7,6 +7,8 @@ body {
   background-size: cover;
   min-height: 100vh;
   box-sizing: border-box;
+  color:var(--color-350);
+  --border-radius:10px;
 }
 
 
@@ -15,8 +17,29 @@ body {
   margin: 0;
 }
 svg{
-  fill:var(--color-faded);
+  fill:var(--color-350);
 }
 svg:hover{
-  fill:var(--color-bright);
+  fill:var(--color-450);
+}
+input,textarea{
+  padding: 0 20px;
+  height: 40px;
+  outline: none;
+  border: none;
+  border-radius: var(--border-radius);
+  font-family: "Roboto Mono",sans-serif;
+  color: var(--color-450);
+  background-color: var(--color-background);
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.56) inset;
+  width: min(360px, calc(100% - 40px));
+
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+input::placeholder{
+  color: var(--color-350);
 }

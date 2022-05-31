@@ -1,0 +1,24 @@
+
+.small__panel div{
+    display: block;
+    position: absolute;
+    bottom: 15px;
+    right: -13px;
+    font-size: 24px;
+}
+.slider{
+    align-self: center;
+    width: 50%!important;
+    background-color: var(--color-300);
+}
+.slider>div:first-child{
+    transition: 0.1s;
+    background-color: var(--color-350);
+}
+
+.slider>div:last-child{
+    background-color: var(--color-450);
+}
+.slider *{
+    transition: 0.1s;
+}

@@ -5,12 +5,12 @@
     display: block;
     margin: 50px auto;
     font-family: "Cubano Normal",sans-serif;
-    background-color: var(--color-faded);
+    background-color: var(--color-350);
     color:var(--color-background);
     padding: 15px 30px 10px;
     font-size: 20px;
     border:none;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     cursor: pointer;
     transition: .2s;
     opacity: .5;
@@ -19,12 +19,12 @@
 .wrapper button:disabled:hover{
     cursor: revert;
     opacity: .3;
-    background-color:var(--color-faded)
+    background-color:var(--color-350)
 }
 .wrapper button:hover,
 .wrapper button:focus{
     opacity: 1;
-    background-color:var(--color-hover)
+    background-color:var(--color-400)
 }
 .wrapper svg{
     fill: var(--color-background) !important;
