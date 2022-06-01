@@ -14,7 +14,7 @@ export function calculateLengthOfLines(textRef) {
     LinesLength.push(sum)
     return LinesLength
 }
-export function setStyles(curLine, curPosition, cursorRef) {
+export function setStyles(curPosition,curLine, cursorRef) {
     if(cursorRef){
         cursorRef.style.top = `${(curLine) * 38 + 4}px`
         cursorRef.style.left = `${(curPosition) * 14.9 - 1}px`
