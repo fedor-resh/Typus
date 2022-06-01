@@ -31,27 +31,27 @@ const TextBox = () => {
     const [indexOfCurrentCharacter, setIndexOfCurrentCharacter] = useState(0)
     const [lengthOfLines, setLengthOfLines] = useState([])
     const [mistakes, setMistakes] = useState([])
-    const [seconds, setSeconds] = useState(secondsForGame)
+    const [seconds, setSeconds] = useState(0)
     const [isStarted, setIsStarted] = useState(false)
 
     const cursorRef = useRef(null)
     const textRef = useRef(null)
 
     const dispatch = useDispatch()
-    const interval = useInterval(() => setSeconds(s => s - 1), 1000);
+    const interval = useInterval(() => setSeconds(s => s + 1), 1000);
 
     function endHandler() {
         dispatch(setResult({
             roomId,
             amountOfCharacters: indexOfCurrentCharacter,
-            seconds: secondsForGame,
+            seconds,
             amountOfMistakes: mistakes.length,
             name
         }))
 
         setTimeout(()=>{
             dispatch(toResults())
-        },300)
+        },400)
     }
     function resetTextBoxState() {
         setUserInRoom(roomId,name)
@@ -61,7 +61,7 @@ const TextBox = () => {
         interval.stop()
         setStyles(0, 0,cursorRef.current)
         setIsStarted(false)
-        setSeconds(secondsForGame)
+        setSeconds(0)
     }
     function keyboardHandler(e) {
         if((!isAllowedKeyboardKey(e.key))
@@ -116,14 +116,15 @@ const TextBox = () => {
     },[text,language])
     useEffect(() => {
         if (mainState==='RESULTS'
-            ||!seconds&&isEndDependsOnTime
+            ||(seconds===secondsForGame)&&isEndDependsOnTime
             ||indexOfCurrentCharacter===text.length - 1
             &&mistakes.length<text.length/50) {
             endHandler()
+            console.log(seconds,secondsForGame)
         }
     }, [mainState,seconds,indexOfCurrentCharacter])
     useEffect(()=>{
-        setSeconds(secondsForGame)
+        setSeconds(0)
     },[secondsForGame])
     useEffect(() => {
         window.addEventListener('keydown', keyboardHandler);
@@ -138,7 +139,7 @@ const TextBox = () => {
             <div className={s.text__wrapper}>
                 {isEndDependsOnTime&&<Timer
                     playStartAnimation={mainState==='ROOM_TYPE'}
-                    seconds={seconds}
+                    seconds={secondsForGame-seconds}
                 />}
                 <Cursors users={users} lengthOfLines={lengthOfLines} name={name}/>
                 <div ref={cursorRef} className={s.cursor}/>

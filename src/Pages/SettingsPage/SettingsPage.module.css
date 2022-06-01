@@ -8,7 +8,6 @@
 }
 @media (min-width: 800px) {
     .item{
-
         display: flex;
         justify-content: space-between;
     }
