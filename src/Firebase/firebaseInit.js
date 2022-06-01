@@ -111,7 +111,7 @@ export function useResultsFromDatabase(roomId) {
 
     useEffect(() => {
         const ref = database.ref('rooms/' + roomId + '/results');
-        ref.once('value', (snapshot) => {
+        ref.on('value', (snapshot) => {
             const res = [...results]
 
             const obj = snapshot.val()

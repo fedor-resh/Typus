@@ -13,14 +13,14 @@ import {setDefaultRoomData, setNewRoomData, updateRoomData} from '../../Redux/ro
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {auth, setUserInRoom} from '../../Firebase/firebaseInit';
 import {signOut} from 'firebase/auth'
-import {generateRandomText} from '../../utils/utils';
+import {generateRandomText, roomConnect} from '../../utils/utils';
 import {clearUserSettings, setUser} from '../../Redux/user';
 import {useNavigate} from 'react-router-dom';
 
 const Header = () => {
 
     const {roomId, secondsForGame, language, isEndDependsOnTime} = useSelector(state => state.roomData.value)
-    const name = useSelector(state => state.user.name)
+    const {name,id} = useSelector(state => state.user)
     const linkRef = useRef(null)
     const link = `https://www.typus.ga#${roomId}`
     const navigate = useNavigate();
@@ -33,7 +33,8 @@ const Header = () => {
 
     function setNewRoom() {
         dispatch(setNewRoomData(name))
-        setUserInRoom(roomId, name)
+        // setUserInRoom(roomId, name)
+        roomConnect(id,name,dispatch)
     }
 
     function signOutHandler() {

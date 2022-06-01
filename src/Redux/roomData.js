@@ -22,7 +22,7 @@ const resultSlider = createSlice({
         setDefaultRoomData: (state) => {
             state.value = initialState
         },
-        setNewRoomData: (state,action) => {
+        setNewRoomData:(state,action) => {
             state.value = {
                 ...state.value,
                 roomId:auth.currentUser.uid,

@@ -33,6 +33,7 @@ const TextBox = () => {
     const [mistakes, setMistakes] = useState([])
     const [seconds, setSeconds] = useState(0)
     const [isStarted, setIsStarted] = useState(false)
+    const [flag, setFlag ]= useState(false)
 
     const cursorRef = useRef(null)
     const textRef = useRef(null)
@@ -49,9 +50,7 @@ const TextBox = () => {
             name
         }))
 
-        setTimeout(()=>{
-            dispatch(toResults())
-        },400)
+        dispatch(toResults())
     }
     function resetTextBoxState() {
         setUserInRoom(roomId,name)
@@ -63,38 +62,7 @@ const TextBox = () => {
         setIsStarted(false)
         setSeconds(0)
     }
-    function keyboardHandler(e) {
-        if((!isAllowedKeyboardKey(e.key))
-            || (indexOfCurrentCharacter === text.length
-                &&e.key!=='Backspace')) return
 
-        if((roomId==='testRoom'||auth.currentUser.uid===roomId)&&!isStarted) {
-            dispatch(toStart())
-        }
-        if(!isStarted) return
-
-        function BackspaceHandler() {
-            if (index === 0) return
-            index--
-            setMistakes(mistakes.filter(el => el < index))
-        }
-
-
-        const keyboardCharacter = e.key
-        let index = indexOfCurrentCharacter
-        if (keyboardCharacter === 'Backspace') {
-            BackspaceHandler()
-        } else {
-            if (keyboardCharacter !== text[index]) {
-                setMistakes([index, ...mistakes])
-            }
-            index++
-        }
-        setPositionOfCursorInDatabase(roomId, index)
-        const [x, y] = calculateCurrentColumnAndRow(index,lengthOfLines)
-        setStyles(y, x ,cursorRef.current)
-        setIndexOfCurrentCharacter(index)
-    }
 
 
     useEffect(() => {
@@ -115,20 +83,56 @@ const TextBox = () => {
         resetTextBoxState()
     },[text,language])
     useEffect(() => {
-        if (mainState==='RESULTS'
+        console.log(indexOfCurrentCharacter,text.length,mainState)
+        if ((mainState==='RESULTS'
             ||(seconds===secondsForGame)&&isEndDependsOnTime
-            ||indexOfCurrentCharacter===text.length - 1
-            &&mistakes.length<text.length/50) {
+            ||indexOfCurrentCharacter===text.length
+            &&mistakes.length<text.length/50)&&!flag) {
+            console.log('end')
             endHandler()
+            setFlag(true)
         }
     }, [mainState,seconds,indexOfCurrentCharacter])
     useEffect(()=>{
         setSeconds(0)
     },[secondsForGame])
     useEffect(() => {
+        function keyboardHandler(e) {
+            if((!isAllowedKeyboardKey(e.key))
+                || (indexOfCurrentCharacter === text.length
+                    &&e.key!=='Backspace')) return
+
+            if((roomId==='testRoom'||auth.currentUser.uid===roomId)&&!isStarted) {
+                dispatch(toStart())
+            }
+
+            if(!isStarted) return
+
+            function BackspaceHandler() {
+                if (index === 0) return
+                index--
+                setMistakes(mistakes.filter(el => el < index))
+            }
+
+
+            const keyboardCharacter = e.key
+            let index = indexOfCurrentCharacter
+            if (keyboardCharacter === 'Backspace') {
+                BackspaceHandler()
+            } else {
+                if (keyboardCharacter !== text[index]) {
+                    setMistakes([index, ...mistakes])
+                }
+                index++
+            }
+            setPositionOfCursorInDatabase(roomId, index)
+            const [x, y] = calculateCurrentColumnAndRow(index,lengthOfLines)
+            setStyles(y, x ,cursorRef.current)
+            setIndexOfCurrentCharacter(index)
+        }
         window.addEventListener('keydown', keyboardHandler);
         return () => {window.removeEventListener('keydown', keyboardHandler)}
-    }, [keyboardHandler])
+    }, [isStarted,indexOfCurrentCharacter])
 
 
 
