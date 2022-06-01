@@ -8,9 +8,6 @@ import {connect, useSelector} from 'react-redux';
 const Results = () => {
     const roomId = useSelector(state => state.roomData.value.roomId)
     const results = useResultsFromDatabase(roomId)
-    useEffect(()=>{
-        console.log(results)
-    },[results])
     // console.log(results.reduce((max,el)=>el.ball>max.ball?el:max),0)
     // const winner = results.indexOf(results.reduce((max,el)=>el.ball>max.ball?el:max),0)
     // console.log(winner)

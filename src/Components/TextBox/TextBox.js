@@ -120,7 +120,6 @@ const TextBox = () => {
             ||indexOfCurrentCharacter===text.length - 1
             &&mistakes.length<text.length/50) {
             endHandler()
-            console.log(seconds,secondsForGame)
         }
     }, [mainState,seconds,indexOfCurrentCharacter])
     useEffect(()=>{
@@ -137,10 +136,11 @@ const TextBox = () => {
     return (
         <>
             <div className={s.text__wrapper}>
-                {isEndDependsOnTime&&<Timer
+                <Timer
                     playStartAnimation={mainState==='ROOM_TYPE'}
                     seconds={secondsForGame-seconds}
-                />}
+                    isTimeShow={isEndDependsOnTime}
+                />
                 <Cursors users={users} lengthOfLines={lengthOfLines} name={name}/>
                 <div ref={cursorRef} className={s.cursor}/>
                 <p ref={textRef} className={s.text}>

@@ -1,9 +1,6 @@
 import React, {useEffect} from 'react';
 
 const Error = ({massage, subtitle}) => {
-    useEffect(()=>{
-        console.log(massage)
-    })
     return (
         <div style={{display: 'grid', placeItems: 'center', marginTop: `30vh`}}>
             <h1 style={{color: '#a71010'}}>{massage}</h1>

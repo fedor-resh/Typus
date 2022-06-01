@@ -25,8 +25,8 @@ const ListOfRooms = () => {
     function getProps(room){
         const {language, title, password, roomId} = room.roomSettings
         const amountOfUsers = room.users ? Object.keys(room.users).length : 0
-        console.log(amountOfUsers)
         return  {
+            key:title,
             language,
             title,
             amountOfUsers,
@@ -34,9 +34,6 @@ const ListOfRooms = () => {
             connectRoomHandler: () => connectRoomHandler(roomId, password),
         }
     }
-    useEffect(()=>{
-        console.log(rooms)
-    })
     if(!rooms.length){
         return (<center><p className={s.empty}>empty</p></center>)
     }else {
@@ -47,7 +44,7 @@ const ListOfRooms = () => {
                 </p>
                 {rooms.map(room => {
                     const props = getProps(room)
-                    return <RoomItem{...props}/>
+                    return <RoomItem {...props}/>
                 })}
             </>
         );

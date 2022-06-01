@@ -4,10 +4,7 @@ import {ReactComponent as Locked} from '../../../svg/locked.svg';
 import {ReactComponent as User} from '../../../svg/profil.svg';
 
 const RoomItem = ({title,hasPassword,amountOfUsers,language,connectRoomHandler}) => {
-    useEffect(()=>{
-        console.log({title,hasPassword,amountOfUsers,language,connectRoomHandler})
 
-    })
     return (
             <div
                 onClick={connectRoomHandler}

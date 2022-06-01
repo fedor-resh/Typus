@@ -23,7 +23,7 @@ const SettingsPage = () => {
 
     useDebounceEffect(()=>{
         saveSettings()
-    },[password.value,customText.value,seconds],500)
+    },[passwordInput.value,customText.value,seconds],500)
 
     return (
         <>
