@@ -63,4 +63,25 @@
 .mistake__letter{
     -webkit-text-fill-color: initial;
     color: var(--color-text-error);
+    position: relative;
 }
+.underline{
+    text-decoration: underline;
+    z-index: -1;
+}
+/*.mistake__letter:before{*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    inset: 30px 0 0 0;*/
+/*    background-color: var(--color-text-error);*/
+/*    animation: appear ease-in-out forwards 100ms;*/
+/*    z-index: -1;*/
+/*}*/
+/*@keyframes appear {*/
+/*    from{*/
+/*        inset: 25px 16px 2px 0;*/
+/*    }*/
+/*    to{*/
+/*        inset: 25px 0 2px 0;*/
+/*    }*/
+/*}*/

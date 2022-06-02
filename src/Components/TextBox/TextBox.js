@@ -84,12 +84,10 @@ const TextBox = () => {
         resetTextBoxState()
     },[text,language])
     useEffect(() => {
-        console.log(indexOfCurrentCharacter,text.length,mainState)
         if ((mainState==='RESULTS'
             ||(secondsPassed===secondsForGame)&&isEndDependsOnTime
             ||indexOfCurrentCharacter===text.length
-            &&mistakes.length<text.length/50)&&!flag) {
-            console.log('end')
+            &&mistakes.length<text.length/2)&&!flag) {
             endHandler()
             setFlag(true)
         }
@@ -141,20 +139,21 @@ const TextBox = () => {
             <div className={s.text__wrapper}>
                 <Timer
                     playStartAnimation={mainState==='ROOM_TYPE'}
-                    seconds={secondsForGame-secondsPassed}
-                    isTimeShow={isEndDependsOnTime}
+                    seconds={isEndDependsOnTime?secondsForGame-secondsPassed:secondsPassed}
                 />
                 <Cursors users={users} lengthOfLines={lengthOfLines} name={name}/>
                 <div ref={cursorRef} className={s.cursor}/>
                 <p ref={textRef} className={s.text}>
                     {Array.from(text).map((character, id) =>
                         <span
-                            className={`${id >= indexOfCurrentCharacter&&s.disabled__letter} ${mistakes.includes(id)&&s.mistake__letter}`}
+                            className={`
+                            ${id >= indexOfCurrentCharacter&&s.disabled__letter} 
+                            ${mistakes.includes(id)&&s.mistake__letter}
+                            ${character===' '&&mistakes.includes(id)&&s.underline}
+                            `}
                             key={id}
                         >
                             {character}
-                                {/*// ?(isUnderline(id,character,lengthOfLines,mistakes)?'_' :' ')*/}
-                                {/*// :character}*/}
                         </span>
                     )}
                 </p>
@@ -167,7 +166,7 @@ const Cursors = ({users,lengthOfLines,name})=>(
         {users&&users
             .filter(user=>user.name!==name)
             .map(user=>
-                <Cursor lengthOfLines={lengthOfLines} {...user}/>
+                <Cursor key={user.name} lengthOfLines={lengthOfLines} {...user}/>
             )}
     </div>
 )

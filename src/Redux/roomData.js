@@ -4,7 +4,7 @@ import {generateRandomText} from '../utils/utils';
 
 const initialState = {
     roomId: 'testRoom',
-    text: 'lorem ipsum dolor sit amet consectetur adipisicing elit accusamus consequuntur cum cumque cupiditate deserunt distinctio illum laboriosam nesciunt nulla obcaecati optio quidem reprehenderit saepe sed sunt veritatis voluptas voluptate voluptatibus',
+    text: 'This is offline room. You can create own room or connect to some room in online. Это тестовая комната. Вы можете создать свою комнату или подключиться к чужой.',
     secondsForGame: 30,
     mainState: 'ROOM',//  ROOM||ROOM_TYPE||RESULTS
     language: 'en', //en||ru

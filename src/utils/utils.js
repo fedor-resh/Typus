@@ -1,5 +1,5 @@
 import {database, setUserInRoom} from '../Firebase/firebaseInit';
-import {setRoomData} from '../Redux/roomData';
+import {setDefaultRoomData, setRoomData} from '../Redux/roomData';
 
 const russian = require('../russianWords.json');
 const english = require('an-array-of-english-words')
@@ -25,6 +25,10 @@ function roomConnect(roomId, name = 'err', dispatch) {
     if (!roomId) return
     database.ref('rooms/' + roomId + '/roomSettings').on('value', (snapshot) => {
         const data = snapshot.val();
+        if(!data){
+            dispatch(setDefaultRoomData())
+            return
+        }
         dispatch(setRoomData({roomId, ...data}))
     })
     setUserInRoom(roomId, name)
