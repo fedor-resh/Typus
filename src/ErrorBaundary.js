@@ -1,4 +1,4 @@
-import Error from './Components/Error/Error';
+import Error from './UI/Error/Error';
 import React from 'react'
 export class ErrorBoundary extends React.Component {
     constructor(props) {

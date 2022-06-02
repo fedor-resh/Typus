@@ -2,7 +2,7 @@ import React, {Suspense, lazy, useEffect} from 'react';
 import {BrowserRouter, Redirect, Route, Routes, useNavigate} from 'react-router-dom';
 import Wrapper from './Pages/Wrapper/Wrapper';
 import Main from './Pages/Main/Main';
-import Error from './Components/Error/Error';
+import Error from './UI/Error/Error';
 import ListOfRooms from './Pages/ListOfRooms/ListOfRooms';
 import SignIn from './Components/SignIn/SignIn';
 import {useAuthState} from 'react-firebase-hooks/auth';

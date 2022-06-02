@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import s from './SettingsPage.module.css'
-import {Button} from "../../Components/Button/Button";
+import {Button} from "../../UI/Button/Button";
 import {updateRoomData} from "../../Redux/roomData";
 import {useDebounceEffect, useInput} from "../../utils/hooks";
 import Slider from "../../UI/Slider/Slider";
