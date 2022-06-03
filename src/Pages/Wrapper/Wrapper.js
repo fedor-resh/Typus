@@ -4,6 +4,7 @@ import {Outlet, useNavigate} from 'react-router-dom'
 import Footer from '../../Components/Footer/Footer';
 import s from './Wrapper.module.css'
 import {useSelector} from "react-redux";
+import {ErrorBoundary} from "../../ErrorBaundary";
 
 const Wrapper = () => {
     const {id} = useSelector((state) => state.user)
@@ -17,7 +18,9 @@ const Wrapper = () => {
     return (
         <div className={s.wrapper}>
             <Header/>
-            <Outlet/>
+            <ErrorBoundary>
+                <Outlet/>
+            </ErrorBoundary>
             <Footer/>
         </div>
 

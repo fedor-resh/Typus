@@ -58,7 +58,7 @@ const resultSlider = createSlice({
                 ...state.value,
                 ...action.payload
             }
-            if(action.payload.language) {
+            if(action.payload.language||action.payload.amountOfWords) {
                 state.value.text = generateRandomText(state.value.amountOfWords, state.value.language)
             }
 

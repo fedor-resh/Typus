@@ -39,43 +39,6 @@ export function setUserInRoom(room, name) {
     ref.onDisconnect()
         .remove()
 }
-// export function useUsersFromDatabase(roomId,myName) {
-//     const [users, setUsers] = useState([])
-//     useEffect(() => {
-//         setTimeout(() => {
-//
-//
-//             const arr = users
-//             const ref = database.ref('rooms/' + roomId + '/users');
-//             ref.once('value', (snapshot) => {
-//                 const obj = snapshot.val()
-//                 for (let id in obj) {
-//                     arr.push(obj[id])
-//                 }
-//                 setUsers(arr)
-//             });
-//
-//             ref.on('child_changed', (snapshot) => {
-//                 const arr = users
-//
-//
-//                 const obj = snapshot.val()
-//                 if(obj.name === myName)return
-//                 const oldObj = arr.find(el => el.name === obj.name)
-//
-//                 if (oldObj) {
-//                     arr[arr.indexOf(oldObj)] = obj
-//                 } else {
-//                     arr.push(obj)
-//                 }
-//
-//                 setUsers(arr)
-//             });
-//         }, 200)
-//
-//     }, [roomId])
-//     return users
-// }
 
 export function useUsersFromDatabase(roomId,myName) {
     const [users, setUsers] = useState([])

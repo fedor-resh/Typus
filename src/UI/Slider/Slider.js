@@ -6,15 +6,22 @@ function Slider({
                     setValue,
                     value,
                     isTimePanelVisible = false,
+                    isTime
                 }) {
     const {ref} = useMove(({x}) => {
         setValue(Math.round(x*10)*30)
-
     })
-    const min = Math.floor(value / 60)
-    const sec = value % 60
-    const time = `${min}:${sec}`
-    // const time = (min / 60 >= 1 ? '1:' : '') + (min % 60 < 10 ? '0' + min % 60 : min % 60) + ':00'
+    let time
+    if(isTime){
+        const min = Math.floor(value / 60)
+        const sec = value % 60
+        time = `${min}:${sec}`
+    }else{
+        time = value
+    }
+
+
+
     const val = value/60*20
 
     return (

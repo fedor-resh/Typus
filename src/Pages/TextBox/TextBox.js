@@ -2,7 +2,7 @@ import React, {Fragment, useCallback, useEffect, useRef, useState} from 'react';
 import s from './TextBox.module.css'
 import '../../fonts/fonts.css'
 import {useDispatch, useSelector} from 'react-redux';
-import {toEnd, toResults, toStart} from '../../Redux/roomData';
+import {toEnd, toResults, toRoom, toStart} from '../../Redux/roomData';
 import Timer from '../../UI/Timer/Timer';
 import {useInterval} from '@mantine/hooks';
 import {setResult} from '../../Redux/resultSlider';
@@ -21,12 +21,16 @@ import {
 } from './textBoxUtils';
 import Cursor from './Cursor';
 import {useEventListener} from "../../utils/hooks";
+import {useNavigate} from "react-router-dom";
+import RestartButton from "../../UI/RestartButton/RestartButton";
 
 
 const TextBox = () => {
     const {text,secondsForGame,mainState,roomId,language,isEndDependsOnTime} = useSelector(state => state.roomData.value)
     const name = useSelector(state => state.user.name)
     const users = useUsersFromDatabase(roomId,name)
+    const isResults = useSelector((state) => state.roomData.value.mainState) === 'RESULTS'
+    const navigate = useNavigate()
 
 
     const [indexOfCurrentCharacter, setIndexOfCurrentCharacter] = useState(0)
@@ -34,7 +38,6 @@ const TextBox = () => {
     const [mistakes, setMistakes] = useState([])
     const [secondsPassed, setSecondsPassed] = useState(0)
     const [isStarted, setIsStarted] = useState(false)
-    const [flag, setFlag ]= useState(false)
 
     const cursorRef = useRef(null)
     const textRef = useRef(null)
@@ -42,7 +45,7 @@ const TextBox = () => {
     const dispatch = useDispatch()
     const interval = useInterval(() => setSecondsPassed(s => s + 1), 1000);
 
-    function endHandler() {
+    function sendResults() {
         dispatch(setResult({
             roomId,
             amountOfCharacters: indexOfCurrentCharacter,
@@ -50,8 +53,6 @@ const TextBox = () => {
             amountOfMistakes: mistakes.length,
             name
         }))
-
-        dispatch(toResults())
     }
     function resetTextBoxState() {
         setUserInRoom(roomId,name)
@@ -67,7 +68,9 @@ const TextBox = () => {
 
 
     useEffect(() => {
-        clearResultsInDatabase(roomId)
+        if(!isResults){
+            clearResultsInDatabase(roomId)
+        }
         setUserInRoom(roomId,name)
         setLengthOfLines(calculateLengthOfLines(textRef))
         return interval.stop
@@ -84,14 +87,22 @@ const TextBox = () => {
         resetTextBoxState()
     },[text,language])
     useEffect(() => {
-        if ((mainState==='RESULTS'
+        if (mainState==='RESULTS'
             ||(secondsPassed===secondsForGame)&&isEndDependsOnTime
             ||indexOfCurrentCharacter===text.length
-            &&mistakes.length<text.length/2)&&!flag) {
-            endHandler()
-            setFlag(true)
+            &&mistakes.length<text.length/2) {
+            dispatch(toResults())
         }
     }, [mainState,secondsPassed,indexOfCurrentCharacter])
+    useEffect(()=>{
+        if(isResults){
+            if(isStarted){
+                sendResults()
+            }
+            navigate('/results')
+        }
+    },[isResults])
+
     useEffect(()=>{
         setSecondsPassed(0)
     },[secondsForGame])
@@ -127,6 +138,10 @@ const TextBox = () => {
         const [x, y] = calculateCurrentColumnAndRow(index,lengthOfLines)
         setStyles(x, y ,cursorRef.current)
         setIndexOfCurrentCharacter(index)
+
+        if(e.keyCode === 32 && e.target === document.body) {
+            e.preventDefault();
+        }
     },[isStarted,indexOfCurrentCharacter])
 
     useEventListener('keydown',keyboardHandler)
@@ -158,6 +173,7 @@ const TextBox = () => {
                     )}
                 </p>
             </div>
+            <RestartButton/>
         </>
     );
 };

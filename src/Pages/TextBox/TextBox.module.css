@@ -2,7 +2,6 @@
 .text__wrapper{
     margin-top: 50px;
     position: relative;
-    max-height: 400px;
 }
 .text{
     position: relative;
@@ -37,6 +36,7 @@
 
 }
 .user__cursor{
+    z-index: 2;
     composes: cursor;
     background-color: var(--color-450);
     transition: 0.5s;

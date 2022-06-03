@@ -7,8 +7,9 @@ import {useDebounceEffect, useInput} from "../../utils/hooks";
 import Slider from "../../UI/Slider/Slider";
 
 const SettingsPage = () => {
-    const {title, password, text, secondsForGame} = useSelector(state => state.roomData.value)
+    const {title, password, text, secondsForGame, amountOfWords} = useSelector(state => state.roomData.value)
     const [seconds, setSeconds] = useState(secondsForGame)
+    const [words, setWords] = useState(amountOfWords)
     const dispatch = useDispatch()
     const passwordInput = useInput(password)
     const customText = useInput(text)
@@ -17,13 +18,14 @@ const SettingsPage = () => {
         dispatch(updateRoomData({
             password: passwordInput.value || '',
             text: customText.value || 'text',
-            secondsForGame:seconds
+            secondsForGame:seconds,
+            amountOfWords:words
         }))
     }
 
     useDebounceEffect(()=>{
         saveSettings()
-    },[passwordInput.value,customText.value,seconds],500)
+    },[passwordInput.value,customText.value,seconds,words],500)
 
     return (
         <>
@@ -31,7 +33,7 @@ const SettingsPage = () => {
             <div className={s.settings}>
                 <div className={s.item}>
                     <p>time</p>
-                    <Slider value={seconds} setValue={setSeconds} isTimePanelVisible/>
+                    <Slider value={seconds} setValue={setSeconds} isTimePanelVisible isTime/>
                 </div>
                 <div className={s.item}>
                     <p>password</p>

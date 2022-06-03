@@ -3,18 +3,25 @@ import s from './Results.module.css'
 
 import {database, useResultsFromDatabase} from '../../Firebase/firebaseInit';
 import {connect, useSelector} from 'react-redux';
+import {useNavigate} from "react-router-dom";
+import RestartButton from "../../UI/RestartButton/RestartButton";
 
 
 const Results = () => {
     const roomId = useSelector(state => state.roomData.value.roomId)
     const results = useResultsFromDatabase(roomId)
-    // console.log(results.reduce((max,el)=>el.ball>max.ball?el:max),0)
-    // const winner = results.indexOf(results.reduce((max,el)=>el.ball>max.ball?el:max),0)
-    // console.log(winner)
+    const isResults = useSelector((state) => state.roomData.value.mainState) === 'RESULTS'
+    const navigate = useNavigate()
+    useEffect(()=>{
+            if(!isResults){
+                navigate('/')
+            }
+    },[isResults,results])
+
     const styles = (id) => id===0?{color:'gold'}:(id===1?{color:'silver'}:(id===2?{color:'#a87030'}:{}))
 
     return (
-        <div>
+        <>
             <div className={s.grid}>
                 <div/>
                 <p className={s.executiveSystem}>cpm</p>
@@ -32,7 +39,8 @@ const Results = () => {
 
                 )}
             </div>
-        </div>
+            <RestartButton/>
+        </>
     );
 };
 

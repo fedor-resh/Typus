@@ -19,7 +19,7 @@ import {useNavigate} from 'react-router-dom';
 
 const Header = () => {
 
-    const {roomId, secondsForGame, language, isEndDependsOnTime} = useSelector(state => state.roomData.value)
+    const {roomId, secondsForGame, language, isEndDependsOnTime, mainState,amountOfWords} = useSelector(state => state.roomData.value)
     const {name,id} = useSelector(state => state.user)
     const linkRef = useRef(null)
     const link = `https://www.typus.ga#${roomId}`
@@ -52,7 +52,7 @@ const Header = () => {
 
                 <div className={s.left__bar}>
                     <h1>typus</h1>
-                    <Keyboard onClick={() => navigate('/')}/>
+                    <Keyboard onClick={() => navigate(mainState==='RESULTS'?'/results':'/')}/>
                     <Web onClick={() => navigate('/rooms')}/>
                     <Settings className={s.settings} onClick={() => navigate('/settings')}/>
                     <Information/>
@@ -86,14 +86,19 @@ const Header = () => {
                 ))}
             </div>
             <div>
-                {[15, 30, 60, 120].map(sec => (
+                {isEndDependsOnTime?[15, 30, 60, 120].map(sec => (
                     <span
                         key={sec}
                         className={secondsForGame === sec ? s.selected : ''}
                         onClick={() => dispatch(updateRoomData({secondsForGame: sec}))}
                     >{sec}</span>
+                )):[10, 20, 30, 40].map(words => (
+                    <span
+                        key={words}
+                        className={amountOfWords === words ? s.selected : ''}
+                        onClick={() => dispatch(updateRoomData({amountOfWords: words}))}
+                    >{words}</span>
                 ))}
-
             </div>
         </div>
     </header>);
