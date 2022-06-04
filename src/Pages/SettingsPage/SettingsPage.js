@@ -9,7 +9,6 @@ import Slider from "../../UI/Slider/Slider";
 const SettingsPage = () => {
     const {title, password, text, secondsForGame, amountOfWords} = useSelector(state => state.roomData.value)
     const [seconds, setSeconds] = useState(secondsForGame)
-    const [words, setWords] = useState(amountOfWords)
     const dispatch = useDispatch()
     const passwordInput = useInput(password)
     const customText = useInput(text)
@@ -19,13 +18,12 @@ const SettingsPage = () => {
             password: passwordInput.value || '',
             text: customText.value || 'text',
             secondsForGame:seconds,
-            amountOfWords:words
         }))
     }
 
     useDebounceEffect(()=>{
         saveSettings()
-    },[passwordInput.value,customText.value,seconds,words],500)
+    },[passwordInput.value,customText.value,seconds],500)
 
     return (
         <>

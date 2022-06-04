@@ -1,8 +1,7 @@
 import {database, setUserInRoom} from '../Firebase/firebaseInit';
 import {setDefaultRoomData, setRoomData} from '../Redux/roomData';
-
-const russian = require('../russianWords.json');
-const english = require('an-array-of-english-words')
+import russian from '../russianWords.json'
+import english from 'an-array-of-english-words'
 
 
 function generateRandomText(amountOfCharacters,lang = 'en'){
@@ -15,8 +14,10 @@ function generateRandomText(amountOfCharacters,lang = 'en'){
     for (let i=0; i<amountOfCharacters; i++) {
         text += ' ' + words[Math.floor(Math.random()*words.length)];
     }
+
     return text.substring(1)
 }
+
 function setThemeClass(theme) {
     window.document.body.className = theme
 }
