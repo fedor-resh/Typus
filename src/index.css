@@ -22,7 +22,7 @@ svg{
 svg:hover{
   fill:var(--color-450);
 }
-input,textarea{
+.input,textarea{
   padding: 0 20px;
   height: 40px;
   outline: none;
@@ -32,8 +32,7 @@ input,textarea{
   color: var(--color-450);
   background-color: var(--color-background);
   box-shadow: 0 3px 20px rgba(0, 0, 0, 0.56) inset;
-  width: min(360px, calc(100% - 40px));
-
+  width: calc(100% - 40px);
 }
 textarea::-webkit-scrollbar {
   width: .5em;
@@ -49,10 +48,10 @@ textarea::-webkit-scrollbar-corner{
   background-color: var(--color-350);
   border-radius: 100px;
 }
-input:-webkit-autofill,
-input:-webkit-autofill:focus {
+.input:-webkit-autofill,
+.input:-webkit-autofill:focus {
   transition: background-color 600000s 0s, color 600000s 0s;
 }
-input::placeholder{
+.input::placeholder{
   color: var(--color-350);
 }

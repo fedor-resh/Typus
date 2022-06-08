@@ -22,18 +22,19 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 export const database = firebase.database();
 
-export function setPositionOfCursorInDatabase(room, index) {
+export function setPositionOfCursorInDatabase(room, index, userId) {
     if (room === 'testRoom'||!room) return
-    database.ref('rooms/' + room + '/users/' + auth.currentUser.uid).update({
+    database.ref('rooms/' + room + '/users/' + userId).update({
         index,
     })
 }
 
-export function setUserInRoom(room, name) {
+export function setUserInRoom(room, user) {
     if (room === 'testRoom'||!room) return
-    const ref = database.ref('rooms/' + room + '/users/' + auth.currentUser.uid)
+    console.log(user)
+    const ref = database.ref('rooms/' + room + '/users/' + user.userId)
     ref.set({
-        name: name,
+        name: user.name,
         index:0
     })
     ref.onDisconnect()

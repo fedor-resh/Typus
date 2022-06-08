@@ -23,13 +23,14 @@ import Cursor from './Cursor';
 import {useEventListener} from "../../utils/hooks";
 import {useNavigate} from "react-router-dom";
 import RestartButton from "../../UI/RestartButton/RestartButton";
+import {useRoomDataSelector, useUserSelector} from "../../Redux/reduxHooks";
 
 
 const TextBox = () => {
-    const {text,secondsForGame,mainState,roomId,language,isEndDependsOnTime} = useSelector(state => state.roomData.value)
-    const name = useSelector(state => state.user.name)
+    const {text,secondsForGame,mainState,roomId,language,isEndDependsOnTime} = useRoomDataSelector()
+    const {name,userId} = useUserSelector()
     const users = useUsersFromDatabase(roomId,name)
-    const isResults = useSelector((state) => state.roomData.value.mainState) === 'RESULTS'
+    const isResults = mainState === 'RESULTS'
     const navigate = useNavigate()
 
 
@@ -51,11 +52,13 @@ const TextBox = () => {
             amountOfCharacters: indexOfCurrentCharacter,
             seconds:secondsPassed,
             amountOfMistakes: mistakes.length,
-            name
+            name,
+            userId
         }))
     }
     function resetTextBoxState() {
-        setUserInRoom(roomId,name)
+        // setUserInRoom(roomId,{name,userId})
+        //TODO can I remove it
         setLengthOfLines(calculateLengthOfLines(textRef))
         setIndexOfCurrentCharacter(0)
         setMistakes([])
@@ -71,7 +74,7 @@ const TextBox = () => {
         if(!isResults){
             clearResultsInDatabase(roomId)
         }
-        setUserInRoom(roomId,name)
+        setUserInRoom(roomId, {name,userId})
         setLengthOfLines(calculateLengthOfLines(textRef))
         return interval.stop
     }, [])
@@ -111,7 +114,7 @@ const TextBox = () => {
             || (indexOfCurrentCharacter === text.length
                 &&e.key!=='Backspace')) return
 
-        if((roomId==='testRoom'||auth.currentUser.uid===roomId)&&!isStarted) {
+        if((roomId==='testRoom'||userId===roomId)&&!isStarted) {
             dispatch(toStart())
         }
 
@@ -134,7 +137,7 @@ const TextBox = () => {
             }
             index++
         }
-        setPositionOfCursorInDatabase(roomId, index)
+        setPositionOfCursorInDatabase(roomId, index, userId)
         const [x, y] = calculateCurrentColumnAndRow(index,lengthOfLines)
         setStyles(x, y ,cursorRef.current)
         setIndexOfCurrentCharacter(index)

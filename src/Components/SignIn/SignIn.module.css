@@ -1,43 +1,49 @@
 
-.modal{
-    padding-top: 30vh;
+.grid *{
+    margin-bottom: 10px;
 }
-.modal button {
+.grid form{
+    margin: 0;
+}
+.grid{
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    padding:30vh 20px 0;
+    width: min(400px, 100%);
+}
+.title{
+    text-align: center;
+    font-family: "Cubano Normal",sans-serif;
+    font-size: 40px;
+    color:var(--color-350);
+    user-select: none;
+    margin: 20px -40px 5px;
+}
+.flex{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+}
+.button{
     font-family: "Cubano Normal",sans-serif;
     background-color: var(--color-350);
     color:var(--color-background);
-    padding: 10px 30px;
+    cursor: pointer;
+    padding: 0 10px;
     font-size: 20px;
     border:none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    margin-right: 40px;
     transition: .2s;
+    height: 40px;
+    outline: none;
+    border-radius: var(--border-radius);
+    width: min(400px, 100%);
 }
 
-.modal button:hover{
+.button:hover{
     background-color:var(--color-400)
 }
 
-.modal input,
-.modal button{
-    padding: 0 20px;
-    height: 40px;
-    outline: none;
-    border: none;
-    border-radius: var(--border-radius);
-    margin: 0 0 10px 0;
-    width: min(400px, 100%);
-
-}
-.modal button{
-    width: calc(min(400px, 100%) + 40px);
-}
-.modal h1{
-    font-family: "Cubano Normal",sans-serif;
-    font-size: 40px;
-    margin-right: 20px;
-    color:var(--color-350);
-    user-select: none;
-    margin-bottom: 5px;
-}

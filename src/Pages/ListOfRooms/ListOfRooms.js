@@ -5,12 +5,13 @@ import {roomConnect} from '../../utils/utils';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import RoomItem from './RoomItem/RoomItem';
+import {useUserSelector} from "../../Redux/reduxHooks";
 
 
 
 const ListOfRooms = () => {
     const rooms = useRoomsFromDatabase()
-    const name = useSelector(state => state.user.name)
+    const user = useUserSelector()
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -19,7 +20,7 @@ const ListOfRooms = () => {
             const writtenPassword = prompt('enter password: ')
             if(password!==writtenPassword)return
         }
-        roomConnect(title, name , dispatch)
+        roomConnect(title, user, dispatch)
         navigate('/', {replace: true})
     }
     function getProps(room){

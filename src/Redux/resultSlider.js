@@ -10,7 +10,7 @@ const resultSlider = createSlice({
         ball: 0
     }, reducers: {
         setResult: (state, action) => {
-            let {roomId,amountOfCharacters, seconds, amountOfMistakes, name} = action.payload
+            let {roomId,amountOfCharacters, seconds, amountOfMistakes, name, userId} = action.payload
             state.charPerMinute = Math.round(amountOfCharacters / seconds * 60)
             state.PercentageOfRight = amountOfCharacters>0?Math.round((1 - amountOfMistakes / amountOfCharacters) * 100):0
             state.ball = amountOfCharacters>0?Math.round((amountOfCharacters / seconds * 60)
@@ -18,7 +18,7 @@ const resultSlider = createSlice({
             setResultsInDatabase(
                 roomId,
                 name,
-                auth.currentUser.uid,
+                userId,
                 state.charPerMinute,
                 state.PercentageOfRight,
                 state.ball

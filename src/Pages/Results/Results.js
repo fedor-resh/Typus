@@ -9,8 +9,9 @@ import RestartButton from "../../UI/RestartButton/RestartButton";
 
 const Results = () => {
     const roomId = useSelector(state => state.roomData.value.roomId)
-    const results = useResultsFromDatabase(roomId)
     const isResults = useSelector((state) => state.roomData.value.mainState) === 'RESULTS'
+
+    const results = useResultsFromDatabase(roomId)
     const navigate = useNavigate()
     useEffect(()=>{
             if(!isResults){
@@ -18,7 +19,6 @@ const Results = () => {
             }
     },[isResults,results])
 
-    const styles = (id) => id===0?{color:'gold'}:(id===1?{color:'silver'}:(id===2?{color:'#a87030'}:{}))
 
     return (
         <>

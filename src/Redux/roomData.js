@@ -25,11 +25,11 @@ const resultSlider = createSlice({
         setNewRoomData:(state,action) => {
             state.value = {
                 ...state.value,
-                roomId:auth.currentUser.uid,
+                roomId:action.payload.userId,
                 text:generateRandomText(20, 'en'),
                 secondsForGame:30,
                 mainState:'ROOM',
-                title:action.payload,
+                title:action.payload.title,
             }
             database.ref('rooms/' + state.value.roomId + '/roomSettings').set({
                 ...state.value
@@ -43,15 +43,17 @@ const resultSlider = createSlice({
             state.value = action.payload
         },
         toRestartGame: (state) => {
+
             state.value.text = generateRandomText(state.value.amountOfWords, state.value.language)
             state.value.mainState = 'ROOM'
             database.ref('rooms/' + state.value.roomId + '/roomSettings').update({
                 text: state.value.text,
                 mainState: 'ROOM'
             })
+            // console.log(store)
         },
         updateRoomData: (state, action) => {
-            if (state.value.mainState === 'ROOM_TYPE' || auth.currentUser.uid !== state.value.roomId) return
+            if (state.value.mainState === 'ROOM_TYPE' || action.payload.userId !== state.value.roomId) return
 
 
             state.value = {

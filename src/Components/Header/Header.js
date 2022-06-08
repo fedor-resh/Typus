@@ -20,7 +20,7 @@ import {useNavigate} from 'react-router-dom';
 const Header = () => {
 
     const {roomId, secondsForGame, language, isEndDependsOnTime, mainState,amountOfWords} = useSelector(state => state.roomData.value)
-    const {name,id} = useSelector(state => state.user)
+    const {name,userId} = useSelector(state => state.user)
     const linkRef = useRef(null)
     const link = `https://www.typus.ga#${roomId}`
     const navigate = useNavigate();
@@ -32,9 +32,9 @@ const Header = () => {
     const dispatch = useDispatch()
 
     function setNewRoom() {
-        dispatch(setNewRoomData(name))
+        dispatch(setNewRoomData({title:name,userId}))
         // setUserInRoom(roomId, name)
-        roomConnect(id,name,dispatch)
+        roomConnect(userId,{name,userId},dispatch)
     }
 
     function signOutHandler() {
@@ -67,12 +67,12 @@ const Header = () => {
 
         </div>
 
-        <div className={`${s.settings} ${auth.currentUser?.uid === roomId ? s.isAuth : ''}`}>
+        <div className={`${s.settings} ${userId === roomId ? s.isAuth : ''}`}>
             <div>
                 <span className={language === 'en' ? s.selected : ''}
-                      onClick={() => dispatch(updateRoomData({language: 'en'}))}>english</span>
+                      onClick={() => dispatch(updateRoomData({language: 'en',userId}))}>english</span>
                 <span className={language === 'ru' ? s.selected : ''}
-                      onClick={() => dispatch(updateRoomData({language: 'ru'}))}>russian</span>
+                      onClick={() => dispatch(updateRoomData({language: 'ru',userId}))}>russian</span>
                 {/*<Lock className={s.lock}/>*/}
             </div>
             <div>
@@ -81,7 +81,7 @@ const Header = () => {
                         key={mode}
                         className={isEndDependsOnTime === (mode !== 'words') ? s.selected : ''}
                         onClick={() => dispatch(updateRoomData({
-                            isEndDependsOnTime: (mode !== 'words')
+                            isEndDependsOnTime: (mode !== 'words'),userId
                         }))}>{mode}</span>
                 ))}
             </div>
@@ -90,13 +90,13 @@ const Header = () => {
                     <span
                         key={sec}
                         className={secondsForGame === sec ? s.selected : ''}
-                        onClick={() => dispatch(updateRoomData({secondsForGame: sec}))}
+                        onClick={() => dispatch(updateRoomData({secondsForGame: sec,userId}))}
                     >{sec}</span>
                 )):[10, 20, 30, 40].map(words => (
                     <span
                         key={words}
                         className={amountOfWords === words ? s.selected : ''}
-                        onClick={() => dispatch(updateRoomData({amountOfWords: words}))}
+                        onClick={() => dispatch(updateRoomData({amountOfWords: words,userId}))}
                     >{words}</span>
                 ))}
             </div>

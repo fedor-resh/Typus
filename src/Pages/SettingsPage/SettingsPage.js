@@ -5,10 +5,12 @@ import {Button} from "../../UI/Button/Button";
 import {updateRoomData} from "../../Redux/roomData";
 import {useDebounceEffect, useInput} from "../../utils/hooks";
 import Slider from "../../UI/Slider/Slider";
+import {useUserSelector} from "../../Redux/reduxHooks";
 
 const SettingsPage = () => {
     const {title, password, text, secondsForGame, amountOfWords} = useSelector(state => state.roomData.value)
     const [seconds, setSeconds] = useState(secondsForGame)
+    const {userId} = useUserSelector()
     const dispatch = useDispatch()
     const passwordInput = useInput(password)
     const customText = useInput(text)
@@ -18,6 +20,7 @@ const SettingsPage = () => {
             password: passwordInput.value || '',
             text: customText.value || 'text',
             secondsForGame:seconds,
+            userId
         }))
     }
 
@@ -36,6 +39,7 @@ const SettingsPage = () => {
                 <div className={s.item}>
                     <p>password</p>
                     <input
+                        className='input'
                         {...passwordInput.bind}
                         placeholder='add password'
                         style={{padding:'5px 20px',marginLeft: 10}}

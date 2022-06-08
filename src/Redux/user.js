@@ -7,37 +7,42 @@ const user = createSlice({
     name: 'user',
     initialState: {
         name:'user',
-        id:'testId',
+        userId:'testId',
         theme:'Ocean'
     }, reducers: {
-        setNewUser:(state,action)=>{
+        setNewUser:(state,action)=> {
             state.name = action.payload
-            state.id = auth.currentUser.uid
-            database.ref('users/' + state.id).set({
-                name:state.name,
-                theme:state.theme,
+            state.userId = auth.currentUser.uid
+            database.ref('users/' + state.userId).set({
+                name: state.name,
+                theme: state.theme,
             })
         },
+        setGuest:(state,action)=>{
+            state.name = action.payload
+            state.userId = 'guest'+Math.round(Math.random()*10000000)
+            console.log(state.userId)
+        },
         setUser:(state,action)=>{
-            state.id = action.payload.id ?? state.id
+            state.userId = action.payload.userId ?? state.userId
             state.name = action.payload.name ?? 'err'
             setThemeClass(action.payload.theme)
         },
         setTheme:(state,action)=>{
             state.theme = action.payload
             setThemeClass(state.theme)
-            database.ref('users/' + state.id).update({
+            database.ref('users/' + state.userId).update({
                 theme:state.theme,
             })
-            // database.ref('users/' + state.id).onDisconnect()
+            // database.ref('users/' + state.userId).onDisconnect()
         },
         clearUserSettings:(state)=>{
             state.name = ''
-            state.id = 'testId'
+            state.userId = 'testId'
         }
     }
 })
 
-export const {setUser,setNewUser,setTheme,clearUserSettings} = user.actions
+export const {setUser,setNewUser,setTheme,clearUserSettings,setGuest} = user.actions
 
 export const userReducer = user.reducer

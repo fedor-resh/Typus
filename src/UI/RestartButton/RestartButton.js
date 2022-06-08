@@ -6,10 +6,11 @@ import {toRestartGame, toRoom} from '../../Redux/roomData';
 import {generateRandomText} from '../../utils/utils';
 import {auth} from '../../Firebase/firebaseInit';
 import {useAuthState} from 'react-firebase-hooks/auth';
+import {useRoomDataSelector, useUserSelector} from "../../Redux/reduxHooks";
 const RestartButton = () => {
-    const [user] = useAuthState(auth)
-    const roomId = useSelector(state => state.roomData.value.roomId)
+    const {roomId} = useRoomDataSelector()
     const dispatch = useDispatch()
+    const {userId} = useUserSelector()
     function restartGame() {
         dispatch(toRestartGame())
         if (document.activeElement instanceof HTMLElement)
@@ -18,7 +19,7 @@ const RestartButton = () => {
 
     return (
         <div className={s.wrapper}>
-            <button disabled={user?.uid !== roomId} tabIndex={0} onClick={restartGame}>
+            <button disabled={userId !== roomId} tabIndex={0} onClick={restartGame}>
                 <Restart/>
             </button>
         </div>

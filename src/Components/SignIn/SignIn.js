@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react';
 import s from './SignIn.module.css'
 import {auth, database, setUserInRoom, signInWithGoogle} from '../../Firebase/firebaseInit';
 import {useDispatch, useSelector} from 'react-redux';
-import {setUser, setNewUser} from '../../Redux/user';
+import {setUser, setNewUser, setGuest} from '../../Redux/user';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
@@ -11,6 +11,7 @@ import 'firebase/compat/database';
 import {roomConnect, setThemeClass} from '../../utils/utils';
 import {current} from '@reduxjs/toolkit';
 import {useNavigate} from 'react-router-dom';
+import {useUserSelector} from "../../Redux/reduxHooks";
 
 const SignIn = message => {
     const [isAlreadyHaveAccount, setIsAlreadyHaveAccount] = useState(true)
@@ -19,6 +20,13 @@ const SignIn = message => {
     const name = useRef(null)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const user = useUserSelector()
+
+    const titles = {
+        createAccount: 'create',
+        enter: 'enter',
+        guest: 'how guest'
+    }
 
     async function registrationHandler(result) {
         try {
@@ -28,18 +36,17 @@ const SignIn = message => {
                 .once('value', snapshot => {
                     user = snapshot.val()
                 })
-
             dispatch(setUser({
                 name: user.name,
-                id: result.user.uid,
+                userId: result.user.uid,
                 theme: user.theme
             }))
-            roomConnect(window.location.hash.substring(1), user.name, dispatch)
+            roomConnect(window.location.hash.substring(1), user, dispatch)
         } catch (err) {
             console.log(err)
             const name = prompt('enter name:')
             dispatch(setNewUser(name))
-        }finally {
+        } finally {
             navigate('/')
         }
 
@@ -52,7 +59,8 @@ const SignIn = message => {
             .catch(err => alert(err))
     }
 
-    function handleSubmit(name) {
+    function handleSubmit(event, name) {
+        event.preventDefault()
         if (isAlreadyHaveAccount) {
             auth.signInWithEmailAndPassword(email.current.value, password.current.value)
                 .then(registrationHandler)
@@ -62,39 +70,54 @@ const SignIn = message => {
             auth.createUserWithEmailAndPassword(email.current.value, password.current.value)
                 .then(() => {
                     dispatch(setNewUser(name))
-                    roomConnect(window.location.hash.substring(1), name.current?.value, dispatch)
+                    roomConnect(window.location.hash.substring(1), user, dispatch)
                     navigate('/')
                 })
                 .catch(err => console.error(err))
         }
     }
-
+    function signInLikeGuest() {
+        const name = prompt('enter name:', 'name')
+        dispatch(setGuest(name))
+        navigate('/')
+    }
     return (
-        <div>
-            <div className={s.modal}>
-                <center><h1>{isAlreadyHaveAccount ? 'enter' : 'create new account'}</h1></center>
-                <center><input placeholder={'email'} ref={email} type="email"/></center>
-                <center><input placeholder={'password'} ref={password} type='password'/></center>
-                {!isAlreadyHaveAccount && <center><input placeholder={'nickname'} ref={name} type='text'/></center>}
-                <center>
-                    <button onClick={() => handleSubmit(name.current?.value ?? 'name')}>submit</button>
-                </center>
-                <center>
-                    <button onClick={isAlreadyHaveAccount
-                        ? () => setIsAlreadyHaveAccount(false)
-                        : () => setIsAlreadyHaveAccount(true)}>
-                        {isAlreadyHaveAccount
-                            ? 'create new account'
-                            : 'already have account'}
-                    </button>
-                </center>
-                <center>
-                    <button onClick={signInWithGoogle}>
-                        sign in with google
-                    </button>
-                </center>
+        <div className={s.grid}>
+            <form onSubmit={(e) => handleSubmit(e, name.current?.value)}>
+
+                <h1 className={s.title}>{isAlreadyHaveAccount ? 'enter' : 'create new account'}</h1>
+                <input placeholder={'email'} ref={email} type="email" className='input'/>
+                <input placeholder={'password'} ref={password} type='password' className='input'/>
+                {!isAlreadyHaveAccount && <input placeholder={'nickname'} ref={name} type='text' className='input'/>}
+
+                <input
+                    type='submit'
+                    className={s.button}
+                    value='submit'
+                />
+
+            </form>
+            <button onClick={isAlreadyHaveAccount
+                ? () => setIsAlreadyHaveAccount(false)
+                : () => setIsAlreadyHaveAccount(true)}
+                    className={s.button}
+            >
+                {isAlreadyHaveAccount
+                    ? 'create new account'
+                    : 'already have account'}
+            </button>
+
+            <div className={s.flex}>
+                <button onClick={signInWithGoogle} className={s.button}>
+                    google
+                </button>
+                <button onClick={signInLikeGuest} className={s.button}>
+                    guest
+                </button>
             </div>
+
         </div>
+
 
     );
 };
