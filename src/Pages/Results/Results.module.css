@@ -11,6 +11,7 @@
 }
 .executiveSystem{
     color: var(--color-350) !important;
+    font-size: 24px!important;
 }
 .name{
     margin-top: 50px;

@@ -13,31 +13,30 @@ const Results = () => {
 
     const results = useResultsFromDatabase(roomId)
     const navigate = useNavigate()
-    useEffect(()=>{
-            if(!isResults){
-                navigate('/')
-            }
-    },[isResults,results])
+    useEffect(() => {
+        if (!isResults) {
+            navigate('/')
+        }
+    }, [isResults, results])
 
 
     return (
         <>
             <div className={s.grid}>
                 <div/>
-                <p className={s.executiveSystem}>cpm</p>
-                <p className={s.executiveSystem}>acc</p>
+                <p className={s.executiveSystem}>char/min</p>
+                <p className={s.executiveSystem}>right</p>
                 <p className={s.executiveSystem}>points</p>
-                {results&&results
-                    .sort((f,s)=>s.ball - f.ball)
-                    .map(({name,charPerMinute,PercentageOfRight,points},id)=>
-                    <Fragment key={id}>
-                        <p className={s.name} style={id===0?{color:'#b8a439'}:(id===1?{color:'#a1a1a1'}:(id===2?{color:'#8b694b'}:{}))}>{name}</p>
-                        <p className={s.number} style={id===0?{color:'#b8a439'}:(id===1?{color:'#a1a1a1'}:(id===2?{color:'#8b694b'}:{}))}>{charPerMinute}</p>
-                        <p className={s.number} style={id===0?{color:'#b8a439'}:(id===1?{color:'#a1a1a1'}:(id===2?{color:'#8b694b'}:{}))}>{PercentageOfRight + '%'}</p>
-                        <p className={s.number} style={id===0?{color:'#b8a439'}:(id===1?{color:'#a1a1a1'}:(id===2?{color:'#8b694b'}:{}))}>{points}</p>
-                    </Fragment>
-
-                )}
+                {results && results
+                    .sort((f, s) => s.ball - f.ball)
+                    .map(({name, charPerMinute, PercentageOfRight, ball}, id) =>
+                        <Fragment key={id}>
+                            <p className={s.name} style={id === 0 ? {color: '#b8a439'} : (id === 1 ? {color: '#a1a1a1'} : (id === 2 ? {color: '#8b694b'} : {}))}>{name}</p>
+                            <p className={s.number} style={id === 0 ? {color: '#b8a439'} : (id === 1 ? {color: '#a1a1a1'} : (id === 2 ? {color: '#8b694b'} : {}))}>{charPerMinute}</p>
+                            <p className={s.number} style={id === 0 ? {color: '#b8a439'} : (id === 1 ? {color: '#a1a1a1'} : (id === 2 ? {color: '#8b694b'} : {}))}>{PercentageOfRight + '%'}</p>
+                            <p className={s.number} style={id === 0 ? {color: '#b8a439'} : (id === 1 ? {color: '#a1a1a1'} : (id === 2 ? {color: '#8b694b'} : {}))}>{ball}</p>
+                        </Fragment>
+                    )}
             </div>
             <RestartButton/>
         </>
