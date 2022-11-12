@@ -83,7 +83,7 @@ const TextBox = () => {
             setTimeout(()=>{
                 setIsStarted(true)
                 interval.start()
-            },3300)
+            },users.length === 1?3300:0)
         }
     },[mainState])
     useEffect(()=>{
@@ -118,7 +118,7 @@ const TextBox = () => {
             dispatch(toStart())
         }
 
-        if(!isStarted) return
+        if(!isStarted && users.length === 1) return
 
         function BackspaceHandler() {
             if (index === 0) return
@@ -156,7 +156,7 @@ const TextBox = () => {
         <>
             <div className={s.text__wrapper}>
                 <Timer
-                    playStartAnimation={mainState==='ROOM_TYPE'}
+                    playStartAnimation={mainState==='ROOM_TYPE' && users.length === 1}
                     seconds={isEndDependsOnTime?secondsForGame-secondsPassed:secondsPassed}
                 />
                 <Cursors users={users} lengthOfLines={lengthOfLines} name={name}/>
