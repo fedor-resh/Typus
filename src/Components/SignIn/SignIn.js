@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import s from './SignIn.module.css'
 import {auth, database, setUserInRoom, signInWithGoogle} from '../../Firebase/firebaseInit';
 import {useDispatch, useSelector} from 'react-redux';
@@ -22,6 +22,14 @@ const SignIn = message => {
     const navigate = useNavigate()
     const user = useUserSelector()
 
+    useEffect(()=>{
+        if(localStorage.getItem('password') && localStorage.getItem('email')){
+            email.current.value = localStorage.getItem('email')
+            password.current.value = localStorage.getItem('password')
+            handleSubmit({}, false)
+            console.log('auto login')
+        }
+    },[])
     const titles = {
         createAccount: 'create',
         enter: 'enter',
@@ -60,7 +68,7 @@ const SignIn = message => {
     }
 
     function handleSubmit(event, name) {
-        event.preventDefault()
+        event.preventDefault?.()
         if (isAlreadyHaveAccount) {
             auth.signInWithEmailAndPassword(email.current.value, password.current.value)
                 .then(registrationHandler)
@@ -75,6 +83,8 @@ const SignIn = message => {
                 })
                 .catch(err => console.error(err))
         }
+        localStorage.setItem('email', email.current.value)
+        localStorage.setItem('password', password.current.value)
     }
     function signInLikeGuest() {
         const name = prompt('enter name:', 'name')

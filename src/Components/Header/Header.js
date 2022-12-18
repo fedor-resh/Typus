@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import s from './Header.module.css'
 import {ReactComponent as Keyboard} from '../../svg/keyboard.svg'
 import {ReactComponent as Chat} from '../../svg/chat.svg'
@@ -25,10 +25,10 @@ const Header = () => {
     const link = `https://www.typus.ga#${roomId}`
     const navigate = useNavigate();
 
+
     async function copyHandler() {
         await navigator.clipboard.writeText(link);
     }
-
     const dispatch = useDispatch()
 
     function setNewRoom() {
@@ -44,7 +44,12 @@ const Header = () => {
         dispatch(clearUserSettings())
         navigate('/login')
     }
-
+    useEffect(() => {
+        if (roomId==='testRoom' && userId!=='testId') {
+            setNewRoom()
+            console.log('set new room')
+        }
+    },[])
     return (<header className={s.header}>
 
         <div className={s.top}>

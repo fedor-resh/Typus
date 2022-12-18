@@ -49,11 +49,11 @@ const TextBox = () => {
     function sendResults() {
         dispatch(setResult({
             roomId,
-            amountOfCharacters: indexOfCurrentCharacter,
             seconds:secondsPassed,
-            amountOfMistakes: mistakes.length,
+            mistakes,
             name,
-            userId
+            userId,
+            text: text.slice(0,indexOfCurrentCharacter)
         }))
     }
     function resetTextBoxState() {
@@ -80,6 +80,11 @@ const TextBox = () => {
     }, [])
     useEffect(()=>{
         if(mainState==='ROOM_TYPE'){
+            if (users.length === 1){
+                setIsStarted(true)
+                interval.start()
+                return
+            }
             setTimeout(()=>{
                 setIsStarted(true)
                 interval.start()
@@ -117,7 +122,6 @@ const TextBox = () => {
         if((roomId==='testRoom'||userId===roomId)&&!isStarted) {
             dispatch(toStart())
         }
-
         if(!isStarted && users.length === 1) return
 
         function BackspaceHandler() {
@@ -145,7 +149,7 @@ const TextBox = () => {
         if(e.keyCode === 32 && e.target === document.body) {
             e.preventDefault();
         }
-    },[isStarted,indexOfCurrentCharacter])
+    },[isStarted,indexOfCurrentCharacter, text])
 
     useEventListener('keydown',keyboardHandler)
     useEventListener('resize',()=>{

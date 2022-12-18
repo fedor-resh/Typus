@@ -50,11 +50,9 @@ const resultSlider = createSlice({
                 text: state.value.text,
                 mainState: 'ROOM'
             })
-            // console.log(store)
         },
         updateRoomData: (state, action) => {
             if (state.value.mainState === 'ROOM_TYPE' || action.payload.userId !== state.value.roomId) return
-
 
             state.value = {
                 ...state.value,
