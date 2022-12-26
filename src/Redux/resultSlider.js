@@ -31,8 +31,7 @@ const resultSlider = createSlice({
             // console.log(state.wordPerMinute);
             state.charPerMinute = Math.round(text.length / seconds * 60)
             state.PercentageOfRight = text.length>0?Math.round((1 - mistakes.length / text.length) * 100):0
-            state.ball = text.length>0?Math.round((text.length / seconds * 60)
-                * (1 - mistakes / text.length)):0
+            state.ball = text.length>0? Math.round(state.charPerMinute * state.PercentageOfRight / 100):0
             setResultsInDatabase(
                 roomId,
                 name,
