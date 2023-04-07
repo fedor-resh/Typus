@@ -80,15 +80,16 @@ const TextBox = () => {
     }, [])
     useEffect(()=>{
         if(mainState==='ROOM_TYPE'){
-            if (users.length === 1){
+            if (users.length === 0){
                 setIsStarted(true)
                 interval.start()
                 return
             }
+            console.log(users);
             setTimeout(()=>{
                 setIsStarted(true)
                 interval.start()
-            },users.length === 1?3300:0)
+            },3300)
         }
     },[mainState])
     useEffect(()=>{
@@ -122,7 +123,7 @@ const TextBox = () => {
         if((roomId==='testRoom'||userId===roomId)&&!isStarted) {
             dispatch(toStart())
         }
-        if(!isStarted && users.length === 1) return
+        if(!isStarted && users.length !== 0) return
 
         function BackspaceHandler() {
             if (index === 0) return
