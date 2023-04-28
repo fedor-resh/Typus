@@ -23,12 +23,7 @@ const resultSlider = createSlice({
     }, reducers: {
         setResult: (state, action) => {
             let {roomId, seconds, mistakes, name, userId, text} = action.payload
-            //TODO: add ball calculation
-            // const correctWords = countCorrectWords(text, mistakes)
-            // state.wordPerMinute = Math.round(correctWords / (seconds / 60) * 100) / 100
-            // state.PercentageOfRight = Math.round(correctWords / text.split(' ').length * 100)
-            // state.ball = Math.round(state.wordPerMinute * state.PercentageOfRight / 100)
-            // console.log(state.wordPerMinute);
+
             state.charPerMinute = Math.round(text.length / seconds * 60)
             state.PercentageOfRight = text.length>0?Math.round((1 - mistakes.length / text.length) * 100):0
             state.ball = text.length>0? Math.round(state.charPerMinute * state.PercentageOfRight / 100):0
