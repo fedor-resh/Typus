@@ -6,7 +6,7 @@ import {setThemeClass} from '../utils/utils';
 const user = createSlice({
     name: 'user',
     initialState: {
-        name:'user',
+        name:'—',
         userId:'testId',
         theme:'Ocean'
     }, reducers: {

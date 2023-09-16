@@ -30,15 +30,14 @@ export function setPositionOfCursorInDatabase(room, index, userId) {
 }
 
 export function setUserInRoom(room, user) {
-    if (room === 'testRoom'||!room) return
+    if (room === 'testRoom'||!room||user.userId==='testId') return
     console.log(user)
     const ref = database.ref('rooms/' + room + '/users/' + user.userId)
     ref.set({
         name: user.name,
-        index:0
+        index: 0
     })
-    ref.onDisconnect()
-        .remove()
+    ref.onDisconnect().remove()
 }
 
 export function useUsersFromDatabase(roomId,myName) {

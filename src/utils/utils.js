@@ -27,10 +27,7 @@ function tryRoomConnect(roomId, user, dispatch) {
     if (!roomId) return
     database.ref('rooms/' + roomId + '/roomSettings').on('value', (snapshot) => {
         const data = snapshot.val();
-        if (!data) {
-            dispatch(setDefaultRoomData())
-            return
-        }
+        if (!data) return
         dispatch(setRoomData({roomId, ...data}))
     })
     setUserInRoom(roomId, user)
