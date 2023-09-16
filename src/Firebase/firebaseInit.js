@@ -31,7 +31,8 @@ export function setPositionOfCursorInDatabase(room, index, userId) {
 
 export function setUserInRoom(room, user) {
     if (room === 'testRoom'||!room||user.userId==='testId') return
-    console.log(user)
+    const newUrl = window.location.origin + '?room=' + room
+    window.history.pushState({path: newUrl}, '', newUrl);
     const ref = database.ref('rooms/' + room + '/users/' + user.userId)
     ref.set({
         name: user.name,

@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {auth, database} from '../Firebase/firebaseInit';
+import {auth, database, setUserInRoom} from '../Firebase/firebaseInit';
 import {generateRandomText} from '../utils/utils';
+import {setUser} from "./user";
 
 const initialState = {
     roomId: 'testRoom',

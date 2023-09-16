@@ -1,15 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
 import s from './SignIn.module.css'
-import {auth, database, setUserInRoom, signInWithGoogle} from '../../Firebase/firebaseInit';
-import {useDispatch, useSelector} from 'react-redux';
-import {setUser, setNewUser, setGuest} from '../../Redux/user';
+import {auth, database} from '../../Firebase/firebaseInit';
+import {useDispatch} from 'react-redux';
+import {setGuest, setNewUser, setUser} from '../../Redux/user';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
 
-import {tryRoomConnect, setThemeClass} from '../../utils/utils';
-import {current} from '@reduxjs/toolkit';
+import {getRoomHash, tryRoomConnect} from '../../utils/utils';
 import {useNavigate} from 'react-router-dom';
 import {useUserSelector} from "../../Redux/reduxHooks";
 
@@ -32,7 +31,7 @@ const SignIn = message => {
     },[])
     useEffect(()=>{
         if(user.userId === 'testId') return
-        tryRoomConnect(window.location.hash.substring(1), user, dispatch)
+        tryRoomConnect(getRoomHash(), user, dispatch)
         navigate('/')
     }, [user])
     const titles = {
@@ -79,7 +78,7 @@ const SignIn = message => {
             auth.createUserWithEmailAndPassword(email.current.value, password.current.value)
                 .then(() => {
                     dispatch(setNewUser(name))
-                    tryRoomConnect(window.location.hash.substring(1), user, dispatch)
+                    tryRoomConnect(getRoomHash(), user, dispatch)
                     navigate('/')
                 })
                 .catch(err => console.error(err))

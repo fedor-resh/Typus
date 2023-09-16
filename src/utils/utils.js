@@ -32,5 +32,9 @@ function tryRoomConnect(roomId, user, dispatch) {
     })
     setUserInRoom(roomId, user)
 }
-
+export function getRoomHash() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomId = urlParams.get('room');
+    return roomId
+}
 export {generateRandomText, setThemeClass, tryRoomConnect}
