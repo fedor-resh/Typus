@@ -110,6 +110,7 @@ const TextBox = () => {
         setSecondsPassed(0)
     },[secondsForGame])
     const keyboardHandler = useCallback((e)=>{
+        if(userId === 'testId') return
         if((!isAllowedKeyboardKey(e.key))
             || (indexOfCurrentCharacter === text.length
                 &&e.key!=='Backspace')) return

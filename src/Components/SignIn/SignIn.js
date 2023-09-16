@@ -8,7 +8,7 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
 
-import {getRoomHash, tryRoomConnect} from '../../utils/utils';
+import {getRoomHash, connectToRoom} from '../../utils/utils';
 import {useNavigate} from 'react-router-dom';
 import {useUserSelector} from "../../Redux/reduxHooks";
 
@@ -31,7 +31,9 @@ const SignIn = message => {
     },[])
     useEffect(()=>{
         if(user.userId === 'testId') return
-        tryRoomConnect(getRoomHash(), user, dispatch)
+        try{
+            connectToRoom(getRoomHash(), user, dispatch)
+        } catch (e) {}
         navigate('/')
     }, [user])
     const titles = {
@@ -78,7 +80,7 @@ const SignIn = message => {
             auth.createUserWithEmailAndPassword(email.current.value, password.current.value)
                 .then(() => {
                     dispatch(setNewUser(name))
-                    tryRoomConnect(getRoomHash(), user, dispatch)
+                    connectToRoom(getRoomHash(), user, dispatch)
                     navigate('/')
                 })
                 .catch(err => console.error(err))

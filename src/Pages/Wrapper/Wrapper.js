@@ -6,11 +6,12 @@ import s from './Wrapper.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {ErrorBoundary} from "../../ErrorBaundary";
 import {useUserSelector} from "../../Redux/reduxHooks";
-import {tryRoomConnect} from "../../utils/utils";
-import {setGuest} from "../../Redux/user";
+import {connectToRoom} from "../../utils/utils";
+import {setGuest, setUser} from "../../Redux/user";
 import {setNewRoomData} from "../../Redux/roomData";
 import {getRoomHash} from "../../utils/utils";
 import {setUserInRoom} from "../../Firebase/firebaseInit";
+import Popup from "../../Popup/Popup";
 const Wrapper = () => {
     const {userId} = useUserSelector()
     const navigate = useNavigate()
@@ -18,24 +19,27 @@ const Wrapper = () => {
     const user = useUserSelector()
     useEffect(() => {
         if (user.userId === 'testId') return
-        if(getRoomHash()) {
-            tryRoomConnect(getRoomHash(), user, dispatch)
-        } else {
+        try{
+            connectToRoom(getRoomHash(), user, dispatch)
+        } catch (e) {
             dispatch(setNewRoomData({title:user.name,userId}))
             setUserInRoom(userId, user)
             const newUrl = window.location.origin + '?room=' + user.userId
+            window.localStorage.setItem('user', JSON.stringify(user))
             window.history.pushState({path: newUrl}, '', newUrl);
         }
     }, [user]);
     useEffect(() => {
-        if (userId === 'testId') {
-            const name = prompt('enter name:', 'name')
-            dispatch(setGuest(name))
+        const user = JSON.parse(window.localStorage.getItem('user'))
+        console.log(user)
+        if (user) {
+            dispatch(setUser(user))
         }
     }, [])
 
     return (
         <div className={s.wrapper}>
+            {userId === 'testId'&&<Popup onSubmit={name => dispatch(setGuest(name))}/>}
             <Header/>
             <ErrorBoundary>
                 <Outlet/>

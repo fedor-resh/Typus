@@ -13,7 +13,7 @@ import {setDefaultRoomData, setNewRoomData, updateRoomData} from '../../Redux/ro
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {auth, setUserInRoom} from '../../Firebase/firebaseInit';
 import {signOut} from 'firebase/auth'
-import {generateRandomText, tryRoomConnect} from '../../utils/utils';
+import {generateRandomText, connectToRoom} from '../../utils/utils';
 import {clearUserSettings, setUser} from '../../Redux/user';
 import {useNavigate} from 'react-router-dom';
 
@@ -33,7 +33,7 @@ const Header = () => {
     function setNewRoom() {
         dispatch(setNewRoomData({title:name,userId}))
         // setUserInRoom(roomId, name)
-        tryRoomConnect(userId,{name,userId},dispatch)
+        connectToRoom(userId,{name,userId},dispatch)
     }
 
     function signOutHandler() {
