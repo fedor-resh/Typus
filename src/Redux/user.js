@@ -20,8 +20,8 @@ const user = createSlice({
         },
         setGuest:(state,action)=>{
             state.name = action.payload
-            state.userId = 'guest'+Math.round(Math.random()*10000000)
-            console.log(state.userId)
+            const hash = 'guest'+Math.round(Math.random()*10000000)
+            state.userId = hash
         },
         setUser:(state,action)=>{
             state.userId = action.payload.userId ?? state.userId

@@ -8,7 +8,7 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
 
-import {roomConnect, setThemeClass} from '../../utils/utils';
+import {tryRoomConnect, setThemeClass} from '../../utils/utils';
 import {current} from '@reduxjs/toolkit';
 import {useNavigate} from 'react-router-dom';
 import {useUserSelector} from "../../Redux/reduxHooks";
@@ -30,6 +30,11 @@ const SignIn = message => {
             console.log('auto login')
         }
     },[])
+    useEffect(()=>{
+        if(user.userId === 'testId') return
+        tryRoomConnect(window.location.hash.substring(1), user, dispatch)
+        navigate('/')
+    }, [user])
     const titles = {
         createAccount: 'create',
         enter: 'enter',
@@ -49,15 +54,11 @@ const SignIn = message => {
                 userId: result.user.uid,
                 theme: user.theme
             }))
-            roomConnect(window.location.hash.substring(1), user, dispatch)
         } catch (err) {
             console.log(err)
             const name = prompt('enter name:')
             dispatch(setNewUser(name))
-        } finally {
-            navigate('/')
         }
-
     }
 
     function signInWithGoogle() {
@@ -78,7 +79,7 @@ const SignIn = message => {
             auth.createUserWithEmailAndPassword(email.current.value, password.current.value)
                 .then(() => {
                     dispatch(setNewUser(name))
-                    roomConnect(window.location.hash.substring(1), user, dispatch)
+                    tryRoomConnect(window.location.hash.substring(1), user, dispatch)
                     navigate('/')
                 })
                 .catch(err => console.error(err))
@@ -89,8 +90,6 @@ const SignIn = message => {
     function signInLikeGuest() {
         const name = prompt('enter name:', 'name')
         dispatch(setGuest(name))
-        roomConnect(window.location.hash.substring(1), user, dispatch)
-        navigate('/')
     }
     return (
         <div className={s.grid}>

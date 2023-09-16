@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useRoomsFromDatabase} from '../../Firebase/firebaseInit';
 import s from './ListOfRooms.module.css';
-import {roomConnect} from '../../utils/utils';
+import {tryRoomConnect} from '../../utils/utils';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import RoomItem from './RoomItem/RoomItem';
@@ -20,7 +20,7 @@ const ListOfRooms = () => {
             const writtenPassword = prompt('enter password: ')
             if(password!==writtenPassword)return
         }
-        roomConnect(title, user, dispatch)
+        tryRoomConnect(title, user, dispatch)
         navigate('/', {replace: true})
     }
     function getProps(room){

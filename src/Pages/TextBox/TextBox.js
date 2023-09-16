@@ -184,7 +184,7 @@ const Cursors = ({users,lengthOfLines,name})=>(
         {users&&users
             .filter(user=>user.name!==name)
             .map(user=>
-                <Cursor key={user.name} lengthOfLines={lengthOfLines} {...user}/>
+                <Cursor key={user.userId} lengthOfLines={lengthOfLines} {...user}/>
             )}
     </div>
 )

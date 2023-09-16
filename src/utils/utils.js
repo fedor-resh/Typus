@@ -23,7 +23,7 @@ function setThemeClass(theme) {
     window.document.body.className = theme
 }
 
-function roomConnect(roomId, user, dispatch) {
+function tryRoomConnect(roomId, user, dispatch) {
     if (!roomId) return
     database.ref('rooms/' + roomId + '/roomSettings').on('value', (snapshot) => {
         const data = snapshot.val();
@@ -36,4 +36,4 @@ function roomConnect(roomId, user, dispatch) {
     setUserInRoom(roomId, user)
 }
 
-export {generateRandomText, setThemeClass, roomConnect}
+export {generateRandomText, setThemeClass, tryRoomConnect}
