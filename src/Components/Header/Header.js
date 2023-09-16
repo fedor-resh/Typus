@@ -22,7 +22,7 @@ const Header = () => {
     const {roomId, secondsForGame, language, isEndDependsOnTime, mainState,amountOfWords} = useSelector(state => state.roomData.value)
     const {name,userId} = useSelector(state => state.user)
     const linkRef = useRef(null)
-    const link = `https://www.typus.ga#${roomId}`
+    const link = `https://typuss.vercel.app#${roomId}`
     const navigate = useNavigate();
 
 

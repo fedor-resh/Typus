@@ -89,6 +89,7 @@ const SignIn = message => {
     function signInLikeGuest() {
         const name = prompt('enter name:', 'name')
         dispatch(setGuest(name))
+        roomConnect(window.location.hash.substring(1), user, dispatch)
         navigate('/')
     }
     return (
