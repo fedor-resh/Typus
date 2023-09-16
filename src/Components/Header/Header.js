@@ -41,6 +41,7 @@ const Header = () => {
         // dispatch(setUser({name:'user'}))
         dispatch(setDefaultRoomData())
         dispatch(clearUserSettings())
+        window.localStorage.removeItem('user')
         navigate('/login')
     }
     useEffect(() => {

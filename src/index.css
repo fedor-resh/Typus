@@ -13,7 +13,7 @@ body {
 
 
 *{
-  transition: color 0.2s,fill 0.1s;
+  transition: color 0.05s,fill 0.05s;
   margin: 0;
 }
 svg{
