@@ -31,7 +31,7 @@
     width: 3px;
     height: 30px;
     background-color: var(--color-800);
-    transition: left 0.05s ease-in-out, top 0.05s ease-in-out;
+    transition: left 0.08s ease-out, top 0.08s ease-out;
     border-radius: var(--border-radius);
 
 }
