@@ -30,7 +30,6 @@ const Header = () => {
         await navigator.clipboard.writeText(link);
     }
     const dispatch = useDispatch()
-
     function setNewRoom() {
         dispatch(setNewRoomData({title:name,userId}))
         // setUserInRoom(roomId, name)
